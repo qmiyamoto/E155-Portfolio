@@ -1,9 +1,11 @@
 ---
-title: "Hello Quarto"
-description: "Welcome to my Quarto portfolio"
+title: "Initial Reflections"
+description: "My goals for this semester!"
 author: "Quinn Miyamoto"
 date: "8/26/25"
 categories:
   - reflection
 draft: false
 ---
+
+INITIAL REFLECTIONS
