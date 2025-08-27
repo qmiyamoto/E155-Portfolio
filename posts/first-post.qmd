@@ -1,6 +1,6 @@
 ---
 title: "Initial Reflections"
-description: "My goals for this semester!"
+description: "My first impressions of the course and subsequent goals for this semester!"
 author: "Quinn Miyamoto"
 date: "8/26/25"
 categories:
@@ -8,4 +8,15 @@ categories:
 draft: false
 ---
 
-INITIAL REFLECTIONS
+After briefly skimming over the content of our future labs, I am already extremely excited for the semester to come!
+As someone who wants to specialize in, essentially, ECE (with a little side of mechanical engineering to boot!), this is the perfect course for me; it seems to cover a good amount of the overlap between programming and actual hardware development, which I have always wanted to dive more into.
+Because I did rather poorly on the exams in E85, I am admittedly also a little nervous for this course's rigor.
+However, seeing as E155's learning is not test-based in the slightest, I do not feel as stressed out about my performance as I could be.
+
+At the moment, I do not have any particular ideas in mind for the final project.
+If possible, I would like to do something that involves working with LEDs (or other lights), for I find such projects satisfyingly aesthetic and fun, but I am not too picky on the content beyond that.
+I have faith that no matter what, it will be a challenging but ultimately rewarding experience for me.
+
+My goals for this semester comprise the following: stay on top of my work, make the most of the resources available to me (including grutors and professors), create a final project that I can be proud of, and maintain an open and positive mindset, even when times get hard.
+While I would naturally like to succeed academically in this class, I believe that these more soft skill-oriented objectives are just as - if not more - important than attaining good grades.
+Overall, I hope to come out of this course as both a better engineer and person.
