@@ -1,3 +1,32 @@
 ---
 title: "Lab 1: FPGA and MCU Setup and Testing"
 ---
+
+## Introduction
+REPHRASE!!
+[Assembled the development board for the course and verified the MCU and FPGA's respective functionalities.
+Programmed the FPGA with behavioral Verilog to blink on-board LEDs according to slide-switch positions and interface a 7-segment display, such that it would display hexadecimal digits 0x0 through 0xF.]
+
+## Design and Testing Methodology
+[Explain how you approached the design of this assignment from both a software and a hardware standpoint (as appropriate). Include how you tested your design. These tests should convince the reader that the requirements of the assignment have been met.]
+
+## Technical Documentation
+[Include a link to a Git repository with your Verilog code, a block diagram of your design, and schematics of your circuits.]
+
+### Block Diagram
+
+
+### Schematic
+
+
+## Results and Discussion
+[Did you accomplish all of the prescribed tasks? If not, what are the shortcomings? How might you address them given more time? As appropriate, how did the design perform (e.g., How fast/accurate/reliable was it?).]
+
+### Testbench Simulation
+![](images/lab1_waveforms.png)
+![](images/lab1_simulation_transcript.png)
+
+## Conclusion
+[Briefly summarize what was done and how it performed. Also note how many hours you spent working on the lab.]
+
+## AI Prototype

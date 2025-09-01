@@ -2,24 +2,24 @@
 title: "Labs"
 ---
 
-## [Lab 1](labs/lab1/lab1.qmd): FPGA and MCU Setup and Testing
+## Lab 1: [FPGA and MCU Setup and Testing](labs/lab1/lab1.qmd)
 Assembled the development board for the course and verified the MCU and FPGA's respective functionalities.
 Programmed the FPGA with behavioral Verilog to blink on-board LEDs according to slide-switch positions and interface a 7-segment display, such that it would display hexadecimal digits 0x0 through 0xF.
 
-## [Lab 2](labs/lab2/lab2.qmd): Multiplexed 7-Segment Display
+## Lab 2: [Multiplexed 7-Segment Display](labs/lab2/lab2.qmd)
 [Lab Overview]
 
-## [Lab 3](labs/lab3/lab3.qmd): Keypad Scanner
+## Lab 3: [Keypad Scanner](labs/lab3/lab3.qmd)
 [Lab Overview]
 
-## [Lab 4](labs/lab4/lab4.qmd): Digital Audio
+## Lab 4: [Digital Audio](labs/lab4/lab4.qmd)
 [Lab Overview]
 
-## [Lab 5](labs/lab5/lab5.qmd): Interrupts
+## Lab 5: [Interrupts](labs/lab5/lab5.qmd)
 [Lab Overview]
 
-## [Lab 6](labs/lab6/lab6.qmd): The Internet of Things and Serial Peripheral Interface
+## Lab 6: [The Internet of Things and Serial Peripheral Interface](labs/lab6/lab6.qmd)
 [Lab Overview]
 
-## [Lab 7](labs/lab7/lab7.qmd): The Advanced Encryption Standard
+## Lab 7: [The Advanced Encryption Standard](labs/lab7/lab7.qmd)
 [Lab Overview]
