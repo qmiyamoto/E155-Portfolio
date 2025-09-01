@@ -102,14 +102,14 @@
     "href": "labs/lab1/lab1.html#technical-documentation",
     "title": "Lab 1: FPGA and MCU Setup and Testing",
     "section": "Technical Documentation",
-    "text": "Technical Documentation\n[Include a link to a Git repository with your Verilog code, a block diagram of your design, and schematics of your circuits.]\n\nBlock Diagram\n\n\nSchematic"
+    "text": "Technical Documentation\n[Include a link to a Git repository with your Verilog code, a block diagram of your design, and schematics of your circuits.]\n\nBlock Diagram\n\n\n\n\n\n\nFigure 1: Block Diagram\n\n\n\n\n\nSchematic\n\n\n\n\n\n\nFigure 2: Schematic"
   },
   {
     "objectID": "labs/lab1/lab1.html#results-and-discussion",
     "href": "labs/lab1/lab1.html#results-and-discussion",
     "title": "Lab 1: FPGA and MCU Setup and Testing",
     "section": "Results and Discussion",
-    "text": "Results and Discussion\n[Did you accomplish all of the prescribed tasks? If not, what are the shortcomings? How might you address them given more time? As appropriate, how did the design perform (e.g., How fast/accurate/reliable was it?).]\n\nTestbench Simulation"
+    "text": "Results and Discussion\n[Did you accomplish all of the prescribed tasks? If not, what are the shortcomings? How might you address them given more time? As appropriate, how did the design perform (e.g., How fast/accurate/reliable was it?).]\n\n\n\n\n\n\nFigure 3: Video\n\n\n\n\nTestbench Simulation\n\n\n\n\n\n\n\n\n\n\n\n(a) 1\n\n\n\n\n\n\n\n\n\n\n\n(b) 2\n\n\n\n\n\n\n\n\n\n\n\n(c) 3\n\n\n\n\n\n\n\nFigure 4: Waveforms\n\n\n\n\n\n\n\n\n\nFigure 5: 4"
   },
   {
     "objectID": "labs/lab1/lab1.html#conclusion",
