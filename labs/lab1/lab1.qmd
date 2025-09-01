@@ -3,7 +3,7 @@ title: "Lab 1: FPGA and MCU Setup and Testing"
 ---
 
 ## Introduction
-REPHRASE!!
+In this lab, _________________
 [Assembled the development board for the course and verified the MCU and FPGA's respective functionalities.
 Programmed the FPGA with behavioral Verilog to blink on-board LEDs according to slide-switch positions and interface a 7-segment display, such that it would display hexadecimal digits 0x0 through 0xF.]
 
@@ -16,8 +16,12 @@ Programmed the FPGA with behavioral Verilog to blink on-board LEDs according to 
 ### Block Diagram
 ![Block Diagram](images/lab1_block_diagram.png){#fig-block-diagram}
 
+jdlasfjlkdasfj
+
 ### Schematic
 ![Schematic](images/lab1_schematic.png){#fig-schematic}
+
+KFDLSJD
 
 ## Results and Discussion
 [Did you accomplish all of the prescribed tasks? If not, what are the shortcomings? How might you address them given more time? As appropriate, how did the design perform (e.g., How fast/accurate/reliable was it?).]
@@ -26,23 +30,25 @@ Programmed the FPGA with behavioral Verilog to blink on-board LEDs according to 
 
 {{< video https://youtu.be/52ylZh-mB_w?feature=shared >}}
 
-Video
-
+Demo Video
 :::
+
+FKLDSJFKLDSJF
 
 ### Testbench Simulation
 ::: {#fig-waveforms layout-ncol=3}
-![1](images/on_board_leds_waveforms.png){#fig-on-board-leds-waveforms .lightbox}
+![On-Board LEDs](images/on_board_leds_waveforms.png){#fig-on-board-leds-waveforms .lightbox}
 
-![2](images/seven_segment_display_waveforms.png){#fig-seven-segment-display-waveforms .lightbox}
+![7-Segment Display](images/seven_segment_display_waveforms.png){#fig-seven-segment-display-waveforms .lightbox}
 
-![3](images/lab1_waveforms.png){#fig-lab1-waveforms .lightbox}
+![Top Module](images/lab1_waveforms.png){#fig-lab1-waveforms .lightbox}
 
-Waveforms
+Simulation Waveforms
 :::
 
-![4](images/lab1_simulation_transcript.png){#fig-transcript}
+BLAHblahblah
 
+![Top Module Transcript](images/lab1_simulation_transcript.png){#fig-transcript}
 
 ## Conclusion
 [Briefly summarize what was done and how it performed. Also note how many hours you spent working on the lab.]
