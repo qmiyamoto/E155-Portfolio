@@ -2,4 +2,4 @@
 title: "Resources"
 ---
 
-### [Official E155 Course Site](https://hmc-e155.github.io)
+#### [E155 Course Site](https://hmc-e155.github.io)
