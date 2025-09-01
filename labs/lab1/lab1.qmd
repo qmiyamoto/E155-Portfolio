@@ -2,7 +2,7 @@
 title: "Lab 1: FPGA and MCU Setup and Testing"
 ---
 
-## Introduction
+## Introduction {#sec-intro}
 In this lab, the development board that will be used for the rest of the course was fully assembled, and the MCU and FPGA were respectively tested to ensure proper functionality.
 The FPGA was then programmed with behavioral SystemVerilog code with the aim of blinking one on-board LED at a constant 2.4 Hz, using the internal high-frequency (48 MHz) oscillator, and two other on-board LEDs according to four slide-switch positions; more specifically, interpreting the expected relationship between the LEDs and switches (as outlined in the [Lab 1 instructions](https://hmc-e155.github.io/lab/lab1/#fpga-design)) as a truth table dictated that one would act as the output of a XOR gate, whereas the second would act as the output of an AND gate.
 Additionally, a 7-segment display was interfaced with the those same four slide-switches, such that it was able to display hexadecimal digits 0x0 through 0xF.
@@ -10,25 +10,39 @@ Additionally, a 7-segment display was interfaced with the those same four slide-
 ## Design and Testing Methodology
 [Explain how you approached the design of this assignment from both a software and a hardware standpoint (as appropriate). Include how you tested your design. These tests should convince the reader that the requirements of the assignment have been met.]
 
+The on-board high-speed oscillator (HSOSC) from the iCE40 UltraPlus primitive library was used to generate a clock signal at 24 MHz. Then, a counter was used to divide the high frequency clock signal down so that the blinking frequency could be easily visualized using one of the on-board LEDs.
+
+The design was developed using a simple clock divider module which drives the external LED.
+
+fmlllll
+
+48 MHz -> 20 MHz -> 10 MHz
+
 ## Technical Documentation
 The source code for this project can be found in the associated [GitHub repository folder](https://github.com/qmiyamoto/E155-Labs/tree/main/lab1).
 
 ### Block Diagram
-![Block Diagram](images/lab1_block_diagram.png){#fig-block-diagram}
+![Block diagram of Verilog design](images/lab1_block_diagram.png){#fig-block-diagram}
 
-jdlasfjlkdasfj
+The block diagram in [Figure 1](#fig-block-diagram) depicts the general architecture implied by the SystemVerilog code.
+The top-level module, titled "lab1_qm," comprises two submodules, "on_board_leds" and "seven_segment_display" — the former for flashing the development board LEDs as detailed in the [Introduction](#sec-intro) above, and the latter for recreating hexadecimal digits on the 7-segment display.
 
 ### Schematic
-![Schematic](images/lab1_schematic.png){#fig-schematic}
+![Schematic of physical circuit](images/lab1_schematic.png){#fig-schematic}
 
-JKLJfkLDSKL
+The [Figure 2](#fig-schematic) schematic outlines how the physical components actually connect.
+More explicitly, the UPduino_v3.1 FPGA pins demonstrably feed and receive information from both the on-board elements — including a push-button, four slide-switches, three LEDs, and corresponding resistors of pre-determined 1 kΩ values — and the external MAN6460 7-segment display.
+Note that the values of the resistors connected to the 7-segment display were calculated by doing the following computations in [Figure 3](#fig-resistor-math):
 
-![7-Segment Display Resistor Math](images/seven_segment_display_resistors_math.png){#fig-resistor-math width=60%}
+![7-segment display resistor math](images/seven_segment_display_resistors_math.png){#fig-resistor-math width=60%}
 
-KFDLSJD
+In order to attain current draw that fell within the recommended operating conditions of 5 - 20 mA, Ohm's Law was applied to ultimately determine that any resistors ranging from 20 Ω to 240 Ω were acceptable to use.
+For the sake of equal brightness across all segments, seven 160 Ω-resistors were integrated into the [Figure 2](#fig-schematic) schematic.
 
 ## Results and Discussion
 [Did you accomplish all of the prescribed tasks? If not, what are the shortcomings? How might you address them given more time? As appropriate, how did the design perform (e.g., How fast/accurate/reliable was it?).]
+
+The results of Lab 1 can be viewed in the [Figure 4](#fig-video) below:
 
 ::: {#fig-video}
 
@@ -37,24 +51,29 @@ KFDLSJD
 Demo Video
 :::
 
-FKLDSJFKLDSJF
+Evidently, all prescribed tasks were successfully accomplished, and te design performed quickly and reliably.
+Additonally, the oscilloscope trace from [Figure 5](#fig-oscope-trace) verifies that one of the on-board LEDs did, in fact, flash at a constant rate of 2.4 Hz.
+
+![Oscilloscope trace](images/oscilloscope_trace.jpg){#fig-oscope-trace}
 
 ### Testbench Simulation
 ::: {#fig-waveforms layout-ncol=3}
-![On-Board LEDs](images/on_board_leds_waveforms.png){#fig-on-board-leds-waveforms .lightbox}
+![On-board LEDs](images/on_board_leds_waveforms.png){#fig-on-board-leds-waveforms .lightbox}
 
-![7-Segment Display](images/seven_segment_display_waveforms.png){#fig-seven-segment-display-waveforms .lightbox}
+![7-segment display](images/seven_segment_display_waveforms.png){#fig-seven-segment-display-waveforms .lightbox}
 
-![Top Module](images/lab1_waveforms.png){#fig-lab1-waveforms .lightbox}
+![Top module](images/lab1_waveforms.png){#fig-lab1-waveforms .lightbox}
 
 Simulation Waveforms
 :::
 
-BLAHblahblah
+![Top module transcript results](images/lab1_simulation_transcript.png){#fig-transcript}
 
-![Top Module Transcript](images/lab1_simulation_transcript.png){#fig-transcript}
+Moreover, the identical waveforms in [Figures 6a](#fig-on-board-leds-waveforms), [6b](#fig-seven-segment-display-waveforms), and [6c](#fig-lab1-waveforms), as well as the terminal output of the cumulative, top module tests depicted in [Figure 7](#fig-transcript), further prove that everything was working as intended.
 
 ## Conclusion
 [Briefly summarize what was done and how it performed. Also note how many hours you spent working on the lab.]
 
 ## AI Prototype
+[Include generated code, easy-to-read chat transcripts, and a reflection on how well it worked.]
+
