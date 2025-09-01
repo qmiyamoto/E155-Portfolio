@@ -11,56 +11,56 @@
     "href": "labs.html",
     "title": "Labs",
     "section": "",
-    "text": "Lab Report"
+    "text": "Assembled the development board for the course and verified the MCU and FPGA’s respective functionalities. Programmed the FPGA with behavioral Verilog to blink on-board LEDs according to slide-switch positions and interface a 7-segment display, such that it would display hexadecimal digits 0x0 through 0xF."
   },
   {
     "objectID": "labs.html#lab-1-fpga-and-mcu-setup-and-testing",
     "href": "labs.html#lab-1-fpga-and-mcu-setup-and-testing",
     "title": "Labs",
     "section": "",
-    "text": "Lab Report"
+    "text": "Assembled the development board for the course and verified the MCU and FPGA’s respective functionalities. Programmed the FPGA with behavioral Verilog to blink on-board LEDs according to slide-switch positions and interface a 7-segment display, such that it would display hexadecimal digits 0x0 through 0xF."
   },
   {
     "objectID": "labs.html#lab-2-multiplexed-7-segment-display",
     "href": "labs.html#lab-2-multiplexed-7-segment-display",
     "title": "Labs",
     "section": "Lab 2: Multiplexed 7-Segment Display",
-    "text": "Lab 2: Multiplexed 7-Segment Display\nLab Report"
+    "text": "Lab 2: Multiplexed 7-Segment Display\n[Lab Overview]"
   },
   {
     "objectID": "labs.html#lab-3-keypad-scanner",
     "href": "labs.html#lab-3-keypad-scanner",
     "title": "Labs",
     "section": "Lab 3: Keypad Scanner",
-    "text": "Lab 3: Keypad Scanner\nLab Report"
+    "text": "Lab 3: Keypad Scanner\n[Lab Overview]"
   },
   {
     "objectID": "labs.html#lab-4-digital-audio",
     "href": "labs.html#lab-4-digital-audio",
     "title": "Labs",
     "section": "Lab 4: Digital Audio",
-    "text": "Lab 4: Digital Audio\nLab Report"
+    "text": "Lab 4: Digital Audio\n[Lab Overview]"
   },
   {
     "objectID": "labs.html#lab-5-interrupts",
     "href": "labs.html#lab-5-interrupts",
     "title": "Labs",
     "section": "Lab 5: Interrupts",
-    "text": "Lab 5: Interrupts\nLab Report"
+    "text": "Lab 5: Interrupts\n[Lab Overview]"
   },
   {
     "objectID": "labs.html#lab-6-the-internet-of-things-and-serial-peripheral-interface",
     "href": "labs.html#lab-6-the-internet-of-things-and-serial-peripheral-interface",
     "title": "Labs",
     "section": "Lab 6: The Internet of Things and Serial Peripheral Interface",
-    "text": "Lab 6: The Internet of Things and Serial Peripheral Interface\nLab Report"
+    "text": "Lab 6: The Internet of Things and Serial Peripheral Interface\n[Lab Overview]"
   },
   {
     "objectID": "labs.html#lab-7-the-advanced-encryption-standard",
     "href": "labs.html#lab-7-the-advanced-encryption-standard",
     "title": "Labs",
     "section": "Lab 7: The Advanced Encryption Standard",
-    "text": "Lab 7: The Advanced Encryption Standard\nLab Report"
+    "text": "Lab 7: The Advanced Encryption Standard\n[Lab Overview]"
   },
   {
     "objectID": "index.html",
