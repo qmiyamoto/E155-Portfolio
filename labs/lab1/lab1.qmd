@@ -14,17 +14,35 @@ Programmed the FPGA with behavioral Verilog to blink on-board LEDs according to 
 [Include a link to a Git repository with your Verilog code, a block diagram of your design, and schematics of your circuits.]
 
 ### Block Diagram
-
+![Block Diagram](images/lab1_block_diagram.png){#fig-block-diagram}
 
 ### Schematic
-
+![Schematic](images/lab1_schematic.png){#fig-schematic}
 
 ## Results and Discussion
 [Did you accomplish all of the prescribed tasks? If not, what are the shortcomings? How might you address them given more time? As appropriate, how did the design perform (e.g., How fast/accurate/reliable was it?).]
 
+::: {#fig-video}
+
+{{< video https://youtu.be/52ylZh-mB_w?feature=shared >}}
+
+Video
+
+:::
+
 ### Testbench Simulation
-![](images/lab1_waveforms.png)
-![](images/lab1_simulation_transcript.png)
+::: {#fig-waveforms layout-ncol=3}
+![1](images/on_board_leds_waveforms.png){#fig-on-board-leds-waveforms .lightbox}
+
+![2](images/seven_segment_display_waveforms.png){#fig-seven-segment-display-waveforms .lightbox}
+
+![3](images/lab1_waveforms.png){#fig-lab1-waveforms .lightbox}
+
+Waveforms
+:::
+
+![4](images/lab1_simulation_transcript.png){#fig-transcript}
+
 
 ## Conclusion
 [Briefly summarize what was done and how it performed. Also note how many hours you spent working on the lab.]
