@@ -159,7 +159,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#sec-intro" id="toc-sec-intro" class="nav-link active" data-scroll-target="#sec-intro">Introduction</a></li>
   <li><a href="#design-and-testing-methodology" id="toc-design-and-testing-methodology" class="nav-link" data-scroll-target="#design-and-testing-methodology">Design and Testing Methodology</a></li>
   <li><a href="#technical-documentation" id="toc-technical-documentation" class="nav-link" data-scroll-target="#technical-documentation">Technical Documentation</a>
   <ul class="collapse">
@@ -197,13 +197,17 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<section id="sec-intro" class="level2">
+<h2 class="anchored" data-anchor-id="sec-intro">Introduction</h2>
 <p>In this lab, the development board that will be used for the rest of the course was fully assembled, and the MCU and FPGA were respectively tested to ensure proper functionality. The FPGA was then programmed with behavioral SystemVerilog code with the aim of blinking one on-board LED at a constant 2.4 Hz, using the internal high-frequency (48 MHz) oscillator, and two other on-board LEDs according to four slide-switch positions; more specifically, interpreting the expected relationship between the LEDs and switches (as outlined in the <a href="https://hmc-e155.github.io/lab/lab1/#fpga-design">Lab 1 instructions</a>) as a truth table dictated that one would act as the output of a XOR gate, whereas the second would act as the output of an AND gate. Additionally, a 7-segment display was interfaced with the those same four slide-switches, such that it was able to display hexadecimal digits 0x0 through 0xF.</p>
 </section>
 <section id="design-and-testing-methodology" class="level2">
 <h2 class="anchored" data-anchor-id="design-and-testing-methodology">Design and Testing Methodology</h2>
 <p>[Explain how you approached the design of this assignment from both a software and a hardware standpoint (as appropriate). Include how you tested your design. These tests should convince the reader that the requirements of the assignment have been met.]</p>
+<p>The on-board high-speed oscillator (HSOSC) from the iCE40 UltraPlus primitive library was used to generate a clock signal at 24 MHz. Then, a counter was used to divide the high frequency clock signal down so that the blinking frequency could be easily visualized using one of the on-board LEDs.</p>
+<p>The design was developed using a simple clock divider module which drives the external LED.</p>
+<p>fmlllll</p>
+<p>48 MHz -&gt; 20 MHz -&gt; 10 MHz</p>
 </section>
 <section id="technical-documentation" class="level2">
 <h2 class="anchored" data-anchor-id="technical-documentation">Technical Documentation</h2>
@@ -216,11 +220,11 @@ ul.task-list li input[type="checkbox"] {
 <img src="images/lab1_block_diagram.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-block-diagram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Block Diagram
+Figure&nbsp;1: Block diagram of Verilog design
 </figcaption>
 </figure>
 </div>
-<p>jdlasfjlkdasfj</p>
+<p>The block diagram in <a href="#fig-block-diagram">Figure 1</a> depicts the general architecture implied by the SystemVerilog code. The top-level module, titled “lab1_qm,” comprises two submodules, “on_board_leds” and “seven_segment_display” — the former for flashing the development board LEDs as detailed in the <a href="#sec-intro">Introduction</a> above, and the latter for recreating hexadecimal digits on the 7-segment display.</p>
 </section>
 <section id="schematic" class="level3">
 <h3 class="anchored" data-anchor-id="schematic">Schematic</h3>
@@ -230,27 +234,28 @@ Figure&nbsp;1: Block Diagram
 <img src="images/lab1_schematic.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Schematic
+Figure&nbsp;2: Schematic of physical circuit
 </figcaption>
 </figure>
 </div>
-<p>JKLJfkLDSKL</p>
+<p>The <a href="#fig-schematic">Figure 2</a> schematic outlines how the physical components actually connect. More explicitly, the UPduino_v3.1 FPGA pins demonstrably feed and receive information from both the on-board elements — including a push-button, four slide-switches, three LEDs, and corresponding resistors of pre-determined 1 kΩ values — and the external MAN6460 7-segment display. Note that the values of the resistors connected to the 7-segment display were calculated by doing the following computations in <a href="#fig-resistor-math">Figure 3</a>:</p>
 <div id="fig-resistor-math" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-resistor-math-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="images/seven_segment_display_resistors_math.png" class="img-fluid figure-img" style="width:60.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-resistor-math-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: 7-Segment Display Resistor Math
+Figure&nbsp;3: 7-segment display resistor math
 </figcaption>
 </figure>
 </div>
-<p>KFDLSJD</p>
+<p>In order to attain current draw that fell within the recommended operating conditions of 5 - 20 mA, Ohm’s Law was applied to ultimately determine that any resistors ranging from 20 Ω to 240 Ω were acceptable to use. For the sake of equal brightness across all segments, seven 160 Ω-resistors were integrated into the <a href="#fig-schematic">Figure 2</a> schematic.</p>
 </section>
 </section>
 <section id="results-and-discussion" class="level2">
 <h2 class="anchored" data-anchor-id="results-and-discussion">Results and Discussion</h2>
 <p>[Did you accomplish all of the prescribed tasks? If not, what are the shortcomings? How might you address them given more time? As appropriate, how did the design perform (e.g., How fast/accurate/reliable was it?).]</p>
+<p>The results of Lab 1 can be viewed in the <a href="#fig-video">Figure 4</a> below:</p>
 <div id="fig-video" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-video-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -261,7 +266,17 @@ Figure&nbsp;4: Demo Video
 </figcaption>
 </figure>
 </div>
-<p>FKLDSJFKLDSJF</p>
+<p>Evidently, all prescribed tasks were successfully accomplished, and te design performed quickly and reliably. Additonally, the oscilloscope trace from <a href="#fig-oscope-trace">Figure 5</a> verifies that one of the on-board LEDs did, in fact, flash at a constant rate of 2.4 Hz.</p>
+<div id="fig-oscope-trace" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-oscope-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/oscilloscope_trace.jpg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-oscope-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Oscilloscope trace
+</figcaption>
+</figure>
+</div>
 <section id="testbench-simulation" class="level3">
 <h3 class="anchored" data-anchor-id="testbench-simulation">Testbench Simulation</h3>
 <div id="fig-waveforms" class="quarto-layout-panel">
@@ -272,10 +287,10 @@ Figure&nbsp;4: Demo Video
 <div id="fig-on-board-leds-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-on-board-leds-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/on_board_leds_waveforms.png" class="lightbox" data-gallery="fig-waveforms" title="Figure&nbsp;5&nbsp;(a): On-Board LEDs"><img src="images/on_board_leds_waveforms.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms"></a>
+<a href="images/on_board_leds_waveforms.png" class="lightbox" data-gallery="fig-waveforms" title="Figure&nbsp;6&nbsp;(a): On-board LEDs"><img src="images/on_board_leds_waveforms.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-on-board-leds-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a) On-Board LEDs
+(a) On-board LEDs
 </figcaption>
 </figure>
 </div>
@@ -284,10 +299,10 @@ Figure&nbsp;4: Demo Video
 <div id="fig-seven-segment-display-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-seven-segment-display-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/seven_segment_display_waveforms.png" class="lightbox" data-gallery="fig-waveforms" title="Figure&nbsp;5&nbsp;(b): 7-Segment Display"><img src="images/seven_segment_display_waveforms.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms"></a>
+<a href="images/seven_segment_display_waveforms.png" class="lightbox" data-gallery="fig-waveforms" title="Figure&nbsp;6&nbsp;(b): 7-segment display"><img src="images/seven_segment_display_waveforms.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-seven-segment-display-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b) 7-Segment Display
+(b) 7-segment display
 </figcaption>
 </figure>
 </div>
@@ -296,10 +311,10 @@ Figure&nbsp;4: Demo Video
 <div id="fig-lab1-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-lab1-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/lab1_waveforms.png" class="lightbox" data-gallery="fig-waveforms" title="Figure&nbsp;5&nbsp;(c): Top Module"><img src="images/lab1_waveforms.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms"></a>
+<a href="images/lab1_waveforms.png" class="lightbox" data-gallery="fig-waveforms" title="Figure&nbsp;6&nbsp;(c): Top module"><img src="images/lab1_waveforms.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-lab1-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(c) Top Module
+(c) Top module
 </figcaption>
 </figure>
 </div>
@@ -307,21 +322,21 @@ Figure&nbsp;4: Demo Video
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5: Simulation Waveforms
+Figure&nbsp;6: Simulation Waveforms
 </figcaption>
 </figure>
 </div>
-<p>BLAHblahblah</p>
 <div id="fig-transcript" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-transcript-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="images/lab1_simulation_transcript.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-transcript-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6: Top Module Transcript
+Figure&nbsp;7: Top module transcript results
 </figcaption>
 </figure>
 </div>
+<p>Moreover, the identical waveforms in <a href="#fig-on-board-leds-waveforms">Figures 6a</a>, <a href="#fig-seven-segment-display-waveforms">6b</a>, and <a href="#fig-lab1-waveforms">6c</a>, as well as the terminal output of the cumulative, top module tests depicted in <a href="#fig-transcript">Figure 7</a>, further prove that everything was working as intended.</p>
 </section>
 </section>
 <section id="conclusion" class="level2">
@@ -330,6 +345,7 @@ Figure&nbsp;6: Top Module Transcript
 </section>
 <section id="ai-prototype" class="level2">
 <h2 class="anchored" data-anchor-id="ai-prototype">AI Prototype</h2>
+<p>[Include generated code, easy-to-read chat transcripts, and a reflection on how well it worked.]</p>
 
 
 </section>

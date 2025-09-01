@@ -21,8 +21,8 @@
     "text": "In this lab, the development board that will be used for the rest of the course was fully assembled, and the MCU and FPGA were respectively tested to ensure proper functionality. The FPGA was then programmed with behavioral SystemVerilog code with the aim of blinking one on-board LED at a constant 2.4 Hz, using the internal high-frequency (48 MHz) oscillator, and two other on-board LEDs according to four slide-switch positions; more specifically, interpreting the expected relationship between the LEDs and switches (as outlined in the Lab 1 instructions) as a truth table dictated that one would act as the output of a XOR gate, whereas the second would act as the output of an AND gate. Additionally, a 7-segment display was interfaced with the those same four slide-switches, such that it was able to display hexadecimal digits 0x0 through 0xF."
   },
   {
-    "objectID": "labs/lab1/lab1.html#introduction",
-    "href": "labs/lab1/lab1.html#introduction",
+    "objectID": "labs/lab1/lab1.html#sec-intro",
+    "href": "labs/lab1/lab1.html#sec-intro",
     "title": "Lab 1: FPGA and MCU Setup and Testing",
     "section": "",
     "text": "In this lab, the development board that will be used for the rest of the course was fully assembled, and the MCU and FPGA were respectively tested to ensure proper functionality. The FPGA was then programmed with behavioral SystemVerilog code with the aim of blinking one on-board LED at a constant 2.4 Hz, using the internal high-frequency (48 MHz) oscillator, and two other on-board LEDs according to four slide-switch positions; more specifically, interpreting the expected relationship between the LEDs and switches (as outlined in the Lab 1 instructions) as a truth table dictated that one would act as the output of a XOR gate, whereas the second would act as the output of an AND gate. Additionally, a 7-segment display was interfaced with the those same four slide-switches, such that it was able to display hexadecimal digits 0x0 through 0xF."
@@ -32,21 +32,21 @@
     "href": "labs/lab1/lab1.html#design-and-testing-methodology",
     "title": "Lab 1: FPGA and MCU Setup and Testing",
     "section": "Design and Testing Methodology",
-    "text": "Design and Testing Methodology\n[Explain how you approached the design of this assignment from both a software and a hardware standpoint (as appropriate). Include how you tested your design. These tests should convince the reader that the requirements of the assignment have been met.]"
+    "text": "Design and Testing Methodology\n[Explain how you approached the design of this assignment from both a software and a hardware standpoint (as appropriate). Include how you tested your design. These tests should convince the reader that the requirements of the assignment have been met.]\nThe on-board high-speed oscillator (HSOSC) from the iCE40 UltraPlus primitive library was used to generate a clock signal at 24 MHz. Then, a counter was used to divide the high frequency clock signal down so that the blinking frequency could be easily visualized using one of the on-board LEDs.\nThe design was developed using a simple clock divider module which drives the external LED.\nfmlllll\n48 MHz -&gt; 20 MHz -&gt; 10 MHz"
   },
   {
     "objectID": "labs/lab1/lab1.html#technical-documentation",
     "href": "labs/lab1/lab1.html#technical-documentation",
     "title": "Lab 1: FPGA and MCU Setup and Testing",
     "section": "Technical Documentation",
-    "text": "Technical Documentation\nThe source code for this project can be found in the associated GitHub repository folder.\n\nBlock Diagram\n\n\n\n\n\n\nFigure 1: Block Diagram\n\n\n\njdlasfjlkdasfj\n\n\nSchematic\n\n\n\n\n\n\nFigure 2: Schematic\n\n\n\nJKLJfkLDSKL\n\n\n\n\n\n\nFigure 3: 7-Segment Display Resistor Math\n\n\n\nKFDLSJD"
+    "text": "Technical Documentation\nThe source code for this project can be found in the associated GitHub repository folder.\n\nBlock Diagram\n\n\n\n\n\n\nFigure 1: Block diagram of Verilog design\n\n\n\nThe block diagram in Figure 1 depicts the general architecture implied by the SystemVerilog code. The top-level module, titled “lab1_qm,” comprises two submodules, “on_board_leds” and “seven_segment_display” — the former for flashing the development board LEDs as detailed in the Introduction above, and the latter for recreating hexadecimal digits on the 7-segment display.\n\n\nSchematic\n\n\n\n\n\n\nFigure 2: Schematic of physical circuit\n\n\n\nThe Figure 2 schematic outlines how the physical components actually connect. More explicitly, the UPduino_v3.1 FPGA pins demonstrably feed and receive information from both the on-board elements — including a push-button, four slide-switches, three LEDs, and corresponding resistors of pre-determined 1 kΩ values — and the external MAN6460 7-segment display. Note that the values of the resistors connected to the 7-segment display were calculated by doing the following computations in Figure 3:\n\n\n\n\n\n\nFigure 3: 7-segment display resistor math\n\n\n\nIn order to attain current draw that fell within the recommended operating conditions of 5 - 20 mA, Ohm’s Law was applied to ultimately determine that any resistors ranging from 20 Ω to 240 Ω were acceptable to use. For the sake of equal brightness across all segments, seven 160 Ω-resistors were integrated into the Figure 2 schematic."
   },
   {
     "objectID": "labs/lab1/lab1.html#results-and-discussion",
     "href": "labs/lab1/lab1.html#results-and-discussion",
     "title": "Lab 1: FPGA and MCU Setup and Testing",
     "section": "Results and Discussion",
-    "text": "Results and Discussion\n[Did you accomplish all of the prescribed tasks? If not, what are the shortcomings? How might you address them given more time? As appropriate, how did the design perform (e.g., How fast/accurate/reliable was it?).]\n\n\n\n\n\n\nFigure 4: Demo Video\n\n\n\nFKLDSJFKLDSJF\n\nTestbench Simulation\n\n\n\n\n\n\n\n\n\n\n\n(a) On-Board LEDs\n\n\n\n\n\n\n\n\n\n\n\n(b) 7-Segment Display\n\n\n\n\n\n\n\n\n\n\n\n(c) Top Module\n\n\n\n\n\n\n\nFigure 5: Simulation Waveforms\n\n\n\nBLAHblahblah\n\n\n\n\n\n\nFigure 6: Top Module Transcript"
+    "text": "Results and Discussion\n[Did you accomplish all of the prescribed tasks? If not, what are the shortcomings? How might you address them given more time? As appropriate, how did the design perform (e.g., How fast/accurate/reliable was it?).]\nThe results of Lab 1 can be viewed in the Figure 4 below:\n\n\n\n\n\n\nFigure 4: Demo Video\n\n\n\nEvidently, all prescribed tasks were successfully accomplished, and te design performed quickly and reliably. Additonally, the oscilloscope trace from Figure 5 verifies that one of the on-board LEDs did, in fact, flash at a constant rate of 2.4 Hz.\n\n\n\n\n\n\nFigure 5: Oscilloscope trace\n\n\n\n\nTestbench Simulation\n\n\n\n\n\n\n\n\n\n\n\n(a) On-board LEDs\n\n\n\n\n\n\n\n\n\n\n\n(b) 7-segment display\n\n\n\n\n\n\n\n\n\n\n\n(c) Top module\n\n\n\n\n\n\n\nFigure 6: Simulation Waveforms\n\n\n\n\n\n\n\n\n\nFigure 7: Top module transcript results\n\n\n\nMoreover, the identical waveforms in Figures 6a, 6b, and 6c, as well as the terminal output of the cumulative, top module tests depicted in Figure 7, further prove that everything was working as intended."
   },
   {
     "objectID": "labs/lab1/lab1.html#conclusion",
@@ -60,7 +60,7 @@
     "href": "labs/lab1/lab1.html#ai-prototype",
     "title": "Lab 1: FPGA and MCU Setup and Testing",
     "section": "AI Prototype",
-    "text": "AI Prototype"
+    "text": "AI Prototype\n[Include generated code, easy-to-read chat transcripts, and a reflection on how well it worked.]"
   },
   {
     "objectID": "blog.html",
