@@ -3,15 +3,15 @@ title: "Lab 1: FPGA and MCU Setup and Testing"
 ---
 
 ## Introduction
-In this lab, _________________
-[Assembled the development board for the course and verified the MCU and FPGA's respective functionalities.
-Programmed the FPGA with behavioral Verilog to blink on-board LEDs according to slide-switch positions and interface a 7-segment display, such that it would display hexadecimal digits 0x0 through 0xF.]
+In this lab, the development board that will be used for the rest of the course was fully assembled, and the MCU and FPGA were respectively tested to ensure proper functionality.
+The FPGA was then programmed with behavioral SystemVerilog code with the aim of blinking one on-board LED at a constant 2.4 Hz, using the internal high-frequency (48 MHz) oscillator, and two other on-board LEDs according to four slide-switch positions; more specifically, interpreting the expected relationship between the LEDs and switches (as outlined in the [Lab 1 instructions](https://hmc-e155.github.io/lab/lab1/#fpga-design)) as a truth table dictated that one would act as the output of a XOR gate, whereas the second would act as the output of an AND gate.
+Additionally, a 7-segment display was interfaced with the those same four slide-switches, such that it was able to display hexadecimal digits 0x0 through 0xF.
 
 ## Design and Testing Methodology
 [Explain how you approached the design of this assignment from both a software and a hardware standpoint (as appropriate). Include how you tested your design. These tests should convince the reader that the requirements of the assignment have been met.]
 
 ## Technical Documentation
-[Include a link to a Git repository with your Verilog code, a block diagram of your design, and schematics of your circuits.]
+The source code for this project can be found in the associated [GitHub repository folder](https://github.com/qmiyamoto/E155-Labs/tree/main/lab1).
 
 ### Block Diagram
 ![Block Diagram](images/lab1_block_diagram.png){#fig-block-diagram}
@@ -20,6 +20,10 @@ jdlasfjlkdasfj
 
 ### Schematic
 ![Schematic](images/lab1_schematic.png){#fig-schematic}
+
+JKLJfkLDSKL
+
+![7-Segment Display Resistor Math](images/seven_segment_display_resistors_math.png){#fig-resistor-math width=60%}
 
 KFDLSJD
 
