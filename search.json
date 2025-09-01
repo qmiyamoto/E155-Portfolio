@@ -77,6 +77,55 @@
     "text": "Initial Reflections\n\n\nMy first impressions of the course and subsequent goals for this semester!\n\n\n\n\n\nAug 26, 2025\n\n\nQuinn Miyamoto\n\n\n\n\n\nNo matching items"
   },
   {
+    "objectID": "labs/lab1/lab1.html",
+    "href": "labs/lab1/lab1.html",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "",
+    "text": "REPHRASE!! [Assembled the development board for the course and verified the MCU and FPGA’s respective functionalities. Programmed the FPGA with behavioral Verilog to blink on-board LEDs according to slide-switch positions and interface a 7-segment display, such that it would display hexadecimal digits 0x0 through 0xF.]"
+  },
+  {
+    "objectID": "labs/lab1/lab1.html#introduction",
+    "href": "labs/lab1/lab1.html#introduction",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "",
+    "text": "REPHRASE!! [Assembled the development board for the course and verified the MCU and FPGA’s respective functionalities. Programmed the FPGA with behavioral Verilog to blink on-board LEDs according to slide-switch positions and interface a 7-segment display, such that it would display hexadecimal digits 0x0 through 0xF.]"
+  },
+  {
+    "objectID": "labs/lab1/lab1.html#design-and-testing-methodology",
+    "href": "labs/lab1/lab1.html#design-and-testing-methodology",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "Design and Testing Methodology",
+    "text": "Design and Testing Methodology\n[Explain how you approached the design of this assignment from both a software and a hardware standpoint (as appropriate). Include how you tested your design. These tests should convince the reader that the requirements of the assignment have been met.]"
+  },
+  {
+    "objectID": "labs/lab1/lab1.html#technical-documentation",
+    "href": "labs/lab1/lab1.html#technical-documentation",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "Technical Documentation",
+    "text": "Technical Documentation\n[Include a link to a Git repository with your Verilog code, a block diagram of your design, and schematics of your circuits.]\n\nBlock Diagram\n\n\nSchematic"
+  },
+  {
+    "objectID": "labs/lab1/lab1.html#results-and-discussion",
+    "href": "labs/lab1/lab1.html#results-and-discussion",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "Results and Discussion",
+    "text": "Results and Discussion\n[Did you accomplish all of the prescribed tasks? If not, what are the shortcomings? How might you address them given more time? As appropriate, how did the design perform (e.g., How fast/accurate/reliable was it?).]\n\nTestbench Simulation"
+  },
+  {
+    "objectID": "labs/lab1/lab1.html#conclusion",
+    "href": "labs/lab1/lab1.html#conclusion",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "Conclusion",
+    "text": "Conclusion\n[Briefly summarize what was done and how it performed. Also note how many hours you spent working on the lab.]"
+  },
+  {
+    "objectID": "labs/lab1/lab1.html#ai-prototype",
+    "href": "labs/lab1/lab1.html#ai-prototype",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "AI Prototype",
+    "text": "AI Prototype"
+  },
+  {
     "objectID": "posts/first-post.html",
     "href": "posts/first-post.html",
     "title": "Initial Reflections",
