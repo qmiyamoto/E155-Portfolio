@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Quinn Miyamoto">
+<meta name="dcterms.date" content="2025-09-01">
 
-<title>Lab 1: FPGA and MCU Setup and Testing – E155 Portfolio</title>
+<title>Lab 1 Reflection – E155 Portfolio</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,26 +25,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-dfb324f25d9b1687192fa8be62ac8f9c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-dfb324f25d9b1687192fa8be62ac8f9c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -72,7 +71,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -82,7 +81,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">E155 Portfolio</span>
     </a>
   </div>
@@ -93,7 +92,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../index.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -102,45 +101,45 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-labs">    
         <li>
-    <a class="dropdown-item" href="../../labs.html">
+    <a class="dropdown-item" href="../labs.html">
  <span class="dropdown-text">Labs Overview</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../labs/lab1/lab1.html">
+    <a class="dropdown-item" href="../labs/lab1/lab1.html">
  <span class="dropdown-text">Lab 1: FPGA and MCU Setup and Testing</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../labs/lab2/lab2.html">
+    <a class="dropdown-item" href="../labs/lab2/lab2.html">
  <span class="dropdown-text">Lab 2: Multiplexed 7-Segment Display</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../labs/lab3/lab3.html">
+    <a class="dropdown-item" href="../labs/lab3/lab3.html">
  <span class="dropdown-text">Lab 3: Keypad Scanner</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../labs/lab4/lab4.html">
+    <a class="dropdown-item" href="../labs/lab4/lab4.html">
  <span class="dropdown-text">Lab 4: Digital Audio</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../labs/lab5/lab5.html">
+    <a class="dropdown-item" href="../labs/lab5/lab5.html">
  <span class="dropdown-text">Lab 5: Interrupts</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../labs/lab6/lab6.html">
+    <a class="dropdown-item" href="../labs/lab6/lab6.html">
  <span class="dropdown-text">Lab 6: The Internet of Things and Serial Peripheral Interface</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../labs/lab7/lab7.html">
+    <a class="dropdown-item" href="../labs/lab7/lab7.html">
  <span class="dropdown-text">Lab 7: The Advanced Encryption Standard</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="../../resources.html"> 
+    <a class="nav-link" href="../resources.html"> 
 <span class="menu-text">Resources</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../blog.html"> 
+    <a class="nav-link" href="../blog.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
 </ul>
@@ -154,40 +153,37 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#design-and-testing-methodology" id="toc-design-and-testing-methodology" class="nav-link" data-scroll-target="#design-and-testing-methodology">Design and Testing Methodology</a></li>
-  <li><a href="#technical-documentation" id="toc-technical-documentation" class="nav-link" data-scroll-target="#technical-documentation">Technical Documentation</a>
-  <ul class="collapse">
-  <li><a href="#block-diagram" id="toc-block-diagram" class="nav-link" data-scroll-target="#block-diagram">Block Diagram</a></li>
-  <li><a href="#schematic" id="toc-schematic" class="nav-link" data-scroll-target="#schematic">Schematic</a></li>
-  </ul></li>
-  <li><a href="#results-and-discussion" id="toc-results-and-discussion" class="nav-link" data-scroll-target="#results-and-discussion">Results and Discussion</a>
-  <ul class="collapse">
-  <li><a href="#testbench-simulation" id="toc-testbench-simulation" class="nav-link" data-scroll-target="#testbench-simulation">Testbench Simulation</a></li>
-  </ul></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
-  <li><a href="#ai-prototype" id="toc-ai-prototype" class="nav-link" data-scroll-target="#ai-prototype">AI Prototype</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Lab 1: FPGA and MCU Setup and Testing</h1>
-</div>
+<h1 class="title">Lab 1 Reflection</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">reflection</div>
+  </div>
+  </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Quinn Miyamoto </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 1, 2025</p>
+    </div>
+  </div>
   
     
   </div>
@@ -197,142 +193,10 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>In this lab, the development board that will be used for the rest of the course was fully assembled, and the MCU and FPGA were respectively tested to ensure proper functionality. The FPGA was then programmed with behavioral SystemVerilog code with the aim of blinking one on-board LED at a constant 2.4 Hz, using the internal high-frequency (48 MHz) oscillator, and two other on-board LEDs according to four slide-switch positions; more specifically, interpreting the expected relationship between the LEDs and switches (as outlined in the <a href="https://hmc-e155.github.io/lab/lab1/#fpga-design">Lab 1 instructions</a>) as a truth table dictated that one would act as the output of a XOR gate, whereas the second would act as the output of an AND gate. Additionally, a 7-segment display was interfaced with the those same four slide-switches, such that it was able to display hexadecimal digits 0x0 through 0xF.</p>
-</section>
-<section id="design-and-testing-methodology" class="level2">
-<h2 class="anchored" data-anchor-id="design-and-testing-methodology">Design and Testing Methodology</h2>
-<p>[Explain how you approached the design of this assignment from both a software and a hardware standpoint (as appropriate). Include how you tested your design. These tests should convince the reader that the requirements of the assignment have been met.]</p>
-</section>
-<section id="technical-documentation" class="level2">
-<h2 class="anchored" data-anchor-id="technical-documentation">Technical Documentation</h2>
-<p>The source code for this project can be found in the associated <a href="https://github.com/qmiyamoto/E155-Labs/tree/main/lab1">GitHub repository folder</a>.</p>
-<section id="block-diagram" class="level3">
-<h3 class="anchored" data-anchor-id="block-diagram">Block Diagram</h3>
-<div id="fig-block-diagram" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-block-diagram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/lab1_block_diagram.png" class="img-fluid figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-block-diagram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Block Diagram
-</figcaption>
-</figure>
-</div>
-<p>jdlasfjlkdasfj</p>
-</section>
-<section id="schematic" class="level3">
-<h3 class="anchored" data-anchor-id="schematic">Schematic</h3>
-<div id="fig-schematic" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/lab1_schematic.png" class="img-fluid figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Schematic
-</figcaption>
-</figure>
-</div>
-<p>JKLJfkLDSKL</p>
-<div id="fig-resistor-math" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-resistor-math-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/seven_segment_display_resistors_math.png" class="img-fluid figure-img" style="width:60.0%">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-resistor-math-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: 7-Segment Display Resistor Math
-</figcaption>
-</figure>
-</div>
-<p>KFDLSJD</p>
-</section>
-</section>
-<section id="results-and-discussion" class="level2">
-<h2 class="anchored" data-anchor-id="results-and-discussion">Results and Discussion</h2>
-<p>[Did you accomplish all of the prescribed tasks? If not, what are the shortcomings? How might you address them given more time? As appropriate, how did the design perform (e.g., How fast/accurate/reliable was it?).]</p>
-<div id="fig-video" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-video-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/52ylZh-mB_w?feature=shared" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-video-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: Demo Video
-</figcaption>
-</figure>
-</div>
-<p>FKLDSJFKLDSJF</p>
-<section id="testbench-simulation" class="level3">
-<h3 class="anchored" data-anchor-id="testbench-simulation">Testbench Simulation</h3>
-<div id="fig-waveforms" class="quarto-layout-panel">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-waveforms" style="flex-basis: 33.3%;justify-content: flex-start;">
-<div id="fig-on-board-leds-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-on-board-leds-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/on_board_leds_waveforms.png" class="lightbox" data-gallery="fig-waveforms" title="Figure&nbsp;5&nbsp;(a): On-Board LEDs"><img src="images/on_board_leds_waveforms.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-on-board-leds-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a) On-Board LEDs
-</figcaption>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-waveforms" style="flex-basis: 33.3%;justify-content: flex-start;">
-<div id="fig-seven-segment-display-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-seven-segment-display-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/seven_segment_display_waveforms.png" class="lightbox" data-gallery="fig-waveforms" title="Figure&nbsp;5&nbsp;(b): 7-Segment Display"><img src="images/seven_segment_display_waveforms.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-seven-segment-display-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b) 7-Segment Display
-</figcaption>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-waveforms" style="flex-basis: 33.3%;justify-content: flex-start;">
-<div id="fig-lab1-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-lab1-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/lab1_waveforms.png" class="lightbox" data-gallery="fig-waveforms" title="Figure&nbsp;5&nbsp;(c): Top Module"><img src="images/lab1_waveforms.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-lab1-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(c) Top Module
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5: Simulation Waveforms
-</figcaption>
-</figure>
-</div>
-<p>BLAHblahblah</p>
-<div id="fig-transcript" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-transcript-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/lab1_simulation_transcript.png" class="img-fluid figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-transcript-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6: Top Module Transcript
-</figcaption>
-</figure>
-</div>
-</section>
-</section>
-<section id="conclusion" class="level2">
-<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
-<p>[Briefly summarize what was done and how it performed. Also note how many hours you spent working on the lab.]</p>
-</section>
-<section id="ai-prototype" class="level2">
-<h2 class="anchored" data-anchor-id="ai-prototype">AI Prototype</h2>
+<p>The blog on your Quarto portfolio is a space for you to write weekly reflections on what you’re learning in MicroPs. The list below is a non-exhaustive list of ideas of things you could write about if you’re struggling to come up with ideas.</p>
+<p>What is something interesting you learned recently in lab or lecture? How do you feel like the course is helping you to grow as a person? Reflect on the character traits you listed at the beginning of the course for ideas about specific areas of growth to reflect on. What did you think about a recent AI prototype? How did your use of AI shape your thinking about what role these tools might play in the future of digital hardware design? Search the Internet for a recent article related to embedded systems. Reflect on those systems through the lens of what you’re learning in MicroPs. What are some ideas you’re thinking about exploring in your project and why?</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -735,38 +599,6 @@ Figure&nbsp;6: Top Module Transcript
   });
   </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
-(function() {
-  let previousOnload = window.onload;
-  window.onload = () => {
-    if (previousOnload) {
-      previousOnload();
-    }
-    lightboxQuarto.on('slide_before_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      const href = trigger.getAttribute('href');
-      if (href !== null) {
-        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-        if (imgEl !== null) {
-          const srcAttr = imgEl.getAttribute("src");
-          if (srcAttr && srcAttr.startsWith("data:")) {
-            slideConfig.href = srcAttr;
-          }
-        }
-      } 
-    });
-  
-    lightboxQuarto.on('slide_after_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(slideNode);
-      }
-    });
-  
-  };
-  
-})();
-          </script>
 
 
 

@@ -7,6 +7,76 @@
     "text": "E155 Course Site"
   },
   {
+    "objectID": "posts/first-post.html",
+    "href": "posts/first-post.html",
+    "title": "Initial Reflections",
+    "section": "",
+    "text": "After briefly skimming over the content of our future labs, I am already extremely excited for the semester to come! As someone who wants to specialize in, essentially, ECE (with a little side of mechanical engineering to boot!), this is the perfect course for me; it seems to cover a good amount of the overlap between programming and actual hardware development, which I have always wanted to dive more into. Because I did rather poorly on the exams in E85, I am admittedly also a little nervous for this course’s rigor. However, seeing as E155’s learning is not test-based in the slightest, I do not feel as stressed out about my performance as I could be.\nAt the moment, I do not have any particular ideas in mind for the final project. If possible, I would like to do something that involves working with LEDs (or other lights), for I find such projects satisfyingly aesthetic and fun, but I am not too picky on the content beyond that. I have faith that no matter what, it will be a challenging but ultimately rewarding experience for me.\nMy goals for this semester comprise the following: stay on top of my work, make the most of the resources available to me (including grutors and professors), create a final project that I can be proud of, and maintain an open and positive mindset, even when times get hard. While I would naturally like to succeed academically in this class, I believe that these more soft skill-oriented objectives are just as - if not more - important than attaining good grades. Overall, I hope to come out of this course as both a better engineer and person."
+  },
+  {
+    "objectID": "labs/lab1/lab1.html",
+    "href": "labs/lab1/lab1.html",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "",
+    "text": "In this lab, the development board that will be used for the rest of the course was fully assembled, and the MCU and FPGA were respectively tested to ensure proper functionality. The FPGA was then programmed with behavioral SystemVerilog code with the aim of blinking one on-board LED at a constant 2.4 Hz, using the internal high-frequency (48 MHz) oscillator, and two other on-board LEDs according to four slide-switch positions; more specifically, interpreting the expected relationship between the LEDs and switches (as outlined in the Lab 1 instructions) as a truth table dictated that one would act as the output of a XOR gate, whereas the second would act as the output of an AND gate. Additionally, a 7-segment display was interfaced with the those same four slide-switches, such that it was able to display hexadecimal digits 0x0 through 0xF."
+  },
+  {
+    "objectID": "labs/lab1/lab1.html#introduction",
+    "href": "labs/lab1/lab1.html#introduction",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "",
+    "text": "In this lab, the development board that will be used for the rest of the course was fully assembled, and the MCU and FPGA were respectively tested to ensure proper functionality. The FPGA was then programmed with behavioral SystemVerilog code with the aim of blinking one on-board LED at a constant 2.4 Hz, using the internal high-frequency (48 MHz) oscillator, and two other on-board LEDs according to four slide-switch positions; more specifically, interpreting the expected relationship between the LEDs and switches (as outlined in the Lab 1 instructions) as a truth table dictated that one would act as the output of a XOR gate, whereas the second would act as the output of an AND gate. Additionally, a 7-segment display was interfaced with the those same four slide-switches, such that it was able to display hexadecimal digits 0x0 through 0xF."
+  },
+  {
+    "objectID": "labs/lab1/lab1.html#design-and-testing-methodology",
+    "href": "labs/lab1/lab1.html#design-and-testing-methodology",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "Design and Testing Methodology",
+    "text": "Design and Testing Methodology\n[Explain how you approached the design of this assignment from both a software and a hardware standpoint (as appropriate). Include how you tested your design. These tests should convince the reader that the requirements of the assignment have been met.]"
+  },
+  {
+    "objectID": "labs/lab1/lab1.html#technical-documentation",
+    "href": "labs/lab1/lab1.html#technical-documentation",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "Technical Documentation",
+    "text": "Technical Documentation\nThe source code for this project can be found in the associated GitHub repository folder.\n\nBlock Diagram\n\n\n\n\n\n\nFigure 1: Block Diagram\n\n\n\njdlasfjlkdasfj\n\n\nSchematic\n\n\n\n\n\n\nFigure 2: Schematic\n\n\n\nJKLJfkLDSKL\n\n\n\n\n\n\nFigure 3: 7-Segment Display Resistor Math\n\n\n\nKFDLSJD"
+  },
+  {
+    "objectID": "labs/lab1/lab1.html#results-and-discussion",
+    "href": "labs/lab1/lab1.html#results-and-discussion",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "Results and Discussion",
+    "text": "Results and Discussion\n[Did you accomplish all of the prescribed tasks? If not, what are the shortcomings? How might you address them given more time? As appropriate, how did the design perform (e.g., How fast/accurate/reliable was it?).]\n\n\n\n\n\n\nFigure 4: Demo Video\n\n\n\nFKLDSJFKLDSJF\n\nTestbench Simulation\n\n\n\n\n\n\n\n\n\n\n\n(a) On-Board LEDs\n\n\n\n\n\n\n\n\n\n\n\n(b) 7-Segment Display\n\n\n\n\n\n\n\n\n\n\n\n(c) Top Module\n\n\n\n\n\n\n\nFigure 5: Simulation Waveforms\n\n\n\nBLAHblahblah\n\n\n\n\n\n\nFigure 6: Top Module Transcript"
+  },
+  {
+    "objectID": "labs/lab1/lab1.html#conclusion",
+    "href": "labs/lab1/lab1.html#conclusion",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "Conclusion",
+    "text": "Conclusion\n[Briefly summarize what was done and how it performed. Also note how many hours you spent working on the lab.]"
+  },
+  {
+    "objectID": "labs/lab1/lab1.html#ai-prototype",
+    "href": "labs/lab1/lab1.html#ai-prototype",
+    "title": "Lab 1: FPGA and MCU Setup and Testing",
+    "section": "AI Prototype",
+    "text": "AI Prototype"
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "E155 Blog",
+    "section": "",
+    "text": "Lab 1 Reflection\n\n\n\n\n\n\n\n\nSep 1, 2025\n\n\nQuinn Miyamoto\n\n\n\n\n\n\n\n\n\n\n\n\nInitial Reflections\n\n\nMy first impressions of the course and subsequent goals for this semester!\n\n\n\n\n\nAug 26, 2025\n\n\nQuinn Miyamoto\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "E155 Portfolio",
+    "section": "",
+    "text": "Quinn Miyamoto is a junior engineering major at Harvey Mudd College. More specifically, she is interested in digital electronics and mechanical design. So far, she has completed courses pertaining to computer architecture, electricity and magnetism, and system-on-chip design. She has a Level Two CAD certification in Rhino, and works as a Makerspace steward for Harvey Mudd College, with a certification to teach users welding. When she is not working, you can find her reading manga/manhwa, binging bad Netflix shows, gaming, or rock-climbing."
+  },
+  {
     "objectID": "labs.html",
     "href": "labs.html",
     "title": "Labs",
@@ -63,73 +133,10 @@
     "text": "Lab 7: The Advanced Encryption Standard\n[Lab Overview]"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "E155 Portfolio",
+    "objectID": "posts/lab1-reflection.html",
+    "href": "posts/lab1-reflection.html",
+    "title": "Lab 1 Reflection",
     "section": "",
-    "text": "Quinn Miyamoto is a junior engineering major at Harvey Mudd College. More specifically, she is interested in digital electronics and mechanical design. So far, she has completed courses pertaining to computer architecture, electricity and magnetism, and system-on-chip design. She has a Level Two CAD certification in Rhino, and works as a Makerspace steward for Harvey Mudd College, with a certification to teach users welding. When she is not working, you can find her reading manga/manhwa, binging bad Netflix shows, gaming, or rock-climbing."
-  },
-  {
-    "objectID": "blog.html",
-    "href": "blog.html",
-    "title": "E155 Blog",
-    "section": "",
-    "text": "Initial Reflections\n\n\nMy first impressions of the course and subsequent goals for this semester!\n\n\n\n\n\nAug 26, 2025\n\n\nQuinn Miyamoto\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "labs/lab1/lab1.html",
-    "href": "labs/lab1/lab1.html",
-    "title": "Lab 1: FPGA and MCU Setup and Testing",
-    "section": "",
-    "text": "In this lab, _________________ [Assembled the development board for the course and verified the MCU and FPGA’s respective functionalities. Programmed the FPGA with behavioral Verilog to blink on-board LEDs according to slide-switch positions and interface a 7-segment display, such that it would display hexadecimal digits 0x0 through 0xF.]"
-  },
-  {
-    "objectID": "labs/lab1/lab1.html#introduction",
-    "href": "labs/lab1/lab1.html#introduction",
-    "title": "Lab 1: FPGA and MCU Setup and Testing",
-    "section": "",
-    "text": "In this lab, _________________ [Assembled the development board for the course and verified the MCU and FPGA’s respective functionalities. Programmed the FPGA with behavioral Verilog to blink on-board LEDs according to slide-switch positions and interface a 7-segment display, such that it would display hexadecimal digits 0x0 through 0xF.]"
-  },
-  {
-    "objectID": "labs/lab1/lab1.html#design-and-testing-methodology",
-    "href": "labs/lab1/lab1.html#design-and-testing-methodology",
-    "title": "Lab 1: FPGA and MCU Setup and Testing",
-    "section": "Design and Testing Methodology",
-    "text": "Design and Testing Methodology\n[Explain how you approached the design of this assignment from both a software and a hardware standpoint (as appropriate). Include how you tested your design. These tests should convince the reader that the requirements of the assignment have been met.]"
-  },
-  {
-    "objectID": "labs/lab1/lab1.html#technical-documentation",
-    "href": "labs/lab1/lab1.html#technical-documentation",
-    "title": "Lab 1: FPGA and MCU Setup and Testing",
-    "section": "Technical Documentation",
-    "text": "Technical Documentation\n[Include a link to a Git repository with your Verilog code, a block diagram of your design, and schematics of your circuits.]\n\nBlock Diagram\n\n\n\n\n\n\nFigure 1: Block Diagram\n\n\n\njdlasfjlkdasfj\n\n\nSchematic\n\n\n\n\n\n\nFigure 2: Schematic\n\n\n\nKFDLSJD"
-  },
-  {
-    "objectID": "labs/lab1/lab1.html#results-and-discussion",
-    "href": "labs/lab1/lab1.html#results-and-discussion",
-    "title": "Lab 1: FPGA and MCU Setup and Testing",
-    "section": "Results and Discussion",
-    "text": "Results and Discussion\n[Did you accomplish all of the prescribed tasks? If not, what are the shortcomings? How might you address them given more time? As appropriate, how did the design perform (e.g., How fast/accurate/reliable was it?).]\n\n\n\n\n\n\nFigure 3: Demo Video\n\n\n\nFKLDSJFKLDSJF\n\nTestbench Simulation\n\n\n\n\n\n\n\n\n\n\n\n(a) On-Board LEDs\n\n\n\n\n\n\n\n\n\n\n\n(b) 7-Segment Display\n\n\n\n\n\n\n\n\n\n\n\n(c) Top Module\n\n\n\n\n\n\n\nFigure 4: Simulation Waveforms\n\n\n\nBLAHblahblah\n\n\n\n\n\n\nFigure 5: Top Module Transcript"
-  },
-  {
-    "objectID": "labs/lab1/lab1.html#conclusion",
-    "href": "labs/lab1/lab1.html#conclusion",
-    "title": "Lab 1: FPGA and MCU Setup and Testing",
-    "section": "Conclusion",
-    "text": "Conclusion\n[Briefly summarize what was done and how it performed. Also note how many hours you spent working on the lab.]"
-  },
-  {
-    "objectID": "labs/lab1/lab1.html#ai-prototype",
-    "href": "labs/lab1/lab1.html#ai-prototype",
-    "title": "Lab 1: FPGA and MCU Setup and Testing",
-    "section": "AI Prototype",
-    "text": "AI Prototype"
-  },
-  {
-    "objectID": "posts/first-post.html",
-    "href": "posts/first-post.html",
-    "title": "Initial Reflections",
-    "section": "",
-    "text": "After briefly skimming over the content of our future labs, I am already extremely excited for the semester to come! As someone who wants to specialize in, essentially, ECE (with a little side of mechanical engineering to boot!), this is the perfect course for me; it seems to cover a good amount of the overlap between programming and actual hardware development, which I have always wanted to dive more into. Because I did rather poorly on the exams in E85, I am admittedly also a little nervous for this course’s rigor. However, seeing as E155’s learning is not test-based in the slightest, I do not feel as stressed out about my performance as I could be.\nAt the moment, I do not have any particular ideas in mind for the final project. If possible, I would like to do something that involves working with LEDs (or other lights), for I find such projects satisfyingly aesthetic and fun, but I am not too picky on the content beyond that. I have faith that no matter what, it will be a challenging but ultimately rewarding experience for me.\nMy goals for this semester comprise the following: stay on top of my work, make the most of the resources available to me (including grutors and professors), create a final project that I can be proud of, and maintain an open and positive mindset, even when times get hard. While I would naturally like to succeed academically in this class, I believe that these more soft skill-oriented objectives are just as - if not more - important than attaining good grades. Overall, I hope to come out of this course as both a better engineer and person."
+    "text": "The blog on your Quarto portfolio is a space for you to write weekly reflections on what you’re learning in MicroPs. The list below is a non-exhaustive list of ideas of things you could write about if you’re struggling to come up with ideas.\nWhat is something interesting you learned recently in lab or lecture? How do you feel like the course is helping you to grow as a person? Reflect on the character traits you listed at the beginning of the course for ideas about specific areas of growth to reflect on. What did you think about a recent AI prototype? How did your use of AI shape your thinking about what role these tools might play in the future of digital hardware design? Search the Internet for a recent article related to embedded systems. Reflect on those systems through the lens of what you’re learning in MicroPs. What are some ideas you’re thinking about exploring in your project and why?"
   }
 ]
