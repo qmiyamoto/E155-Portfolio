@@ -8,15 +8,17 @@ The FPGA was then programmed with behavioral SystemVerilog code with the aim of 
 Additionally, a 7-segment display was interfaced with the those same four slide-switches, such that it was able to display hexadecimal digits 0x0 through 0xF.
 
 ## Design and Testing Methodology
-[Explain how you approached the design of this assignment from both a software and a hardware standpoint (as appropriate). Include how you tested your design. These tests should convince the reader that the requirements of the assignment have been met.]
+Overall, there were three inputs — namely, ones corresponding to a clock (clk), a reset (reset), and the four switches (s[3:0]) — to the design, and two outputs that would control the respective states of the LEDs (led[2:0]) and segments (seg[6:0]).
 
-The on-board high-speed oscillator (HSOSC) from the iCE40 UltraPlus primitive library was used to generate a clock signal at 24 MHz. Then, a counter was used to divide the high frequency clock signal down so that the blinking frequency could be easily visualized using one of the on-board LEDs.
+The on-board high-speed oscillator, by default, produces a clock signal of 48 MHz.
+By implementing a clock divider with a counter that would blink an on-board LED every time it reached 10,000,000 — because 48 MHz divided by the desired 2.4 Hz results in 20,000,000, and the LED should be flashed twice a cycle (therefore dividing 20,000,000 by two to get 10,000,000) — that signal was able to be reduced to the correct frequency.
+Verilog code implying XOR and AND gates was also incorporated to connect the slide-switches and remaining two LEDs.
 
-The design was developed using a simple clock divider module which drives the external LED.
+Regarding the 7-segment display design, each hexadecimal digit was intentionally designed to have a unique appearance.
+This was reflected in the Verilog code via unique case statements with one toggle-able pin assigned to each segment.
 
-fmlllll
-
-48 MHz -> 20 MHz -> 10 MHz
+Various tests were conducted on the final product, including both physical interaction with the resultant circuits and simulation testbenches, as elaborated on in a later [Results and Discussions](#sec-results-and-discussion) section.
+Note that there was an individual testbench created for each SystemVerilog module.
 
 ## Technical Documentation
 The source code for this project can be found in the associated [GitHub repository folder](https://github.com/qmiyamoto/E155-Labs/tree/main/lab1).
@@ -39,20 +41,17 @@ Note that the values of the resistors connected to the 7-segment display were ca
 In order to attain current draw that fell within the recommended operating conditions of 5 - 20 mA, Ohm's Law was applied to ultimately determine that any resistors ranging from 20 Ω to 240 Ω were acceptable to use.
 For the sake of equal brightness across all segments, seven 160 Ω-resistors were integrated into the [Figure 2](#fig-schematic) schematic.
 
-## Results and Discussion
-[Did you accomplish all of the prescribed tasks? If not, what are the shortcomings? How might you address them given more time? As appropriate, how did the design perform (e.g., How fast/accurate/reliable was it?).]
-
-The results of Lab 1 can be viewed in the [Figure 4](#fig-video) below:
+## Results and Discussion {#sec-results-and-discussion}
+The results of Lab 1 can be viewed in [Figure 4](#fig-video) below:
 
 ::: {#fig-video}
-
 {{< video https://youtu.be/52ylZh-mB_w?feature=shared >}}
 
 Demo Video
 :::
 
-Evidently, all prescribed tasks were successfully accomplished, and te design performed quickly and reliably.
-Additonally, the oscilloscope trace from [Figure 5](#fig-oscope-trace) verifies that one of the on-board LEDs did, in fact, flash at a constant rate of 2.4 Hz.
+Evidently, all prescribed tasks were successfully accomplished, and the design performed quickly and reliably.
+Additionally, the oscilloscope trace from [Figure 5](#fig-oscope-trace) verified that one of the on-board LEDs did, in fact, flash at a constant rate of 2.4 Hz.
 
 ![Oscilloscope trace](images/oscilloscope_trace.jpg){#fig-oscope-trace}
 
@@ -67,13 +66,24 @@ Additonally, the oscilloscope trace from [Figure 5](#fig-oscope-trace) verifies 
 Simulation Waveforms
 :::
 
-![Top module transcript results](images/lab1_simulation_transcript.png){#fig-transcript}
-
 Moreover, the identical waveforms in [Figures 6a](#fig-on-board-leds-waveforms), [6b](#fig-seven-segment-display-waveforms), and [6c](#fig-lab1-waveforms), as well as the terminal output of the cumulative, top module tests depicted in [Figure 7](#fig-transcript), further prove that everything was working as intended.
 
+![Top module transcript results](images/lab1_simulation_transcript.png){#fig-transcript}
+
 ## Conclusion
-[Briefly summarize what was done and how it performed. Also note how many hours you spent working on the lab.]
+In summary, the design flashed one on-board LED at a consistent 2.4 Hz, and configured four slide-switches with two other LEDs to create a XOR gate and AND gate, respectively.
+Furthermore, those same slide-switches successfully replicated every single hexadecimal digit on a 7-segment display, with each number sharing equal brightness.
+A total of approximately 25 hours was spent working on this lab.
 
 ## AI Prototype
 [Include generated code, easy-to-read chat transcripts, and a reflection on how well it worked.]
 
+Write up a few paragraphs reflecting on your experience using the LLM to help you code. Feel free to make full use of screenshots, code snippets, and other media as you write your reflections.
+
+Here are a few ideas of on what you might comment on:
+
+How would you rate the quality of the output and why?
+What SystemVerilog constructs/syntax did the LLM generated that were new to you?
+Did the LLM-generated code synthesize the first time around? If not, what were the issues?
+What error or warning messages did Radiant output?
+What would you do differently the next time you use an LLM in your workflow?
