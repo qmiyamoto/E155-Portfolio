@@ -24,7 +24,7 @@ Note that there was an individual testbench created for each SystemVerilog modul
 The source code for this project can be found in the associated [GitHub repository folder](https://github.com/qmiyamoto/E155-Labs/tree/main/lab1).
 
 ### Block Diagram
-![Block diagram of Verilog design](images/lab1_block_diagram.png){#fig-block-diagram}
+![Block diagram of Verilog design](images/block_diagram.png){#fig-block-diagram}
 
 The block diagram in [Figure 1](#fig-block-diagram) depicts the general architecture implied by the SystemVerilog code.
 The top-level module, titled "*lab1_qm*," comprises two submodules, "*on_board_leds*" and "*seven_segment_display*" — the former for flashing the development board LEDs as detailed in the [Introduction](#sec-intro) above, and the latter for recreating hexadecimal digits on the 7-segment display.
