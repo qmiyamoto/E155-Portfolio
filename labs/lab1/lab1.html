@@ -203,7 +203,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="design-and-testing-methodology" class="level2">
 <h2 class="anchored" data-anchor-id="design-and-testing-methodology">Design and Testing Methodology</h2>
-<p>Overall, there were three inputs — namely, ones corresponding to a clock (clk), a reset (reset), and the four switches (s[3:0]) — to the design, and two outputs that would control the respective states of the LEDs (led[2:0]) and segments (seg[6:0]).</p>
+<p>Overall, there were three inputs — namely, ones corresponding to a clock (<em>clk</em>), a reset (<em>reset</em>), and the four switches (<em>s[3:0]</em>) — to the design, and two outputs that would control the respective states of the LEDs (<em>led[2:0]</em>) and segments (<em>seg[6:0]</em>).</p>
 <p>The on-board high-speed oscillator, by default, produces a clock signal of 48 MHz. By implementing a clock divider with a counter that would blink an on-board LED every time it reached 10,000,000 — because 48 MHz divided by the desired 2.4 Hz results in 20,000,000, and the LED should be flashed twice a cycle (therefore dividing 20,000,000 by two to get 10,000,000) — that signal was able to be reduced to the correct frequency. Verilog code implying XOR and AND gates was also incorporated to connect the slide-switches and remaining two LEDs.</p>
 <p>Regarding the 7-segment display design, each hexadecimal digit was intentionally designed to have a unique appearance. This was reflected in the Verilog code via unique case statements with one toggle-able pin assigned to each segment.</p>
 <p>Various tests were conducted on the final product, including both physical interaction with the resultant circuits and simulation testbenches, as elaborated on in a later <a href="#sec-results-and-discussion">Results and Discussions</a> section. Note that there was an individual testbench created for each SystemVerilog module.</p>
@@ -223,7 +223,7 @@ Figure&nbsp;1: Block diagram of Verilog design
 </figcaption>
 </figure>
 </div>
-<p>The block diagram in <a href="#fig-block-diagram">Figure 1</a> depicts the general architecture implied by the SystemVerilog code. The top-level module, titled “lab1_qm,” comprises two submodules, “on_board_leds” and “seven_segment_display” — the former for flashing the development board LEDs as detailed in the <a href="#sec-intro">Introduction</a> above, and the latter for recreating hexadecimal digits on the 7-segment display.</p>
+<p>The block diagram in <a href="#fig-block-diagram">Figure 1</a> depicts the general architecture implied by the SystemVerilog code. The top-level module, titled “<em>lab1_qm</em>,” comprises two submodules, “<em>on_board_leds</em>” and “<em>seven_segment_display</em>” — the former for flashing the development board LEDs as detailed in the <a href="#sec-intro">Introduction</a> above, and the latter for recreating hexadecimal digits on the 7-segment display.</p>
 </section>
 <section id="schematic" class="level3">
 <h3 class="anchored" data-anchor-id="schematic">Schematic</h3>
@@ -343,10 +343,42 @@ Figure&nbsp;7: Top module transcript results
 </section>
 <section id="ai-prototype" class="level2">
 <h2 class="anchored" data-anchor-id="ai-prototype">AI Prototype</h2>
-<p>[Include generated code, easy-to-read chat transcripts, and a reflection on how well it worked.]</p>
-<p>Write up a few paragraphs reflecting on your experience using the LLM to help you code. Feel free to make full use of screenshots, code snippets, and other media as you write your reflections.</p>
-<p>Here are a few ideas of on what you might comment on:</p>
-<p>How would you rate the quality of the output and why? What SystemVerilog constructs/syntax did the LLM generated that were new to you? Did the LLM-generated code synthesize the first time around? If not, what were the issues? What error or warning messages did Radiant output? What would you do differently the next time you use an LLM in your workflow?</p>
+<p>Using ChatGPT to generate some code in response to the prompt “<em>Write SystemVerilog HDL to leverage the internal high speed oscillator in the Lattice UP5K FPGA and blink an LED at 2 Hz. Take full advantage of SystemVerilog syntax, for example, using logic instead of wire and reg</em>,” the LLM ultimately produced inaccurate results that were unable to be synthesized; these can be viewed in the associated <a href="https://github.com/qmiyamoto/E155-Labs/blob/main/lab1/ai_prototype/lab1_ai_prototype_qm/source/impl_1/lab1_ai_prototype_qm.sv">GitHub repository folder</a>. While at first glance, the instructions in the <a href="https://chatgpt.com/share/68b650ae-5274-800f-9530-6ff3e502c5e3">chat transcript</a> seemed rather straightforward and clear, when actually attempting to implement them in Lattice, there were many errors that popped up. After three tries at steering the LLM’s responses toward more accurate, desirable outcomes, all attempts at further guiding stopped.</p>
+<div id="fig-error1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-error1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/error1.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-error1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: First error message
+</figcaption>
+</figure>
+</div>
+<p>The first error message received, as shown in <a href="#fig-error1">Figure 8</a>, concerned the missing iCE40UP primitive library file that was necessary for utilizing the <em>SB_HFOSC</em> module (in order to work with the development board’s high-frequency oscillator). This was addressed by taking ChatGPT’s “alternative workaround” recommendation to add an <em>ifndef SYNTHESIS</em> wrapper to the <em>SB_HFOSC</em> code to synthesize without adding extra files to the simulation. Unfortunately, while doing this did indeed get rid of the initial error, it led to the generation of another one.</p>
+<div id="fig-error2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-error2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/error2.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-error2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: Second error message
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-error2">Figure 9</a> depicts an error message pertaining to a “synthesis-time combinational loop error,” according to CHatGPT, which would supposedly be solved by re-checking the inclusion of the iCE40UP library and keeping ports tied correctly. However, this time, adhering to its directions did not have any effect on the synthesis.</p>
+<div id="fig-error3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-error3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/error2.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-error3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10: Third error message
+</figcaption>
+</figure>
+</div>
+<p>The last error message to appear, as can be viewed in <a href="#fig-error3">Figure 10</a> above, was the exact same as the one from <a href="#fig-error2">Figure 9</a>. At this point, ChatGPT presented the same solution for a third time, and was subsequently sidelined in favor of manually reviewing its code to fix things up.</p>
+<p>In general, using an LLM to write the Lab 1 code was helpful to a certain extent; ChatGPT gave a rather good outline of what should be done to blink an LED at 2 Hz. However, when it came to the fine details that were crucial for making the code work, it tended to falter in supplying both adequate code and sufficient instructions for how to remedy any lapses in judgement. Therefore, the quality of the output was solidly middling.</p>
+<p>Perhaps the most notable feature of the LLM’s code was its usage of the <em>SB_HFOSC</em> module, which was extremely similar to the <em>HSOSC</em> one actual utilized for the lab (as briefly talked about above). In the future, if LLM assistance is ever required by a project, more care will be taken to understand the constructs/syntax it employs so as to prompt it to give better, more effective answers.</p>
 
 
 </section>
