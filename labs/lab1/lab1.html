@@ -166,7 +166,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#block-diagram" id="toc-block-diagram" class="nav-link" data-scroll-target="#block-diagram">Block Diagram</a></li>
   <li><a href="#schematic" id="toc-schematic" class="nav-link" data-scroll-target="#schematic">Schematic</a></li>
   </ul></li>
-  <li><a href="#results-and-discussion" id="toc-results-and-discussion" class="nav-link" data-scroll-target="#results-and-discussion">Results and Discussion</a>
+  <li><a href="#sec-results-and-discussion" id="toc-sec-results-and-discussion" class="nav-link" data-scroll-target="#sec-results-and-discussion">Results and Discussion</a>
   <ul class="collapse">
   <li><a href="#testbench-simulation" id="toc-testbench-simulation" class="nav-link" data-scroll-target="#testbench-simulation">Testbench Simulation</a></li>
   </ul></li>
@@ -203,11 +203,10 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="design-and-testing-methodology" class="level2">
 <h2 class="anchored" data-anchor-id="design-and-testing-methodology">Design and Testing Methodology</h2>
-<p>[Explain how you approached the design of this assignment from both a software and a hardware standpoint (as appropriate). Include how you tested your design. These tests should convince the reader that the requirements of the assignment have been met.]</p>
-<p>The on-board high-speed oscillator (HSOSC) from the iCE40 UltraPlus primitive library was used to generate a clock signal at 24 MHz. Then, a counter was used to divide the high frequency clock signal down so that the blinking frequency could be easily visualized using one of the on-board LEDs.</p>
-<p>The design was developed using a simple clock divider module which drives the external LED.</p>
-<p>fmlllll</p>
-<p>48 MHz -&gt; 20 MHz -&gt; 10 MHz</p>
+<p>Overall, there were three inputs — namely, ones corresponding to a clock (clk), a reset (reset), and the four switches (s[3:0]) — to the design, and two outputs that would control the respective states of the LEDs (led[2:0]) and segments (seg[6:0]).</p>
+<p>The on-board high-speed oscillator, by default, produces a clock signal of 48 MHz. By implementing a clock divider with a counter that would blink an on-board LED every time it reached 10,000,000 — because 48 MHz divided by the desired 2.4 Hz results in 20,000,000, and the LED should be flashed twice a cycle (therefore dividing 20,000,000 by two to get 10,000,000) — that signal was able to be reduced to the correct frequency. Verilog code implying XOR and AND gates was also incorporated to connect the slide-switches and remaining two LEDs.</p>
+<p>Regarding the 7-segment display design, each hexadecimal digit was intentionally designed to have a unique appearance. This was reflected in the Verilog code via unique case statements with one toggle-able pin assigned to each segment.</p>
+<p>Various tests were conducted on the final product, including both physical interaction with the resultant circuits and simulation testbenches, as elaborated on in a later <a href="#sec-results-and-discussion">Results and Discussions</a> section. Note that there was an individual testbench created for each SystemVerilog module.</p>
 </section>
 <section id="technical-documentation" class="level2">
 <h2 class="anchored" data-anchor-id="technical-documentation">Technical Documentation</h2>
@@ -252,10 +251,9 @@ Figure&nbsp;3: 7-segment display resistor math
 <p>In order to attain current draw that fell within the recommended operating conditions of 5 - 20 mA, Ohm’s Law was applied to ultimately determine that any resistors ranging from 20 Ω to 240 Ω were acceptable to use. For the sake of equal brightness across all segments, seven 160 Ω-resistors were integrated into the <a href="#fig-schematic">Figure 2</a> schematic.</p>
 </section>
 </section>
-<section id="results-and-discussion" class="level2">
-<h2 class="anchored" data-anchor-id="results-and-discussion">Results and Discussion</h2>
-<p>[Did you accomplish all of the prescribed tasks? If not, what are the shortcomings? How might you address them given more time? As appropriate, how did the design perform (e.g., How fast/accurate/reliable was it?).]</p>
-<p>The results of Lab 1 can be viewed in the <a href="#fig-video">Figure 4</a> below:</p>
+<section id="sec-results-and-discussion" class="level2">
+<h2 class="anchored" data-anchor-id="sec-results-and-discussion">Results and Discussion</h2>
+<p>The results of Lab 1 can be viewed in <a href="#fig-video">Figure 4</a> below:</p>
 <div id="fig-video" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-video-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -266,7 +264,7 @@ Figure&nbsp;4: Demo Video
 </figcaption>
 </figure>
 </div>
-<p>Evidently, all prescribed tasks were successfully accomplished, and te design performed quickly and reliably. Additonally, the oscilloscope trace from <a href="#fig-oscope-trace">Figure 5</a> verifies that one of the on-board LEDs did, in fact, flash at a constant rate of 2.4 Hz.</p>
+<p>Evidently, all prescribed tasks were successfully accomplished, and the design performed quickly and reliably. Additionally, the oscilloscope trace from <a href="#fig-oscope-trace">Figure 5</a> verified that one of the on-board LEDs did, in fact, flash at a constant rate of 2.4 Hz.</p>
 <div id="fig-oscope-trace" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-oscope-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -326,6 +324,7 @@ Figure&nbsp;6: Simulation Waveforms
 </figcaption>
 </figure>
 </div>
+<p>Moreover, the identical waveforms in <a href="#fig-on-board-leds-waveforms">Figures 6a</a>, <a href="#fig-seven-segment-display-waveforms">6b</a>, and <a href="#fig-lab1-waveforms">6c</a>, as well as the terminal output of the cumulative, top module tests depicted in <a href="#fig-transcript">Figure 7</a>, further prove that everything was working as intended.</p>
 <div id="fig-transcript" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-transcript-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -336,16 +335,18 @@ Figure&nbsp;7: Top module transcript results
 </figcaption>
 </figure>
 </div>
-<p>Moreover, the identical waveforms in <a href="#fig-on-board-leds-waveforms">Figures 6a</a>, <a href="#fig-seven-segment-display-waveforms">6b</a>, and <a href="#fig-lab1-waveforms">6c</a>, as well as the terminal output of the cumulative, top module tests depicted in <a href="#fig-transcript">Figure 7</a>, further prove that everything was working as intended.</p>
 </section>
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
-<p>[Briefly summarize what was done and how it performed. Also note how many hours you spent working on the lab.]</p>
+<p>In summary, the design flashed one on-board LED at a consistent 2.4 Hz, and configured four slide-switches with two other LEDs to create a XOR gate and AND gate, respectively. Furthermore, those same slide-switches successfully replicated every single hexadecimal digit on a 7-segment display, with each number sharing equal brightness. A total of approximately 25 hours was spent working on this lab.</p>
 </section>
 <section id="ai-prototype" class="level2">
 <h2 class="anchored" data-anchor-id="ai-prototype">AI Prototype</h2>
 <p>[Include generated code, easy-to-read chat transcripts, and a reflection on how well it worked.]</p>
+<p>Write up a few paragraphs reflecting on your experience using the LLM to help you code. Feel free to make full use of screenshots, code snippets, and other media as you write your reflections.</p>
+<p>Here are a few ideas of on what you might comment on:</p>
+<p>How would you rate the quality of the output and why? What SystemVerilog constructs/syntax did the LLM generated that were new to you? Did the LLM-generated code synthesize the first time around? If not, what were the issues? What error or warning messages did Radiant output? What would you do differently the next time you use an LLM in your workflow?</p>
 
 
 </section>
