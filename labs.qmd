@@ -7,7 +7,9 @@ Assembled the development board for the course and verified the MCU and FPGA's r
 Programmed the FPGA with behavioral Verilog to blink on-board LEDs according to slide-switch positions and interface a 7-segment display, such that it would display hexadecimal digits 0x0 through 0xF.
 
 ## Lab 2: [Multiplexed 7-Segment Display](labs/lab2/lab2.qmd)
-[Lab Overview]
+Implemented a time-multiplexing scheme to switch between displaying hexadecimal digits 0x0 through 0xF on two separate 7-segment displays, at such a frequency that the switch would be imperceptible to the human eye.
+Utilized transistors to drive large currents from the FPGA pins to the two 7-segment displays.
+Interfaced the FPGA with five external LEDs, such that they would display the sum of the two hexadecimal digits at any given point in time.
 
 ## Lab 3: [Keypad Scanner](labs/lab3/lab3.qmd)
 [Lab Overview]
