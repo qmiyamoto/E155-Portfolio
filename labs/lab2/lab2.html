@@ -40,6 +40,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-dfb324f25d9b1687192fa8be62ac8f9c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -151,8 +154,26 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#sec-intro" id="toc-sec-intro" class="nav-link active" data-scroll-target="#sec-intro">Introduction</a></li>
+  <li><a href="#design-and-testing-methodology" id="toc-design-and-testing-methodology" class="nav-link" data-scroll-target="#design-and-testing-methodology">Design and Testing Methodology</a></li>
+  <li><a href="#technical-documentation" id="toc-technical-documentation" class="nav-link" data-scroll-target="#technical-documentation">Technical Documentation</a>
+  <ul class="collapse">
+  <li><a href="#block-diagram" id="toc-block-diagram" class="nav-link" data-scroll-target="#block-diagram">Block Diagram</a></li>
+  <li><a href="#schematic" id="toc-schematic" class="nav-link" data-scroll-target="#schematic">Schematic</a></li>
+  </ul></li>
+  <li><a href="#sec-results-and-discussion" id="toc-sec-results-and-discussion" class="nav-link" data-scroll-target="#sec-results-and-discussion">Results and Discussion</a>
+  <ul class="collapse">
+  <li><a href="#testbench-simulation" id="toc-testbench-simulation" class="nav-link" data-scroll-target="#testbench-simulation">Testbench Simulation</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#ai-prototype" id="toc-ai-prototype" class="nav-link" data-scroll-target="#ai-prototype">AI Prototype</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -176,8 +197,136 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="sec-intro" class="level2">
+<h2 class="anchored" data-anchor-id="sec-intro">Introduction</h2>
+</section>
+<section id="design-and-testing-methodology" class="level2">
+<h2 class="anchored" data-anchor-id="design-and-testing-methodology">Design and Testing Methodology</h2>
+</section>
+<section id="technical-documentation" class="level2">
+<h2 class="anchored" data-anchor-id="technical-documentation">Technical Documentation</h2>
+<p>The source code for this project can be found in the associated <a href="https://github.com/qmiyamoto/E155-Labs/tree/main/lab2">GitHub repository folder</a>.</p>
+<section id="block-diagram" class="level3">
+<h3 class="anchored" data-anchor-id="block-diagram">Block Diagram</h3>
+<div id="fig-block-diagram" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-block-diagram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/lab2_block_diagram.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-block-diagram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Block diagram of Verilog design
+</figcaption>
+</figure>
+</div>
+<p>The block diagram in <a href="#fig-block-diagram">Figure 1</a> depicts the general architecture implied by the SystemVerilog code.</p>
+</section>
+<section id="schematic" class="level3">
+<h3 class="anchored" data-anchor-id="schematic">Schematic</h3>
+<div id="fig-schematic" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/lab2_schematic.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Schematic of physical circuit
+</figcaption>
+</figure>
+</div>
+<div id="fig-resistor-math" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-resistor-math-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/seven_segment_display_resistors_math.png" class="img-fluid figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-resistor-math-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: 7-segment display resistor math
+</figcaption>
+</figure>
+</div>
+<p>In order to attain current draw that fell within the recommended operating conditions of 5 - 20 mA, Ohm’s Law was applied to ultimately determine that any resistors ranging from 20 Ω to 240 Ω were acceptable to use. For the sake of equal brightness across all segments, seven 160 Ω-resistors were integrated into the <a href="#fig-schematic">Figure 2</a> schematic.</p>
+</section>
+</section>
+<section id="sec-results-and-discussion" class="level2">
+<h2 class="anchored" data-anchor-id="sec-results-and-discussion">Results and Discussion</h2>
+<p>The results of Lab 1 can be viewed in <a href="#fig-video">Figure 4</a> below:</p>
+<div id="fig-video" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-video-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/lFI4YDr35Zc?feature=shared" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-video-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Demo Video
+</figcaption>
+</figure>
+</div>
+<section id="testbench-simulation" class="level3">
+<h3 class="anchored" data-anchor-id="testbench-simulation">Testbench Simulation</h3>
+<div id="fig-waveforms" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-waveforms" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-time-multiplexer-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-time-multiplexer-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/time_multiplexer_waveforms_2.png" class="lightbox" data-gallery="fig-waveforms" title="Figure&nbsp;5&nbsp;(a): Time multiplexer"><img src="images/time_multiplexer_waveforms_2.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-time-multiplexer-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Time multiplexer
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-waveforms" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-leds-sum-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-leds-sum-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/leds_sum_waveforms_2.png" class="lightbox" data-gallery="fig-waveforms" title="Figure&nbsp;5&nbsp;(b): LEDs sum"><img src="images/leds_sum_waveforms_2.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-leds-sum-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) LEDs sum
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-waveforms" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-lab2-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-lab2-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/lab2_waveforms_2.png" class="lightbox" data-gallery="fig-waveforms" title="Figure&nbsp;5&nbsp;(c): Top module"><img src="images/lab2_waveforms_2.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-lab2-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Top module
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Simulation Waveforms
+</figcaption>
+</figure>
+</div>
+<div id="fig-seven-segment-display-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-seven-segment-display-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/seven_segment_display_waveforms.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;6: 7-segment display"><img src="images/seven_segment_display_waveforms.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-seven-segment-display-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: 7-segment display
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+</section>
+<section id="ai-prototype" class="level2">
+<h2 class="anchored" data-anchor-id="ai-prototype">AI Prototype</h2>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -580,6 +729,38 @@ ul.task-list li input[type="checkbox"] {
   });
   </script>
 </div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 

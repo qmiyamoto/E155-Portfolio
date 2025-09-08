@@ -63,6 +63,41 @@
     "text": "Lab 7: The Advanced Encryption Standard\n[Lab Overview]"
   },
   {
+    "objectID": "labs/lab2/lab2.html#design-and-testing-methodology",
+    "href": "labs/lab2/lab2.html#design-and-testing-methodology",
+    "title": "Lab 2: Multiplexed 7-Segment Display",
+    "section": "Design and Testing Methodology",
+    "text": "Design and Testing Methodology"
+  },
+  {
+    "objectID": "labs/lab2/lab2.html#technical-documentation",
+    "href": "labs/lab2/lab2.html#technical-documentation",
+    "title": "Lab 2: Multiplexed 7-Segment Display",
+    "section": "Technical Documentation",
+    "text": "Technical Documentation\nThe source code for this project can be found in the associated GitHub repository folder.\n\nBlock Diagram\n\n\n\n\n\n\nFigure 1: Block diagram of Verilog design\n\n\n\nThe block diagram in Figure 1 depicts the general architecture implied by the SystemVerilog code.\n\n\nSchematic\n\n\n\n\n\n\nFigure 2: Schematic of physical circuit\n\n\n\n\n\n\n\n\n\nFigure 3: 7-segment display resistor math\n\n\n\nIn order to attain current draw that fell within the recommended operating conditions of 5 - 20 mA, Ohm’s Law was applied to ultimately determine that any resistors ranging from 20 Ω to 240 Ω were acceptable to use. For the sake of equal brightness across all segments, seven 160 Ω-resistors were integrated into the Figure 2 schematic."
+  },
+  {
+    "objectID": "labs/lab2/lab2.html#sec-results-and-discussion",
+    "href": "labs/lab2/lab2.html#sec-results-and-discussion",
+    "title": "Lab 2: Multiplexed 7-Segment Display",
+    "section": "Results and Discussion",
+    "text": "Results and Discussion\nThe results of Lab 1 can be viewed in Figure 4 below:\n\n\n\n\n\n\nFigure 4: Demo Video\n\n\n\n\nTestbench Simulation\n\n\n\n\n\n\n\n\n\n\n\n(a) Time multiplexer\n\n\n\n\n\n\n\n\n\n\n\n(b) LEDs sum\n\n\n\n\n\n\n\n\n\n\n\n(c) Top module\n\n\n\n\n\n\n\nFigure 5: Simulation Waveforms\n\n\n\n\n\n\n\n\n\nFigure 6: 7-segment display"
+  },
+  {
+    "objectID": "labs/lab2/lab2.html#conclusion",
+    "href": "labs/lab2/lab2.html#conclusion",
+    "title": "Lab 2: Multiplexed 7-Segment Display",
+    "section": "Conclusion",
+    "text": "Conclusion"
+  },
+  {
+    "objectID": "labs/lab2/lab2.html#ai-prototype",
+    "href": "labs/lab2/lab2.html#ai-prototype",
+    "title": "Lab 2: Multiplexed 7-Segment Display",
+    "section": "AI Prototype",
+    "text": "AI Prototype"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "E155 Portfolio",
