@@ -32,7 +32,7 @@ For the sake of equal brightness across all segments, seven 160 Ω-resistors wer
 The results of Lab 1 can be viewed in [Figure 4](#fig-video) below:
 
 ::: {#fig-video}
-{{< video https://youtu.be/lFI4YDr35Zc?feature=shared >}}
+{{< video https://youtu.be/bY7URAfzgxI?feature=shared >}}
 
 Demo Video
 :::
