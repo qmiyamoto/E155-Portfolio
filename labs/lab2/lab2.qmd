@@ -1,3 +1,53 @@
 ---
 title: "Lab 2: Multiplexed 7-Segment Display"
 ---
+
+## Introduction {#sec-intro}
+
+
+## Design and Testing Methodology
+
+
+## Technical Documentation
+The source code for this project can be found in the associated [GitHub repository folder](https://github.com/qmiyamoto/E155-Labs/tree/main/lab2).
+
+### Block Diagram
+![Block diagram of Verilog design](images/lab2_block_diagram.png){#fig-block-diagram}
+
+The block diagram in [Figure 1](#fig-block-diagram) depicts the general architecture implied by the SystemVerilog code.
+
+### Schematic
+![Schematic of physical circuit](images/lab2_schematic.png){#fig-schematic}
+
+![7-segment display resistor math](images/seven_segment_display_resistors_math.png){#fig-resistor-math width=60%}
+
+In order to attain current draw that fell within the recommended operating conditions of 5 - 20 mA, Ohm's Law was applied to ultimately determine that any resistors ranging from 20 Ω to 240 Ω were acceptable to use.
+For the sake of equal brightness across all segments, seven 160 Ω-resistors were integrated into the [Figure 2](#fig-schematic) schematic.
+
+## Results and Discussion {#sec-results-and-discussion}
+The results of Lab 1 can be viewed in [Figure 4](#fig-video) below:
+
+::: {#fig-video}
+{{< video https://youtu.be/lFI4YDr35Zc?feature=shared >}}
+
+Demo Video
+:::
+
+### Testbench Simulation
+
+::: {#fig-waveforms layout-ncol=3}
+![Time multiplexer](images/time_multiplexer_waveforms_2.png){#fig-time-multiplexer-waveforms .lightbox}
+
+![LEDs sum](images/leds_sum_waveforms_2.png){#fig-leds-sum-waveforms .lightbox}
+
+![Top module](images/lab2_waveforms_2.png){#fig-lab2-waveforms .lightbox}
+
+Simulation Waveforms
+:::
+
+![7-segment display](images/seven_segment_display_waveforms.png){#fig-seven-segment-display-waveforms .lightbox}
+
+## Conclusion
+
+
+## AI Prototype
