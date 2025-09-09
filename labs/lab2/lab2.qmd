@@ -29,9 +29,20 @@ The source code for this project can be found in the associated [GitHub reposito
 ![Block diagram of Verilog design](images/lab2_block_diagram.png){#fig-block-diagram}
 
 The block diagram in [Figure 1](#fig-block-diagram) depicts the general architecture implied by the SystemVerilog code.
+The top-level module, titled "*lab2_qm*," comprises a high-speed oscillator module that generates an *internal_oscillator* signal that supplies a clock for the following "*time_multiplexer*" module, which alternates the activation status of the two transistors.
+That module is then followed by a mux, which chooses which set of four switch inputs to send to the "*seven_segment_display*" module and recreate hexadecimal digits, depending on the transistor that is on at the time; "*seven_segment_display*" can only handle four switch inputs at once, as it is an exact copy of the [Lab 1](../lab1/lab1.qmd) one's design.
+Finally, the "*leds_sum*" module adds the two hexadecimal digits together and conveys the binary sum accordingly.
 
 ### Schematic
 ![Schematic of physical circuit](images/lab2_schematic.png){#fig-schematic}
+
+
+
+The [Figure 2](#fig-schematic) schematic outlines how the physical components actually connect.
+More explicitly, the UPduino_v3.1 FPGA pins demonstrably feed and receive information from both the on-board elements — including a push-button, four slide-switches, three LEDs, and corresponding resistors of pre-determined 1 kΩ values — and the external MAN6460 7-segment display.
+Note that the values of the resistors connected to the 7-segment display were calculated by doing the following computations in [Figure 3](#fig-resistor-math):
+
+
 
 ![7-segment display resistor math](){#fig-resistor-math width=60%}
 
