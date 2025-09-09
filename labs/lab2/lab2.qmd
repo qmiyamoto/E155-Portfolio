@@ -11,11 +11,11 @@ The sum of both hexadecimal digits at any given point in time was then communica
 ## Design and Testing Methodology
 Overall, there were two inputs — including a reset (*reset*) and the eight slide-switches (*switch[7:0]*) — to the design and three outputs — that controlled the five LEDs (*led[4:0]*), each segment of the 7-segment displays (*segment[6:0]*), and the two transistors (*transistor[1:0]*), respectively.
 
-As explained in [Lab 1](labs/lab1/lab1.qmd), the on-board high-speed oscillator, by default, produces a clock signal of 48 MHz.
+As explained in [Lab 1](../lab1/lab1.qmd), the on-board high-speed oscillator, by default, produces a clock signal of 48 MHz.
 By implementing a clock divider with a counter that would toggle one transistor on and the other off every time it reached 240,000 — because 48 MHz divided by the desired 100 Hz (as previously mentioned above) results in 480,000, and the toggling should take place twice a cycle (therefore dividing 480,000 by two to get 1240,000) — the time-multiplexing was able to occur at the correct frequency.
 Note that the value of 100 Hz was chosen arbitrarily at first, before being deemed acceptable after observing the physical circuit in action and being unable to identify any noticeable delay and bleeding.
 
-Regarding the 7-segment display design, as with [Lab 1](labs/lab1/lab1.qmd), each hexadecimal digit was intentionally designed to have a distinct appearance.
+Regarding the 7-segment display design, as with [Lab 1](../lab1/lab1.qmd), each hexadecimal digit was intentionally designed to have a distinct appearance.
 Because there were not enough FPGA pins to drive each segment individually across the two displays, there was simply one pin assigned to each *unique* pair of segments (for example, one pin would drive the bottom-left segments of both displays).
 Thanks to the lab's multiplexing design, this was able to be done with no confusion as to which pins should be activated when.
 
