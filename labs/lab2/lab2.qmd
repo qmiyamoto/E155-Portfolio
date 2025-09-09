@@ -3,11 +3,10 @@ title: "Lab 2: Multiplexed 7-Segment Display"
 ---
 
 ## Introduction {#sec-intro}
-In this lab, 
-
-Implemented a time-multiplexing scheme to switch between displaying hexadecimal digits 0x0 through 0xF on two separate 7-segment displays, at such a frequency that the switch would be imperceptible to the human eye.
-Utilized transistors to drive large currents from the FPGA pins to the two 7-segment displays.
-Interfaced the FPGA with five external LEDs, such that they would display the sum of the two hexadecimal digits at any given point in time.
+In this lab, a time-multiplexer was implemented to switch between supplying power to two separate 7-segment displays, both of which were supposed to present a different hexadecimal digit (ranging from 0x0 to 0xF), depending on the positions of the four slide-switches assigned to them, respectively.
+Additionally, the multiplexing was to occur so quickly that the change would be imperceptible to the human eye; in this case, the frequency chosen was 100 Hz, and was generated using the 48 MHz internal high-speed oscillator and a corresponding clock divider.
+To achieve this more complicated arrangement, two transistors were integrated into the circuit to drive the large current required to fully power the 7-segment displays with the FPGA pins that would not necessarily be able to do so otherwise.
+The sum of both hexadecimal digits at any given point in time was then communicated in binary across five green, externally-wired LEDs.
 
 ## Design and Testing Methodology
 
