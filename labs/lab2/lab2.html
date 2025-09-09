@@ -249,7 +249,7 @@ Figure&nbsp;3: PNP transistor and 7-segment display resistor math
 </figcaption>
 </figure>
 </div>
-<p>As specified in section 4.17 of the <a href="https://hmc-e155.github.io/assets/doc/FPGA-DS-02008-2-0-iCE40-UltraPlus-Family-Data-Sheet.pdf">ice40 datasheet</a> for the FPGA, the current flowing into each GPIO pin should ideally be 8 mA at <em>most</em>. Thus, to justify the the particular resistors chosen, Ohm’s Law was applied to each part of the zoomed-in segment of the main circuit, clearly demonstrating that all current draw fell within recommended operating conditions. Ultimately, for the sake of equal brightness across all segments, seven 160 Ω-resistors were integrated into the 7-segment display circuit, while both transistor bases received current-limiting resistors of 330 Ω. (Sources for the cited transistor information above comprise <a href="https://learn.sparkfun.com/tutorials/transistors/operation-modes">SparkFun Electronics</a> and <a href="https://www.glennklockwood.com/electronics/bipolar-junction-transistors.html">Glenn Lockwood</a>.)</p>
+<p>As specified in section 4.17 of the <a href="https://hmc-e155.github.io/assets/doc/FPGA-DS-02008-2-0-iCE40-UltraPlus-Family-Data-Sheet.pdf">ice40 datasheet</a> for the FPGA, the current flowing into each GPIO pin should ideally be 8 mA at <em>most</em>. Thus, to justify the the particular resistors chosen, Ohm’s Law was applied to each part of the zoomed-in segment of the main circuit, clearly demonstrating that all current draw fell within recommended operating conditions. Ultimately, for the sake of equal brightness across all segments, seven 160 Ω-resistors were integrated into the 7-segment display circuit, while both transistor bases received current-limiting resistors of 330 Ω. (Sources for the cited transistor information above comprise <a href="https://learn.sparkfun.com/tutorials/transistors/operation-modes">SparkFun Electronics</a> and <a href="https://www.glennklockwood.com/electronics/bipolar-junction-transistors.html">Glenn Lockwood</a>. Additionally, the <a href="https://hmc-e155.github.io/assets/doc/MAN64x0%20Series.pdf">7-segment display datasheet</a> was used to find the forward voltage necessary to complete the correct calculations.)</p>
 <p>Moreover, the use of one 330 Ω-resistor per green LED can be rationalized via the following <a href="#fig-led-resistor-math">Figure 4</a>:</p>
 <div id="fig-led-resistor-math" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -272,11 +272,11 @@ Figure&nbsp;4: Green LED resistor math
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/bY7URAfzgxI?feature=shared" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-video-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5: Demo Video
+Figure&nbsp;5: Demo video
 </figcaption>
 </figure>
 </div>
-<p>Evidently, KDSFJKLSDJFKJDS</p>
+<p>Evidently, all requirements were met. While the camera could detect some flickering that the naked human eye cannot perceive, it can still be conclusively said that the design was extremely effective.</p>
 <section id="testbench-simulation" class="level3">
 <h3 class="anchored" data-anchor-id="testbench-simulation">Testbench Simulation</h3>
 <div id="fig-waveforms" class="quarto-layout-panel">
@@ -322,20 +322,34 @@ Figure&nbsp;5: Demo Video
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6: Simulation Waveforms
+Figure&nbsp;6: Simulation waveforms
 </figcaption>
 </figure>
 </div>
+<p>The waveforms in Figures <a href="#fig-time-multiplexer-waveforms">6a</a>, <a href="#fig-leds-sum-waveforms">6b</a>, and <a href="#fig-lab2-waveforms">6c</a> further verify that the design was working exactly as intended; the time-multiplexing module toggles both transistors on and off at opposite times, the sums displayed across the LEDs always match the expected outcomes, and the top module hooks everything up to change with both the switch inputs and transistor activations as necessary.</p>
+<p>To go more in depth about the top module waveforms, first note that the switch inputs are not changing at the exact same time as the transistors. This was intended to model more real-world behavior, in which someone would never realistically be moving the switches directly in sync with the rising edge of the internal clock. Furthermore, there is a small, indiscernible region around the 5,000,000 ns mark. This can be viewed more clearly in <a href="#fig-lab2-waveforms-zoomed-in">Figure 7</a> as follows:</p>
+<div id="fig-lab2-waveforms-zoomed-in" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-lab2-waveforms-zoomed-in-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/lab2_waveforms_zoomed_in.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lab2-waveforms-zoomed-in-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Top module waveforms, zoomed in
+</figcaption>
+</figure>
+</div>
+<p>As can be observed in the <a href="#fig-block-diagram">Figure 1</a> block diagram, there was also a 7-segment display module used that — by proper verification standards — should have been simulated. It can be seen in <a href="#fig-seven-segment-display">Figure 8</a> below. Note that it is the exact same as the 7-segment display module used in <a href="../../labs/lab1/lab1.html">Lab 1</a>.</p>
 <div id="fig-seven-segment-display-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-seven-segment-display-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/seven_segment_display_waveforms_2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;7: 7-segment display"><img src="images/seven_segment_display_waveforms_2.png" class="img-fluid figure-img"></a>
+<a href="images/seven_segment_display_waveforms_2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;8: 7-segment display"><img src="images/seven_segment_display_waveforms_2.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-seven-segment-display-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7: 7-segment display
+Figure&nbsp;8: 7-segment display
 </figcaption>
 </figure>
 </div>
+<p>All testbenches and simulations passed without the presence of any error messages.</p>
 </section>
 </section>
 <section id="conclusion" class="level2">
