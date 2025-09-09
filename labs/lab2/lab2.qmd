@@ -46,7 +46,8 @@ Regarding the latter, firstly, note that the values of the resistors connected t
 As specified in section 4.17 of the [ice40 datasheet](https://hmc-e155.github.io/assets/doc/FPGA-DS-02008-2-0-iCE40-UltraPlus-Family-Data-Sheet.pdf) for the FPGA, the current flowing into each GPIO pin should ideally be 8 mA at *most*.
 Thus, to justify the the particular resistors chosen, Ohm's Law was applied to each part of the zoomed-in segment of the main circuit, clearly demonstrating that all current draw fell within recommended operating conditions.
 Ultimately, for the sake of equal brightness across all segments, seven 160 Ω-resistors were integrated into the 7-segment display circuit, while both transistor bases received current-limiting resistors of 330 Ω.
-(Sources for the cited transistor information above comprise [SparkFun Electronics](https://learn.sparkfun.com/tutorials/transistors/operation-modes) and [Glenn Lockwood](https://www.glennklockwood.com/electronics/bipolar-junction-transistors.html).)
+(Sources for the cited transistor information above comprise [SparkFun Electronics](https://learn.sparkfun.com/tutorials/transistors/operation-modes) and [Glenn Lockwood](https://www.glennklockwood.com/electronics/bipolar-junction-transistors.html).
+Additionally, the [7-segment display datasheet](https://hmc-e155.github.io/assets/doc/MAN64x0%20Series.pdf) was used to find the forward voltage necessary to complete the correct calculations.)
 
 Moreover, the use of one 330 Ω-resistor per green LED can be rationalized via the following [Figure 4](#fig-led-resistor-math):
 
@@ -76,18 +77,22 @@ While the camera could detect some flickering that the naked human eye cannot pe
 Simulation waveforms
 :::
 
+The waveforms in Figures [6a](#fig-time-multiplexer-waveforms), [6b](#fig-leds-sum-waveforms), and [6c](#fig-lab2-waveforms) further verify that the design was working exactly as intended; the time-multiplexing module toggles both transistors on and off at opposite times, the sums displayed across the LEDs always match the expected outcomes, and the top module hooks everything up to change with both the switch inputs and transistor activations as necessary.
 
-::: {#fig-waveforms layout-ncol=3}
-![Time multiplexer](images/time_multiplexer_waveforms_2.png){#fig-time-multiplexer-waveforms .lightbox}
+To go more in depth about the top module waveforms, first note that the switch inputs are not changing at the exact same time as the transistors.
+This was intended to model more real-world behavior, in which someone would never realistically be moving the switches directly in sync with the rising edge of the internal clock.
+Furthermore, there is a small, indiscernible region around the 5,000,000 ns mark.
+This can be viewed more clearly in [Figure 7](#fig-lab2-waveforms-zoomed-in) as follows:
 
-![LEDs sum](images/leds_sum_waveforms_2.png){#fig-leds-sum-waveforms .lightbox}
+![Top module waveforms, zoomed in](images/lab2_waveforms_zoomed_in.png){#fig-lab2-waveforms-zoomed-in}
 
-![Top module](images/lab2_waveforms_2.png){#fig-lab2-waveforms .lightbox}
-
- waveforms
-:::
+As can be observed in the [Figure 1](#fig-block-diagram) block diagram, there was also a 7-segment display module used that — by proper verification standards — should have been simulated.
+It can be seen in [Figure 8](#fig-seven-segment-display) below.
+Note that it is the exact same as the 7-segment display module used in [Lab 1](../lab1/lab1.qmd).
 
 ![7-segment display](images/seven_segment_display_waveforms_2.png){#fig-seven-segment-display-waveforms .lightbox}
+
+All testbenches and simulations passed without the presence of any error messages.
 
 ## Conclusion
 In summary, the design toggled two 7-segment displays on and off at a constant 100 Hz with the help of transistors, such that they would always appear to depict two hexadecimal digits at once.
