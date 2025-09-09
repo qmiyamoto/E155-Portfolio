@@ -223,7 +223,7 @@ Figure&nbsp;1: Block diagram of Verilog design
 </figcaption>
 </figure>
 </div>
-<p>The block diagram in <a href="#fig-block-diagram">Figure 1</a> depicts the general architecture implied by the SystemVerilog code.</p>
+<p>The block diagram in <a href="#fig-block-diagram">Figure 1</a> depicts the general architecture implied by the SystemVerilog code. The top-level module, titled “<em>lab2_qm</em>,” comprises a high-speed oscillator module that generates an <em>internal_oscillator</em> signal that supplies a clock for the following “<em>time_multiplexer</em>” module, which alternates the activation status of the two transistors. That module is then followed by a mux, which chooses which set of four switch inputs to send to the “<em>seven_segment_display</em>” module and recreate hexadecimal digits, depending on the transistor that is on at the time; “<em>seven_segment_display</em>” can only handle four switch inputs at once, as it is an exact copy of the <a href="../../labs/lab1/lab1.html">Lab 1</a> one’s design. Finally, the “<em>leds_sum</em>” module adds the two hexadecimal digits together and conveys the binary sum accordingly.</p>
 </section>
 <section id="schematic" class="level3">
 <h3 class="anchored" data-anchor-id="schematic">Schematic</h3>
@@ -237,6 +237,7 @@ Figure&nbsp;2: Schematic of physical circuit
 </figcaption>
 </figure>
 </div>
+<p>The <a href="#fig-schematic">Figure 2</a> schematic outlines how the physical components actually connect. More explicitly, the UPduino_v3.1 FPGA pins demonstrably feed and receive information from both the on-board elements — including a push-button, four slide-switches, three LEDs, and corresponding resistors of pre-determined 1 kΩ values — and the external MAN6460 7-segment display. Note that the values of the resistors connected to the 7-segment display were calculated by doing the following computations in <a href="#fig-resistor-math">Figure 3</a>:</p>
 <div id="fig-resistor-math" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-resistor-math-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
