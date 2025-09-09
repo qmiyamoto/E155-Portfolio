@@ -73,7 +73,9 @@ Simulation Waveforms
 ![7-segment display](images/seven_segment_display_waveforms_2.png){#fig-seven-segment-display-waveforms .lightbox}
 
 ## Conclusion
-
+In summary, the design toggled two 7-segment displays on and off at a constant 100 Hz with the help of transistors, such that they would always appear to depict two hexadecimal digits at once.
+These 7-segment displays were properly interfaced with four slide-switches each (for a total of eight slide-switches incorporated into the circuit overall), with the respective outputs dependent on the positions of said switches.
+Furthermore, the sum of both digits was consistently depicted in binary across five LEDs.
 A total of approximately 12 hours was spent working on this lab.
 
 ## AI Prototype
