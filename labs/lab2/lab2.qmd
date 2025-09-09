@@ -36,27 +36,32 @@ Finally, the "*leds_sum*" module adds the two hexadecimal digits together and co
 ### Schematic
 ![Schematic of physical circuit](images/lab2_schematic.png){#fig-schematic}
 
-
-
 The [Figure 2](#fig-schematic) schematic outlines how the physical components actually connect.
-More explicitly, the UPduino_v3.1 FPGA pins demonstrably feed and receive information from both the on-board elements — including a push-button, four slide-switches, three LEDs, and corresponding resistors of pre-determined 1 kΩ values — and the external MAN6460 7-segment display.
-Note that the values of the resistors connected to the 7-segment display were calculated by doing the following computations in [Figure 3](#fig-resistor-math):
+More explicitly, the UPduino_v3.1 FPGA pins demonstrably feed and receive information from both the on-board elements — including a push-button and four slide-switches — and the external MAN6410 7-segment displays, two 2N3906 PNP transistors, four additional slide-switches, five LEDs, and resistors of variable values.
 
+Regarding the latter, firstly, note that the values of the resistors connected to the two transistors and the two 7-segment displays, respectively, were picked after doing the computations depicted in [Figure 3](#fig-transistor-and-7-segment-resistor-math) below:
 
+![PNP transistor and 7-segment display resistor math](images/transistor_and_seven_segment_display_resistor_math.png){#fig-transistor-and-7-segment-resistor-math}
 
-![7-segment display resistor math](){#fig-resistor-math width=60%}
+As specified in section 4.17 of the [ice40 datasheet](https://hmc-e155.github.io/assets/doc/FPGA-DS-02008-2-0-iCE40-UltraPlus-Family-Data-Sheet.pdf) for the FPGA, the current flowing into each GPIO pin should ideally be 8 mA at *most*.
+Thus, to justify the the particular resistors chosen, Ohm's Law was applied to each part of the zoomed-in segment of the main circuit, clearly demonstrating that all current draw fell within recommended operating conditions.
+Ultimately, for the sake of equal brightness across all segments, seven 160 Ω-resistors were integrated into the 7-segment display circuit, while both transistor bases received current-limiting resistors of 330 Ω.
+(Sources for the cited transistor information above comprise [SparkFun Electronics](https://learn.sparkfun.com/tutorials/transistors/operation-modes) and [Glenn Lockwood](https://www.glennklockwood.com/electronics/bipolar-junction-transistors.html).)
 
-In order to attain current draw that fell within the recommended operating conditions of 5 - 20 mA, Ohm's Law was applied to ultimately determine that any resistors ranging from 20 Ω to 240 Ω were acceptable to use.
-For the sake of equal brightness across all segments, seven 160 Ω-resistors were integrated into the [Figure 2](#fig-schematic) schematic.
+Moreover, the use of one 330 Ω-resistor per green LED can be rationalized via the following [Figure 4](#fig-led-resistor-math):
+
+![Green LED resistor math](images/leds_resistor_math.png){#fig-led-resistor-math width=50%}
 
 ## Results and Discussion {#sec-results-and-discussion}
-The results of Lab 1 can be viewed in [Figure 4](#fig-video) below:
+The results of Lab 2 can be viewed in [Figure 5](#fig-video) below:
 
 ::: {#fig-video}
 {{< video https://youtu.be/bY7URAfzgxI?feature=shared >}}
 
 Demo Video
 :::
+
+Evidently, KDSFJKLSDJFKJDS
 
 ### Testbench Simulation
 
