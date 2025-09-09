@@ -58,10 +58,11 @@ The results of Lab 2 can be viewed in [Figure 5](#fig-video) below:
 ::: {#fig-video}
 {{< video https://youtu.be/bY7URAfzgxI?feature=shared >}}
 
-Demo Video
+Demo video
 :::
 
-Evidently, KDSFJKLSDJFKJDS
+Evidently, all requirements were met.
+While the camera could detect some flickering that the naked human eye cannot perceive, it can still be conclusively said that the design was extremely effective.
 
 ### Testbench Simulation
 
@@ -72,7 +73,18 @@ Evidently, KDSFJKLSDJFKJDS
 
 ![Top module](images/lab2_waveforms_2.png){#fig-lab2-waveforms .lightbox}
 
-Simulation Waveforms
+Simulation waveforms
+:::
+
+
+::: {#fig-waveforms layout-ncol=3}
+![Time multiplexer](images/time_multiplexer_waveforms_2.png){#fig-time-multiplexer-waveforms .lightbox}
+
+![LEDs sum](images/leds_sum_waveforms_2.png){#fig-leds-sum-waveforms .lightbox}
+
+![Top module](images/lab2_waveforms_2.png){#fig-lab2-waveforms .lightbox}
+
+ waveforms
 :::
 
 ![7-segment display](images/seven_segment_display_waveforms_2.png){#fig-seven-segment-display-waveforms .lightbox}

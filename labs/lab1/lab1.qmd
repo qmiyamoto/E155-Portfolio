@@ -47,7 +47,7 @@ The results of Lab 1 can be viewed in [Figure 4](#fig-video) below:
 ::: {#fig-video}
 {{< video https://youtu.be/52ylZh-mB_w?feature=shared >}}
 
-Demo Video
+Demo video
 :::
 
 Evidently, all prescribed tasks were successfully accomplished, and the design performed quickly and reliably.
@@ -63,7 +63,7 @@ Additionally, the oscilloscope trace from [Figure 5](#fig-oscope-trace) verified
 
 ![Top module](images/lab1_waveforms.png){#fig-lab1-waveforms .lightbox}
 
-Simulation Waveforms
+Simulation waveforms
 :::
 
 Moreover, the identical waveforms in [Figures 6a](#fig-on-board-leds-waveforms), [6b](#fig-seven-segment-display-waveforms), and [6c](#fig-lab1-waveforms), as well as the terminal output of the cumulative, top module tests depicted in [Figure 7](#fig-transcript), further prove that everything was working as intended.
