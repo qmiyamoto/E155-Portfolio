@@ -237,33 +237,46 @@ Figure&nbsp;2: Schematic of physical circuit
 </figcaption>
 </figure>
 </div>
-<p>The <a href="#fig-schematic">Figure 2</a> schematic outlines how the physical components actually connect. More explicitly, the UPduino_v3.1 FPGA pins demonstrably feed and receive information from both the on-board elements — including a push-button, four slide-switches, three LEDs, and corresponding resistors of pre-determined 1 kΩ values — and the external MAN6460 7-segment display. Note that the values of the resistors connected to the 7-segment display were calculated by doing the following computations in <a href="#fig-resistor-math">Figure 3</a>:</p>
-<div id="fig-resistor-math" class="quarto-float quarto-figure quarto-figure-center anchored">
+<p>The <a href="#fig-schematic">Figure 2</a> schematic outlines how the physical components actually connect. More explicitly, the UPduino_v3.1 FPGA pins demonstrably feed and receive information from both the on-board elements — including a push-button and four slide-switches — and the external MAN6410 7-segment displays, two 2N3906 PNP transistors, four additional slide-switches, five LEDs, and resistors of variable values.</p>
+<p>Regarding the latter, firstly, note that the values of the resistors connected to the two transistors and the two 7-segment displays, respectively, were picked after doing the computations depicted in <a href="#fig-transistor-and-7-segment-resistor-math">Figure 3</a> below:</p>
+<div id="fig-transistor-and-7-segment-resistor-math" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-resistor-math-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src=".png" class="img-fluid figure-img" style="width:60.0%">
+<div aria-describedby="fig-transistor-and-7-segment-resistor-math-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/transistor_and_seven_segment_display_resistor_math.png" class="img-fluid figure-img">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-resistor-math-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: 7-segment display resistor math
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-transistor-and-7-segment-resistor-math-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: PNP transistor and 7-segment display resistor math
 </figcaption>
 </figure>
 </div>
-<p>In order to attain current draw that fell within the recommended operating conditions of 5 - 20 mA, Ohm’s Law was applied to ultimately determine that any resistors ranging from 20 Ω to 240 Ω were acceptable to use. For the sake of equal brightness across all segments, seven 160 Ω-resistors were integrated into the <a href="#fig-schematic">Figure 2</a> schematic.</p>
+<p>As specified in section 4.17 of the <a href="https://hmc-e155.github.io/assets/doc/FPGA-DS-02008-2-0-iCE40-UltraPlus-Family-Data-Sheet.pdf">ice40 datasheet</a> for the FPGA, the current flowing into each GPIO pin should ideally be 8 mA at <em>most</em>. Thus, to justify the the particular resistors chosen, Ohm’s Law was applied to each part of the zoomed-in segment of the main circuit, clearly demonstrating that all current draw fell within recommended operating conditions. Ultimately, for the sake of equal brightness across all segments, seven 160 Ω-resistors were integrated into the 7-segment display circuit, while both transistor bases received current-limiting resistors of 330 Ω. (Sources for the cited transistor information above comprise <a href="https://learn.sparkfun.com/tutorials/transistors/operation-modes">SparkFun Electronics</a> and <a href="https://www.glennklockwood.com/electronics/bipolar-junction-transistors.html">Glenn Lockwood</a>.)</p>
+<p>Moreover, the use of one 330 Ω-resistor per green LED can be rationalized via the following <a href="#fig-led-resistor-math">Figure 4</a>:</p>
+<div id="fig-led-resistor-math" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-led-resistor-math-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/leds_resistor_math.png" class="img-fluid figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-led-resistor-math-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Green LED resistor math
+</figcaption>
+</figure>
+</div>
 </section>
 </section>
 <section id="sec-results-and-discussion" class="level2">
 <h2 class="anchored" data-anchor-id="sec-results-and-discussion">Results and Discussion</h2>
-<p>The results of Lab 1 can be viewed in <a href="#fig-video">Figure 4</a> below:</p>
+<p>The results of Lab 2 can be viewed in <a href="#fig-video">Figure 5</a> below:</p>
 <div id="fig-video" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-video-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/bY7URAfzgxI?feature=shared" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-video-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: Demo Video
+Figure&nbsp;5: Demo Video
 </figcaption>
 </figure>
 </div>
+<p>Evidently, KDSFJKLSDJFKJDS</p>
 <section id="testbench-simulation" class="level3">
 <h3 class="anchored" data-anchor-id="testbench-simulation">Testbench Simulation</h3>
 <div id="fig-waveforms" class="quarto-layout-panel">
@@ -274,7 +287,7 @@ Figure&nbsp;4: Demo Video
 <div id="fig-time-multiplexer-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-time-multiplexer-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/time_multiplexer_waveforms_2.png" class="lightbox" data-gallery="fig-waveforms" title="Figure&nbsp;5&nbsp;(a): Time multiplexer"><img src="images/time_multiplexer_waveforms_2.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms"></a>
+<a href="images/time_multiplexer_waveforms_2.png" class="lightbox" data-gallery="fig-waveforms" title="Figure&nbsp;6&nbsp;(a): Time multiplexer"><img src="images/time_multiplexer_waveforms_2.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-time-multiplexer-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (a) Time multiplexer
@@ -286,7 +299,7 @@ Figure&nbsp;4: Demo Video
 <div id="fig-leds-sum-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-leds-sum-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/leds_sum_waveforms_2.png" class="lightbox" data-gallery="fig-waveforms" title="Figure&nbsp;5&nbsp;(b): LEDs sum"><img src="images/leds_sum_waveforms_2.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms"></a>
+<a href="images/leds_sum_waveforms_2.png" class="lightbox" data-gallery="fig-waveforms" title="Figure&nbsp;6&nbsp;(b): LEDs sum"><img src="images/leds_sum_waveforms_2.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-leds-sum-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (b) LEDs sum
@@ -298,7 +311,7 @@ Figure&nbsp;4: Demo Video
 <div id="fig-lab2-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-lab2-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/lab2_waveforms_2.png" class="lightbox" data-gallery="fig-waveforms" title="Figure&nbsp;5&nbsp;(c): Top module"><img src="images/lab2_waveforms_2.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms"></a>
+<a href="images/lab2_waveforms_2.png" class="lightbox" data-gallery="fig-waveforms" title="Figure&nbsp;6&nbsp;(c): Top module"><img src="images/lab2_waveforms_2.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-lab2-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (c) Top module
@@ -309,17 +322,17 @@ Figure&nbsp;4: Demo Video
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5: Simulation Waveforms
+Figure&nbsp;6: Simulation Waveforms
 </figcaption>
 </figure>
 </div>
 <div id="fig-seven-segment-display-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-seven-segment-display-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/seven_segment_display_waveforms_2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;6: 7-segment display"><img src="images/seven_segment_display_waveforms_2.png" class="img-fluid figure-img"></a>
+<a href="images/seven_segment_display_waveforms_2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;7: 7-segment display"><img src="images/seven_segment_display_waveforms_2.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-seven-segment-display-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6: 7-segment display
+Figure&nbsp;7: 7-segment display
 </figcaption>
 </figure>
 </div>
@@ -327,7 +340,7 @@ Figure&nbsp;6: 7-segment display
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
-<p>A total of approximately 12 hours was spent working on this lab.</p>
+<p>In summary, the design toggled two 7-segment displays on and off at a constant 100 Hz with the help of transistors, such that they would always appear to depict two hexadecimal digits at once. These 7-segment displays were properly interfaced with four slide-switches each (for a total of eight slide-switches incorporated into the circuit overall), with the respective outputs dependent on the positions of said switches. Furthermore, the sum of both digits was consistently depicted in binary across five LEDs. A total of approximately 12 hours was spent working on this lab.</p>
 </section>
 <section id="ai-prototype" class="level2">
 <h2 class="anchored" data-anchor-id="ai-prototype">AI Prototype</h2>
