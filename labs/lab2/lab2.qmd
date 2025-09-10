@@ -101,3 +101,24 @@ Furthermore, the sum of both digits was consistently depicted in binary across f
 A total of approximately 12 hours was spent working on this lab.
 
 ## AI Prototype
+Using ChatGPT to generate some code in response to the prompt "*Write SystemVerilog HDL to time multiplex a single seven segment decoder (that decodes from four bits to a common anode seven segment display) to decode two sets of input bits and drive two sets of seven output bits*," the LLM produced results that surprisingly synthesized;
+these can be viewed in the associated [GitHub repository folder](https://github.com/qmiyamoto/E155-Labs/tree/main/lab2/ai_prototype/lab2_ai_prototype_qm).
+Additionally, the full response can be seen in the public [chat transcript](https://chatgpt.com/share/68c0c066-8c70-800f-8646-0929d9f592bd).
+
+While the AI utilized a lot of unfamiliar code in its module, the general logic seemed to make sense.
+It used the same sort of counter-driven flip-flopped-toggle logic (see [Figure 9](#fig-ai-prototype-multiplexing-logic)) that was employed in the actual Lab 2 design to time-multiplex the two 7-segment displays, with a single set of case statements acting as a decoder, as requested.
+
+![AI's first attempt at multiplexing logic](images/ai_prototype_multiplexing_logic.png){#fig-ai-prototype-multiplexing-logic width=60%}
+
+Furthermore, in response to the second prompt, "*Write SystemVerilog HDL to time multiplex a single seven segment decoder (that decodes from four bits to a common anode seven segment display) to decode two sets of input bits and drive two sets of seven output bits. Use the seven segment decoder and oscillator provided in the attached files*," ChatGPT once again generated seemingly satisfactory results.
+The full response to this prompt can be seen in a second, entirely separate [chat transcript](https://chatgpt.com/share/68c0c24e-b0d8-8013-b01a-07c443321349).
+
+As with its first response, this new code also contained new Verilog idioms, but still synthesized on the first try.
+Upon closer inspection, it once again appeared that the AI's overall plan for tackling the prompt was correct.
+This time, it even provided a complementary top module for the code, albeit a somewhat unnecessary one, as shown in [Figure 10](#fig-ai-prototype-second-top-module) below:
+
+![AI's second attempt at creating a top module](images/ai_prototype_second_top_module.png){#fig-ai-prototype-second-top-module width=60%}
+
+Overall, the quality of the output was acceptable, as it seemed to be mostly accurate after a cursory glance.
+In general, using an LLM to write the Lab 2 was genuinely helpful; it gave both a solid approach to solving the problem and code that did not generate any immediate errors in response to attempted implementation.
+However, in future projects for which LLM assistance is required, asking for additional, more explanatory comments as to what the employed Verilog idioms mean might make its answers even more helpful.
