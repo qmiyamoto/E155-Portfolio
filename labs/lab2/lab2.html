@@ -358,6 +358,31 @@ Figure&nbsp;8: 7-segment display
 </section>
 <section id="ai-prototype" class="level2">
 <h2 class="anchored" data-anchor-id="ai-prototype">AI Prototype</h2>
+<p>Using ChatGPT to generate some code in response to the prompt “<em>Write SystemVerilog HDL to time multiplex a single seven segment decoder (that decodes from four bits to a common anode seven segment display) to decode two sets of input bits and drive two sets of seven output bits</em>,” the LLM produced results that surprisingly synthesized; these can be viewed in the associated <a href="https://github.com/qmiyamoto/E155-Labs/tree/main/lab2/ai_prototype/lab2_ai_prototype_qm">GitHub repository folder</a>. Additionally, the full response can be seen in the public <a href="https://chatgpt.com/share/68c0c066-8c70-800f-8646-0929d9f592bd">chat transcript</a>.</p>
+<p>While the AI utilized a lot of unfamiliar code in its module, the general logic seemed to make sense. It used the same sort of counter-driven flip-flopped-toggle logic (see <a href="#fig-ai-prototype-multiplexing-logic">Figure 9</a>) that was employed in the actual Lab 2 design to time-multiplex the two 7-segment displays, with a single set of case statements acting as a decoder, as requested.</p>
+<div id="fig-ai-prototype-multiplexing-logic" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ai-prototype-multiplexing-logic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/ai_prototype_multiplexing_logic.png" class="img-fluid figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ai-prototype-multiplexing-logic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: AI’s first attempt at multiplexing logic
+</figcaption>
+</figure>
+</div>
+<p>Furthermore, in response to the second prompt, “<em>Write SystemVerilog HDL to time multiplex a single seven segment decoder (that decodes from four bits to a common anode seven segment display) to decode two sets of input bits and drive two sets of seven output bits. Use the seven segment decoder and oscillator provided in the attached files</em>,” ChatGPT once again generated seemingly satisfactory results. The full response to this prompt can be seen in a second, entirely separate <a href="https://chatgpt.com/share/68c0c24e-b0d8-8013-b01a-07c443321349">chat transcript</a>.</p>
+<p>As with its first response, this new code also contained new Verilog idioms, but still synthesized on the first try. Upon closer inspection, it once again appeared that the AI’s overall plan for tackling the prompt was correct. This time, it even provided a complementary top module for the code, albeit a somewhat unnecessary one, as shown in <a href="#fig-ai-prototype-second-top-module">Figure 10</a> below:</p>
+<div id="fig-ai-prototype-second-top-module" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ai-prototype-second-top-module-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/ai_prototype_second_top_module.png" class="img-fluid figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ai-prototype-second-top-module-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10: AI’s second attempt at creating a top module
+</figcaption>
+</figure>
+</div>
+<p>Overall, the quality of the output was acceptable, as it seemed to be mostly accurate after a cursory glance. In general, using an LLM to write the Lab 2 was genuinely helpful; it gave both a solid approach to solving the problem and code that did not generate any immediate errors in response to attempted implementation. However, in future projects for which LLM assistance is required, asking for additional, more explanatory comments as to what the employed Verilog idioms mean might make its answers even more helpful.</p>
 
 
 </section>
