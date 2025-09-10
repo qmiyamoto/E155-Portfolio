@@ -117,8 +117,8 @@ As with its first response, this new code also contained new Verilog idioms, but
 Upon closer inspection, it once again appeared that the AI's overall plan for tackling the prompt was correct.
 This time, it even provided a complementary top module for the code, albeit a somewhat unnecessary one, as shown in [Figure 10](#fig-ai-prototype-second-top-module) below:
 
-![AI's second attempt at creating a top module](images/ai_prototype_second_top_module.png){#fig-ai-prototype-second-top-module width=60%}
+![AI's second attempt at creating a top module](images/ai_prototype_second_top_module.png){#fig-ai-prototype-second-top-module width=80%}
 
 Overall, the quality of the output was acceptable, as it seemed to be mostly accurate after a cursory glance.
 In general, using an LLM to write the Lab 2 was genuinely helpful; it gave both a solid approach to solving the problem and code that did not generate any immediate errors in response to attempted implementation.
-However, in future projects for which LLM assistance is required, asking for additional, more explanatory comments as to what the employed Verilog idioms mean might make its answers even more helpful.
+However, in future projects for which LLM assistance is required, asking for additional, more explanatory comments as to what the employed Verilog idioms mean might make its answers even more useful.
