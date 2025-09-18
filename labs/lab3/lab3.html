@@ -40,6 +40,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-dfb324f25d9b1687192fa8be62ac8f9c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -151,8 +154,27 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#sec-intro" id="toc-sec-intro" class="nav-link active" data-scroll-target="#sec-intro">Introduction</a></li>
+  <li><a href="#design-and-testing-methodology" id="toc-design-and-testing-methodology" class="nav-link" data-scroll-target="#design-and-testing-methodology">Design and Testing Methodology</a></li>
+  <li><a href="#technical-documentation" id="toc-technical-documentation" class="nav-link" data-scroll-target="#technical-documentation">Technical Documentation</a>
+  <ul class="collapse">
+  <li><a href="#block-diagram" id="toc-block-diagram" class="nav-link" data-scroll-target="#block-diagram">Block Diagram</a></li>
+  <li><a href="#sec-fsm-design" id="toc-sec-fsm-design" class="nav-link" data-scroll-target="#sec-fsm-design">Finite State Machine Design</a></li>
+  <li><a href="#schematic" id="toc-schematic" class="nav-link" data-scroll-target="#schematic">Schematic</a></li>
+  </ul></li>
+  <li><a href="#sec-results-and-discussion" id="toc-sec-results-and-discussion" class="nav-link" data-scroll-target="#sec-results-and-discussion">Results and Discussion</a>
+  <ul class="collapse">
+  <li><a href="#testbench-simulation" id="toc-testbench-simulation" class="nav-link" data-scroll-target="#testbench-simulation">Testbench Simulation</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#ai-prototype" id="toc-ai-prototype" class="nav-link" data-scroll-target="#ai-prototype">AI Prototype</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -176,8 +198,333 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="sec-intro" class="level2">
+<h2 class="anchored" data-anchor-id="sec-intro">Introduction</h2>
+<p>This lab built upon the time-multiplexed 7-segment display setup from the previous <a href="../../labs/lab2/lab2.html">Lab 2</a>, introducing the additional complication of integrating a 4x4 matrix keypad so that its two most recent key presses would subsequently register on said 7-segment displays. More specifically, the value of the latest key press needed to show on the rightmost display and shift left every time a new input was received, with sufficient compensation for switch bouncing. Note that after an initial key press, the design was required to ignore all following presses until the first had been released. In order to accomplish this, there needed to be robust digital design that could account for the asynchronous nature of all user interactions with the circuit, such that they would not disrupt the outputs and general flow of the remaining synchronized components. Moreover, the design could not comprise any latches or tristate buffers.</p>
+</section>
+<section id="design-and-testing-methodology" class="level2">
+<h2 class="anchored" data-anchor-id="design-and-testing-methodology">Design and Testing Methodology</h2>
+<p>Overall, there were two inputs — including a reset (<em>reset</em>) and four keypad columns (<em>keypad_column[3:0]</em>) — and three outputs — a row activator (<em>keypad_row[3:0]</em>), transistor toggler (<em>transistor[1:0]</em>), and 7-segment display setter (<em>segment[6:0]</em>) — to the design.</p>
+<p>Using the default 48 MHz clock produced by the internal oscillator and dividing it to get a slower 24 MHz one, this new signal was fed into an FSM and nested synchronizer. The synchronizer delayed the usage of the <em>keypad_column</em> signal by two cycles in order to mitigate metastability (by providing settling time for any in-between values to stabilize) and meet the aforementioned requirement of asynchronous input-handling.</p>
+<p>Additionally, as with <a href="../../labs/lab2/lab2.html">Lab 2</a>, the 24 MHz clock signal was used to alternate the activation of both transistors at a rate of 100 Hz, which then drove the 7-segment display outputs. Each hexadecimal digit of the 7-segment display was intentionally designed to have a unique appearance. This was reflected in the Verilog code via unique case statements with one toggle-able pin assigned to each segment.</p>
+<p>Furthermore, although the exact workings of the FSM are explained in greater detail down <a href="#sec-fsm-design">below</a>, know that its most notable features were: 1) the use of both a flip-flop and case statement to store and toggle the FSM’s inputs, outputs, and intermediate signals all at once, and 2) its switch-debouncing strategy. Regarding the former, it was found that it was easiest to just combine the output and state transition signals into one giant module, as it made both conceptually tracking everything and the following, inevitable debugging easier on the programmer. Additionally, when considering the latter, there were a variety of ways that the design could have manifested; however, the final product saw the emergence of a waiting stage that only allowed the most recently and second most recently pressed key locations to update after 0.1 s had passed. This specific time period was chosen because it was deemed to be long enough that the switch bouncing would settle before it was over, but short enough that no additional button presses could occur throughout and be missed.</p>
+<p>While there was an initial attempt made to implement a more rigorous method of debouncing involving counting each time a key went high for every single button at the same time, and eventually taking the key with the largest corresponding number as the official debounced result, there were a few concerns that led to that idea being discarded. Namely, the multiple timing violation errors that kept popping up, as well as the fact that this would be expensive and inefficient to implement in actual hardware, anyway.</p>
+<p>Thus, the “sit-and-wait” strategy of debouncing manifested and eventually stuck. Its primary tradeoff is that it has a small delay when registering two or more keys that have been pressed in extremely rapid succession. However, because that is an edge case — that the design would <em>still</em> work for, just not as beautifully — and with the current method, there is relatively little hardware implied, a design decision was made to just keep it. If one really wanted to, they could even shorten the wait period to mitigate this “problem.”</p>
+<p>Another miniscule tradeoff is that there is a tiny delay in the shifting of most recent and second most recent digits (something that is not considered as “clean” as other designs), as a byproduct of assigning the second most recent digit’s value before the most recent digit’s one in the aforementioned FSM. But, again, because this does not functionally compromise the design in any way, shape, or form, a design decision was ruled in favor of keeping everything the same.</p>
+<p>Various tests were conducted on the final product, including both physical interaction with the resultant circuits and simulation testbenches, as elaborated on in a later <a href="#sec-results-and-discussion">Results and Discussions</a> section. Note that there was an individual testbench created for each SystemVerilog module.</p>
+</section>
+<section id="technical-documentation" class="level2">
+<h2 class="anchored" data-anchor-id="technical-documentation">Technical Documentation</h2>
+<p>The source code for this project can be found in the associated <a href="https://github.com/qmiyamoto/E155-Labs/tree/main/lab3">GitHub repository folder</a>.</p>
+<section id="block-diagram" class="level3">
+<h3 class="anchored" data-anchor-id="block-diagram">Block Diagram</h3>
+<div id="fig-block-diagram" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-block-diagram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/lab3_block_diagram.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-block-diagram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Block diagram of Verilog design
+</figcaption>
+</figure>
+</div>
+<p>The block diagram in <a href="#fig-block-diagram">Figure 1</a> depicts the general architecture implied by the SystemVerilog code. The top-level module, titled “<em>lab3_qm</em>,” comprises a high-speed oscillator module that generates a 48 MHz signal, which is immediately halved in the ensuing “<em>manual_clock_divider</em>” block; this ultimately results in a 24 MHz <em>halved_internal_oscillator</em> clock that is fed to the rest of the time-dependent components. One such component is the “<em>keypad_scanner_and_debouncer</em>” module, which contains an FSM that first stabilizes the column inputs with a “<em>keypad_column_synchronizer</em>,” before determining and subsequently storing the locations of the two most recently pressed keys — all the while simultaneously accounting for debouncing (see below for more details). This then allows “<em>key_to_digit_converter_1</em>” to turn these saved locations into their corresponding hexadecimal values so that they may be interpreted by the “<em>seven_segment_display</em>” and turned into actual, illuminated outputs. Finally, the “<em>seven_segment_display_multiplexer</em>” module alternates the activation status of the two transistors that actually drive the 7-segment displays, and is immediately followed by a mux that decides which digit is showing at any given point in time.</p>
+</section>
+<section id="sec-fsm-design" class="level3">
+<h3 class="anchored" data-anchor-id="sec-fsm-design">Finite State Machine Design</h3>
+<div id="fig-fsm-diagram" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fsm-diagram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/lab3_FSM.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fsm-diagram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: State transition diagram
+</figcaption>
+</figure>
+</div>
+<p>The <a href="#fig-fsm-diagram">Figure 2</a> FSM illustrates the seven main stages of key detection, switch debouncing, and digit shifting based on recency. Note that the actual <a href="https://github.com/qmiyamoto/E155-Labs/blob/main/lab3/source/impl_1/keypad_scanner_and_debouncer.sv">Verilog implementation</a> of this FSM is not quite standard, but effective in reaching the end goal nonetheless. After parsing both the code and diagram for the specific signals being toggled, the following Figures <a href="#fig-state-transition-table">3a</a> and <a href="#fig-fsm-output-table">3b</a> were created for ease of understanding and general transition-tracking.</p>
+<div id="fig-fsm-tables" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fsm-tables-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-fsm-tables" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-state-transition-table" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-state-transition-table-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/state_transition_table.png" class="lightbox" data-gallery="fig-fsm-tables" title="Figure&nbsp;3&nbsp;(a): State transition table"><img src="images/state_transition_table.png" class="img-fluid figure-img" data-ref-parent="fig-fsm-tables"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-state-transition-table-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) State transition table
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-fsm-tables" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-fsm-output-table" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-fsm-output-table-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/lab3_output_table.png" class="lightbox" data-gallery="fig-fsm-tables" title="Figure&nbsp;3&nbsp;(b): State output table"><img src="images/lab3_output_table.png" class="img-fluid figure-img" data-ref-parent="fig-fsm-tables"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-fsm-output-table-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) State output table
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fsm-tables-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: FSM design documentation
+</figcaption>
+</figure>
+</div>
+<p>In short, the FSM supplies powers to each row of the keypad, one at a time, until it detects that a column has toggled high in response and moves on; this indicates a key press. Because the column signals have gone through a synchronizer that imposes upon them a two-cycle delay, however, there is a variable <em>actual_toggled_row</em> that accounts for the fact that the rows should actually be offset, as well. Thus, <em>actual_toggled_row</em> stores the row that would have been high two cycles ago when it synced up with the detected column.</p>
+<p>Following the scanning stages, the FSM contains a switch-debouncing state that forces the entire system to wait for 0.1 s, therefore allowing any sort of short, echoing “bounces” to settle before proceeding to take the registered input as fact. In this state, the value of what was previously considered the most recent key press is shifted to the left to take the second most recent key press’ place.</p>
+<p>Next, the FSM assembles the segmented row and column information that it has successfully accumulated and forms a more comprehensive key location. It then passes this off as the most recent digit, and waits until there are no more registered presses (between the saved <em>toggled_column</em> value that froze the moment a key press was asserted and any other buttons that may have been pushed in the meantime) to move on to the final stage.</p>
+<p>Lastly, the FSM performs a second round of 0.1 s debouncing while resetting both the stored/asserted row and column values to zero, so as not to trigger any false button presses with residual high values when moving back to that very first scanning state.</p>
+</section>
+<section id="schematic" class="level3">
+<h3 class="anchored" data-anchor-id="schematic">Schematic</h3>
+<div id="fig-schematic" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/lab3_schematic.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Schematic of physical circuit
+</figcaption>
+</figure>
+</div>
+<p>The <a href="#fig-schematic">Figure 4</a> schematic outlines how the physical components actually connect. More explicitly, the UPduino_v3.1 FPGA pins demonstrably feed and receive information from the on-board push-button, external MAN6410 7-segment displays, two 2N3906 PNP transistors, 4x4 Adafruit matrix keypad, and resistors of variable values.</p>
+<p>Regarding the latter, firstly, note that the values of the resistors connected to the two transistors and the two 7-segment displays, respectively, were picked after doing the computations depicted in <a href="#fig-transistor-and-7-segment-resistor-math">Figure 5</a> below:</p>
+<div id="fig-transistor-and-7-segment-resistor-math" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-transistor-and-7-segment-resistor-math-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/transistor_and_seven_segment_display_resistor_math.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-transistor-and-7-segment-resistor-math-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: PNP transistor and 7-segment display resistor math
+</figcaption>
+</figure>
+</div>
+<p>As specified in section 4.17 of the <a href="https://hmc-e155.github.io/assets/doc/FPGA-DS-02008-2-0-iCE40-UltraPlus-Family-Data-Sheet.pdf">ice40 datasheet</a> for the FPGA (and previously mentioned in the <a href="../../labs/lab2/lab2.html">Lab 2</a> documentation), the current flowing into each GPIO pin should ideally be 8 mA at <em>most</em>. Thus, to justify the the particular resistors chosen, Ohm’s Law was applied to each part of the zoomed-in segment of the main circuit, clearly demonstrating that all current draw fell within recommended operating conditions. Ultimately, for the sake of equal brightness across all segments, seven 160 Ω-resistors were integrated into the 7-segment display circuit, while both transistor bases received current-limiting resistors of 330 Ω. (Sources for the cited transistor information above comprise <a href="https://learn.sparkfun.com/tutorials/transistors/operation-modes">SparkFun Electronics</a> and <a href="https://www.glennklockwood.com/electronics/bipolar-junction-transistors.html">Glenn Lockwood</a>. Additionally, the <a href="https://hmc-e155.github.io/assets/doc/MAN64x0%20Series.pdf">7-segment display datasheet</a> was used to find the forward voltage necessary to complete the correct calculations.)</p>
+<p>Furthermore, the four pull-down resistors connected to the keypad columns — the top-level Verilog module’s inputs — have values of 1 kΩ, as the circuit in question is a speed-sensitive one.</p>
+</section>
+</section>
+<section id="sec-results-and-discussion" class="level2">
+<h2 class="anchored" data-anchor-id="sec-results-and-discussion">Results and Discussion</h2>
+<p>The results of Lab 3 can be viewed in <a href="#fig-video">Figure 6</a> below:</p>
+<div id="fig-video" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-video-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/Ycr2L2r-lVE?feature=shared" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-video-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Demo video
+</figcaption>
+</figure>
+</div>
+<p>Evidently, the design met all of the desired specs. While there were some miniscule compromises with regard to key-sensing/toggling speed that had to be made for the sake of more wholistic operation, nothing is objectively wrong with the chosen means of implementation.</p>
+<section id="testbench-simulation" class="level3">
+<h3 class="anchored" data-anchor-id="testbench-simulation">Testbench Simulation</h3>
+<div id="fig-submodule-waveforms-1" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-submodule-waveforms-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-submodule-waveforms-1" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-clock-divider-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-clock-divider-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/manual_clock_divider_waveforms_2.png" class="lightbox" data-gallery="fig-submodule-waveforms-1" title="Figure&nbsp;7&nbsp;(a): Clock-divider"><img src="images/manual_clock_divider_waveforms_2.png" class="img-fluid figure-img" data-ref-parent="fig-submodule-waveforms-1"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-clock-divider-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Clock-divider
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-submodule-waveforms-1" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-keypad-synchronizer-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-keypad-synchronizer-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/keypad_column_synchronizer_waveforms_2.png" class="lightbox" data-gallery="fig-submodule-waveforms-1" title="Figure&nbsp;7&nbsp;(b): Keypad synchronizer"><img src="images/keypad_column_synchronizer_waveforms_2.png" class="img-fluid figure-img" data-ref-parent="fig-submodule-waveforms-1"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-keypad-synchronizer-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Keypad synchronizer
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-submodule-waveforms-1" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-key-to-digit-converter-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-key-to-digit-converter-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/key_to_digit_converter_1_waveforms_2.png" class="lightbox" data-gallery="fig-submodule-waveforms-1" title="Figure&nbsp;7&nbsp;(c): Key-to-digit converter"><img src="images/key_to_digit_converter_1_waveforms_2.png" class="img-fluid figure-img" data-ref-parent="fig-submodule-waveforms-1"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-key-to-digit-converter-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Key-to-digit converter
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-submodule-waveforms-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Submodule waveforms
+</figcaption>
+</figure>
+</div>
+<p>The submodule waveforms in Figures <a href="#fig-clock-divider-waveforms">7a</a>, <a href="#fig-keypad-synchronizer-waveforms">7b</a>, and <a href="#fig-key-to-digit-converter-waveforms">7c</a> further verify that the design was working exactly as intended: the clock-divider waveforms proved that the <em>halved_internal_oscillator</em> signal took twice as long as the module’s input to complete a full clock cycle, the synchronizer waveforms showed that the <em>keypad_column</em> inputs were, in fact, being offset by two cycles before being returned as outputs, and the key-to-digit converter waveforms demonstrated that every single activated row-column pairing produced the correct hexadecimal digit.</p>
+<p>The keypad scanning and debouncing FSM waveforms can be viewed in Figures <a href="#fig-fsm-waveforms">8a</a> and <a href="#fig-fsm-zoomed-in-waveforms">8b</a> below.</p>
+<div id="fig-fsm-submodule-waveforms" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fsm-submodule-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-fsm-submodule-waveforms" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-fsm-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-fsm-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/keypad_scanner_and_debouncer_waveforms_2.png" class="lightbox" data-gallery="fig-fsm-submodule-waveforms" title="Figure&nbsp;8&nbsp;(a): Keypad scanner and debouncer module"><img src="images/keypad_scanner_and_debouncer_waveforms_2.png" class="img-fluid figure-img" data-ref-parent="fig-fsm-submodule-waveforms"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-fsm-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Keypad scanner and debouncer module
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-fsm-submodule-waveforms" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-fsm-zoomed-in-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-fsm-zoomed-in-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/keypad_scanner_and_debouncer_waveforms_zoomed_in_2.png" class="lightbox" data-gallery="fig-fsm-submodule-waveforms" title="Figure&nbsp;8&nbsp;(b): Zoomed-in"><img src="images/keypad_scanner_and_debouncer_waveforms_zoomed_in_2.png" class="img-fluid figure-img" data-ref-parent="fig-fsm-submodule-waveforms"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-fsm-zoomed-in-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Zoomed-in
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fsm-submodule-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: FSM submodule waveforms
+</figcaption>
+</figure>
+</div>
+<p>Moreover, the fact that all of these modules were tied together correctly can be verified more explicitly in Figures <a href="#fig-lab3-waveforms">9a</a> and <a href="#fig-lab3-zoomed-in-waveforms">9b</a>, which depict the results of the top module testbench:</p>
+<div id="fig-top-module-waveforms" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-top-module-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-top-module-waveforms" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-lab3-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-lab3-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/lab3_waveforms_2.png" class="lightbox" data-gallery="fig-top-module-waveforms" title="Figure&nbsp;9&nbsp;(a): Top module"><img src="images/lab3_waveforms_2.png" class="img-fluid figure-img" data-ref-parent="fig-top-module-waveforms"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-lab3-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Top module
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-top-module-waveforms" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-lab3-zoomed-in-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-lab3-zoomed-in-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/lab3_zoomed_in_waveforms.png" class="lightbox" data-gallery="fig-top-module-waveforms" title="Figure&nbsp;9&nbsp;(b): Zoomed-in"><img src="images/lab3_zoomed_in_waveforms.png" class="img-fluid figure-img" data-ref-parent="fig-top-module-waveforms"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-lab3-zoomed-in-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Zoomed-in
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-top-module-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: Top module waveforms
+</figcaption>
+</figure>
+</div>
+<p>Because the top module took such an excessively long period of time to run — which was as intended with the integration of two 0.1 s (i.e.&nbsp;10 Hz) long debouncing states, just unfortunate — only two key presses were actually simulated with it. However, due to the rigorous verification of all the submodules comprising it, this was deemed acceptable, as it still showed that everything was properly interfaced. Evidently, the cycling of which row is powered is shown, as well as the responses to such; when a column going high is detected, the waveforms also demonstrate that the correct toggling of the 7-segment display segments shortly follows (based on the value of output <em>transistor</em>).</p>
+<p>Finally, as can be observed in the <a href="#fig-block-diagram">Figure 1</a> block diagram, there were also two 7-segment display-related modules used that — by proper verification standards — should have been simulated. These can be seen in Figures <a href="#fig-seven-segment-display-multiplexer-waveforms">10a</a> and <a href="#fig-seven-segment-display-waveforms">10b</a> below. Note that it is the exact same as the ones used in <a href="../../labs/lab2/lab2.html">Lab 2</a>.</p>
+<div id="fig-submodule-waveforms-2" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-submodule-waveforms-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-submodule-waveforms-2" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-seven-segment-display-multiplexer-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-seven-segment-display-multiplexer-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/seven_segment_display_multiplexer_waveforms_2.png" class="lightbox" data-gallery="fig-submodule-waveforms-2" title="Figure&nbsp;10&nbsp;(a): 7-segment display multiplexer"><img src="images/seven_segment_display_multiplexer_waveforms_2.png" class="img-fluid figure-img" data-ref-parent="fig-submodule-waveforms-2"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-seven-segment-display-multiplexer-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) 7-segment display multiplexer
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-submodule-waveforms-2" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-seven-segment-display-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-seven-segment-display-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/seven_segment_display_waveforms_2.png" class="lightbox" data-gallery="fig-submodule-waveforms-2" title="Figure&nbsp;10&nbsp;(b): 7-segment display"><img src="images/seven_segment_display_waveforms_2.png" class="img-fluid figure-img" data-ref-parent="fig-submodule-waveforms-2"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-seven-segment-display-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) 7-segment display
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-submodule-waveforms-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10: Submodule waveforms
+</figcaption>
+</figure>
+</div>
+<p>All testbenches and simulations passed without the presence of any error messages.</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>In summary, the design dealt with all user inputs as appropriate, only registering each button press exactly once and only registering the <em>first</em> button press when multiple were active at the same time (until the initial one was released). Furthermore, the 7-segment displays never failed to accurately depict the two most recently pressed keys in the proper order, as outlined above, with no bleeding between digits; its time-multiplexed, 100 Hz toggling was also extremely consistent, with the display-switching going at a rate imperceptible to the naked human eye. A total of approximately 40 hours was spent working on this lab.</p>
+</section>
+<section id="ai-prototype" class="level2">
+<h2 class="anchored" data-anchor-id="ai-prototype">AI Prototype</h2>
+<p>Using ChatGPT to generate some code in response to the monolithic prompt “<em>Target device: Lattice iCE40 UP5K FPGA with internal high-speed oscillator (~20 MHz). Write synthesizable SystemVerilog to scan a 4x4 matrix keypad and display the last two hex keys pressed on a dual 7‑segment display. Implement: A clock divider that derives a scan clock on the order of 100–200 Hz from the internal oscillator. A keypad scanning controller that iterates one active‑low column at a time and samples active‑low rows, registering at most one key per press (debounce‑by‑design), ignoring additional presses while any key is held, and allowing a new registration only after release. A top level that updates two hex digits (older and most recent) when a new key is registered and drives a time‑multiplexed two‑digit 7‑segment display without visible flicker and with balanced brightness. Use idiomatic SystemVerilog (e.g., logic, always_ff, enumerated states for FSMs). Provide clean module boundaries and keep all state synchronous. Include brief comments explaining the design choices</em>,” the LLM produced results that surprisingly synthesized. These results can be viewed in the associated <a href="https://github.com/qmiyamoto/E155-Labs/tree/main/lab3/ai_prototype">GitHub repository folder</a>. Additionally, the full response can be seen in the public <a href="https://chatgpt.com/share/68cab3e9-39a8-800f-b559-8fe17ae0ba3f">chat transcript</a>.</p>
+<p>While there were no actual errors in the AI code’s synthesis process, the corresponding warning messages can be viewed in <a href="#fig-ai-monolithic-design-warnings">Figure 11</a>.</p>
+<div id="fig-ai-monolithic-design-warnings" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ai-monolithic-design-warnings-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/ai_prototype_monolithic_design_warnings.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ai-monolithic-design-warnings-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11: AI prototype monolithic design warnings
+</figcaption>
+</figure>
+</div>
+<p>Additionally, ChatGPT was asked to respond to the second series of <em>modular</em> prompts, which can be viewed as follows:</p>
+<p>“<em>Target device: Lattice iCE40 UP5K FPGA. Overall Goal: Write SystemVerilog to scan a 4x4 matrix keypad and display the last two hex keys pressed on a dual 7 segment display. Current Goal: Write a synthesizable SystemVerilog module that produces a one‑shot registration signal for the keypad system. Behavior: When a key press is first detected, capture the current key code and assert a single‑cycle “new key” pulse. While any key remains pressed, do not accept additional keys. Only after keys are released should a subsequent press be recognized. This should handle debouncing of the keys. Implement as a small synchronous FSM with enumerated states and glitch‑free outputs. Keep names and interfaces reasonable; do not assume any hidden modules beyond what you define here.</em>”</p>
+<p>“<em>Target device: Lattice iCE40 UP5K FPGA. Write a synthesizable SystemVerilog module that cycles through keypad columns (active‑low, one at a time) and samples rows (active‑low) to detect a single key at a time. Behavior: Iterate columns at a suitable scan rate derived from the divided clock and sample rows. When a key is detected, report a stable key code consistent with a standard 4x4 keypad layout and maintain it while the key remains pressed. Provide a boolean signal indicating whether any key is currently pressed. Use clean state encoding and synchronous logic; avoid combinational feedback and latches.</em>”</p>
+<p>“<em>Target device: Lattice iCE40 UP5K FPGA with internal oscillator as the root clock source. Write a top‑level SystemVerilog module that instantiates the scanner and one‑shot modules, shifts the last two keys (older ← most recent; most recent ← new), and drives a multiplexed two‑digit seven‑segment display. Requirements: Update the displayed digits only when a new key is registered. Ensure equal apparent brightness and no visible flicker. Keep all logic synthesizable and synchronous; use idiomatic SystemVerilog constructs. Provide any small clock‑enable or divider logic you need. You can also assume that a sevenSegment module exists that takes a 4 bit input and outputs the 7 segments.</em>”</p>
+<p>The full response to these modular prompts can be seen in a second, entirely separate <a href="https://chatgpt.com/share/68cab41a-d5ac-800f-8753-e943d935ca78">chat transcript</a>.</p>
+<p>Again, the AI’s design synthesized without error, and though the accompanying warnings can be viewed in <a href="#fig-ai-modular-design-warnings">Figure 12</a> below, nothing was visibly wrong with its end product upon first glance.</p>
+<div id="fig-ai-modular-design-warnings" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ai-modular-design-warnings-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/ai_prototype_modular_design_warnings.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ai-modular-design-warnings-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;12: AI prototype modular design warnings
+</figcaption>
+</figure>
+</div>
+<p>Overall, it can be concluded from this little experiment that providing an LLM with both monolithic and modular prompts results in generally similar behavior in the end — or, at the very least, for rather simplistic tasks.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -580,6 +927,38 @@ ul.task-list li input[type="checkbox"] {
   });
   </script>
 </div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
