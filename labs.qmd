@@ -12,7 +12,9 @@ Utilized transistors to drive large currents from the FPGA pins to the two 7-seg
 Interfaced the FPGA with five external LEDs, such that they would display the sum of the two hexadecimal digits at any given point in time.
 
 ## Lab 3: [Keypad Scanner](labs/lab3/lab3.qmd)
-[Lab Overview]
+Designed and implemented a circuit to interface the FPGA with a 4x4 matrix keypad, such that it would accurately read the pressed buttons and subsequently output the two most recent digits on two 7-segment displays.
+Effectively dealt with switch bouncing.
+Ensured that any combination of asynchronous user inputs — including, but not limited to, pressing multiple buttons at once and holding buttons for extended periods of time — did not result in erratic, undesirable behavior.
 
 ## Lab 4: [Digital Audio](labs/lab4/lab4.qmd)
 [Lab Overview]
