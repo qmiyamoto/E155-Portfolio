@@ -375,12 +375,12 @@ Figure&nbsp;7: Submodule waveforms
 </figure>
 </div>
 <p>The submodule waveforms in Figures <a href="#fig-clock-divider-waveforms">7a</a>, <a href="#fig-keypad-synchronizer-waveforms">7b</a>, and <a href="#fig-key-to-digit-converter-waveforms">7c</a> further verify that the design was working exactly as intended: the clock-divider waveforms proved that the <em>halved_internal_oscillator</em> signal took twice as long as the module’s input to complete a full clock cycle, the synchronizer waveforms showed that the <em>keypad_column</em> inputs were, in fact, being offset by two cycles before being returned as outputs, and the key-to-digit converter waveforms demonstrated that every single activated row-column pairing produced the correct hexadecimal digit.</p>
-<p>The keypad scanning and debouncing FSM waveforms can be viewed in Figures <a href="#fig-fsm-waveforms">8a</a> and <a href="#fig-fsm-zoomed-in-waveforms">8b</a> below.</p>
+<p>The keypad scanning and debouncing FSM waveforms can be viewed in Figures <a href="#fig-fsm-waveforms">8a</a>, <a href="#fig-fsm-zoomed-in-waveforms-2">8b</a>, and <a href="#fig-fsm-zoomed-in-waveforms-2">8c</a> below. As expected, the FSM was in the correct state at any given point in time, and cycled through them appropriately in response to a variety of inputs, including a short, single key press, a prolonged key press, and key presses that occurred after an initial button was already pushed.</p>
 <div id="fig-fsm-submodule-waveforms" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fsm-submodule-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row">
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-fsm-submodule-waveforms" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-fsm-submodule-waveforms" style="flex-basis: 33.3%;justify-content: flex-start;">
 <div id="fig-fsm-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-fsm-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -392,14 +392,26 @@ Figure&nbsp;7: Submodule waveforms
 </figure>
 </div>
 </div>
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-fsm-submodule-waveforms" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-fsm-zoomed-in-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-fsm-submodule-waveforms" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-fsm-zoomed-in-waveforms-1" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-fsm-zoomed-in-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/keypad_scanner_and_debouncer_waveforms_zoomed_in_2.png" class="lightbox" data-gallery="fig-fsm-submodule-waveforms" title="Figure&nbsp;8&nbsp;(b): Zoomed-in"><img src="images/keypad_scanner_and_debouncer_waveforms_zoomed_in_2.png" class="img-fluid figure-img" data-ref-parent="fig-fsm-submodule-waveforms"></a>
+<div aria-describedby="fig-fsm-zoomed-in-waveforms-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/keypad_scanner_and_debouncer_waveforms_zoomed_in_1.png" class="lightbox" data-gallery="fig-fsm-submodule-waveforms" title="Figure&nbsp;8&nbsp;(b): Zoomed-in"><img src="images/keypad_scanner_and_debouncer_waveforms_zoomed_in_1.png" class="img-fluid figure-img" data-ref-parent="fig-fsm-submodule-waveforms"></a>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-fsm-zoomed-in-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-fsm-zoomed-in-waveforms-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (b) Zoomed-in
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-fsm-submodule-waveforms" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-fsm-zoomed-in-waveforms-2" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-fsm-zoomed-in-waveforms-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/keypad_scanner_and_debouncer_waveforms_zoomed_in_2.png" class="lightbox" data-gallery="fig-fsm-submodule-waveforms" title="Figure&nbsp;8&nbsp;(c): Zoomed-in"><img src="images/keypad_scanner_and_debouncer_waveforms_zoomed_in_2.png" class="img-fluid figure-img" data-ref-parent="fig-fsm-submodule-waveforms"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-fsm-zoomed-in-waveforms-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Zoomed-in
 </figcaption>
 </figure>
 </div>
