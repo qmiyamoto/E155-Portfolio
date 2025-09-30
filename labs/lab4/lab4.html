@@ -378,44 +378,6 @@ Figure&nbsp;5: Oscilloscope traces for the required frequency range bounds
 </figcaption>
 </figure>
 </div>
-<p>Finally, a few mathematical computations were performed in <a href="#fig-1%-pitch-accuracy-calculations">Figure 6</a> to quantify just how much percent error the actual output comprised when compared to theoretical results, and ultimately show that none of these values for the 200 to 1000 Hz frequency range were greater than one percent, as desired:</p>
-<p>![Accuracy verification calculations](images/1%2outputting the correct pitches as intended, an oscilloscope was used to determine the actual frequencies being played for the first two notes of Für Elise. When compared to the expected values of 659 and 623 Hz, respectively, it was suffice to say that the design did, in fact, perform rather accurately.</p>
-<p>Furthermore, to really prove that the choice of the design was, without a doubt, completely functional, the speaker was forced to play both 200 and 1000 Hz signals — the bounds of an appropriately large frequency range, according to the specs — with the corresponding oscilloscope traces pictured in Figures <a href="#fig-200-hz-trace">5a</a> and <a href="#fig-1000-hz-trace">5b</a> as follows:</p>
-<div id="fig-min-max-note-oscilloscope-traces" class="quarto-layout-panel">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-min-max-note-oscilloscope-traces-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-min-max-note-oscilloscope-traces" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-200-hz-trace" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-200-hz-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/200_Hz_trace.png" class="lightbox" data-gallery="fig-min-max-note-oscilloscope-traces" title="Figure&nbsp;6&nbsp;(a): 200 Hz"><img src="images/200_Hz_trace.png" class="img-fluid figure-img" data-ref-parent="fig-min-max-note-oscilloscope-traces"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-200-hz-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a) 200 Hz
-</figcaption>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-min-max-note-oscilloscope-traces" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-1000-hz-trace" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-1000-hz-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/1000_Hz_trace.png" class="lightbox" data-gallery="fig-min-max-note-oscilloscope-traces" title="Figure&nbsp;6&nbsp;(b): 1000 Hz"><img src="images/1000_Hz_trace.png" class="img-fluid figure-img" data-ref-parent="fig-min-max-note-oscilloscope-traces"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-1000-hz-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b) 1000 Hz
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-min-max-note-oscilloscope-traces-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6: Oscilloscope traces for the required frequency range bounds
-</figcaption>
-</figure>
-</div>
 <p>Finally, a few mathematical computations were performed in <a href="#fig-one-percent-pitch-accuracy-calculations">Figure 6</a> to quantify just how much percent error the actual output comprised when compared to theoretical results, and ultimately show that none of these values for the 200 to 1000 Hz frequency range were greater than one percent, as desired:</p>
 <div id="fig-one-percent-pitch-accuracy-calculations" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -423,7 +385,7 @@ Figure&nbsp;6: Oscilloscope traces for the required frequency range bounds
 <img src="images/pitch_accuracy_calculations.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-one-percent-pitch-accuracy-calculations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7: Accuracy verification calculations
+Figure&nbsp;6: Accuracy verification calculations
 </figcaption>
 </figure>
 </div>
@@ -435,6 +397,41 @@ Figure&nbsp;7: Accuracy verification calculations
 </section>
 <section id="ai-prototype" class="level2">
 <h2 class="anchored" data-anchor-id="ai-prototype">AI Prototype</h2>
+<p>Using ChatGPT to generate some code in response to the prompt “<em>What timers should I use on the STM32L432KC to generate frequencies ranging from 220Hz to 1kHz? What’s the best choice of timer if I want to easily connect it to a GPIO pin? What formulae are relevant, and what registers need to be set to configure them properly?</em>,” the LLM produced surprisingly accurate results that can be viewed in the public <a href="https://chatgpt.com/share/68dbb7c9-d1b8-800f-9635-6c54cb67fa36">chat transcript</a>.</p>
+<p>Most notably, the AI was correct in its timer overview (as depicted in <a href="#fig-ai-prototype-response-1">Figure 7</a>), with the recommended general purpose timers TIM15 and TIM16 being exactly what was used in the actual lab above.</p>
+<div id="fig-ai-prototype-response-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ai-prototype-response-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/ai_prototype_response_1.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ai-prototype-response-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Available timers
+</figcaption>
+</figure>
+</div>
+<p>Furthermore, the provided formulae for both the note frequency and the duty cycle calculations were surprisingly correct. These are shown in <a href="#fig-ai-prototype-response-2">Figure 8</a> below. The only things that were missing were the equations for ARR when trying to prolong the duration of a note.</p>
+<div id="fig-ai-prototype-response-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ai-prototype-response-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/ai_prototype_response_2.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ai-prototype-response-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: Formulae
+</figcaption>
+</figure>
+</div>
+<p>The LLM was also pretty accurate when it came to listing registers that needed to be configured, as seen in <a href="#fig-ai-prototype-response-3">Figure 9</a>. All of the registers it suggested were, in fact, necessary to consider; however, it <em>did</em> omit a few crucial ones. For instance, the Update Generation bit in the Event Generation Register was also rather important to set, as well as the SMS bits in the SMCR.</p>
+<div id="fig-ai-prototype-response-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ai-prototype-response-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/ai_prototype_response_3.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ai-prototype-response-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: AI-recommended registers
+</figcaption>
+</figure>
+</div>
+<p>All in all, the quality of the output this time was extremely good, for it did not comprise any obvious inaccuracies. If the LLM-user was to approach this response with the mindset that it would provide a solid starting point but not everything that needed to be considered, it could prove to be invaluable help. The AI was definitely able to parse the reference manual at a far greater speed than any human could; it was even better at providing guidance than Ctrl-F (which, due to the sheer size of the manual, often missed things on not-yet-loaded pages).</p>
 
 
 </section>
