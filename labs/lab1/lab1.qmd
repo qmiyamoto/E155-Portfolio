@@ -17,7 +17,7 @@ Verilog code implying XOR and AND gates was also incorporated to connect the sli
 Regarding the 7-segment display design, each hexadecimal digit was intentionally designed to have a unique appearance.
 This was reflected in the Verilog code via unique case statements with one toggle-able pin assigned to each segment.
 
-Various tests were conducted on the final product, including both physical interaction with the resultant circuits and simulation testbenches, as elaborated on in a later [Results and Discussions](#sec-results-and-discussion) section.
+Various tests were conducted on the final product, including both physical interaction with the resultant circuits and simulation testbenches, as elaborated on in a later [Results and Discussion](#sec-results-and-discussion) section.
 Note that there was an individual testbench created for each SystemVerilog module.
 
 ## Technical Documentation

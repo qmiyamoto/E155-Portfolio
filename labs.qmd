@@ -17,7 +17,9 @@ Effectively dealt with switch bouncing.
 Ensured that any combination of asynchronous user inputs — including, but not limited to, pressing multiple buttons at once and holding buttons for extended periods of time — did not result in erratic, undesirable behavior.
 
 ## Lab 4: [Digital Audio](labs/lab4/lab4.qmd)
-[Lab Overview]
+Built a circuit to drive a speaker with the development board's MCU — via GPIO pin toggling — and ultimately play music.
+Wrote own C libraries from scratch to enable and interface the MCU clock and timers.
+Generated square waves of specified frequencies for specified durations with the MCU timers.
 
 ## Lab 5: [Interrupts](labs/lab5/lab5.qmd)
 [Lab Overview]

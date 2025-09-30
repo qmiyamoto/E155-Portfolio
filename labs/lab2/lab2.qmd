@@ -19,7 +19,7 @@ Regarding the 7-segment display design, as with [Lab 1](../lab1/lab1.qmd), each 
 Because there were not enough FPGA pins to drive each segment individually across the two displays, there was simply one pin assigned to each *unique* pair of segments (for example, one pin would drive the bottom-left segments of both displays).
 Thanks to the lab's multiplexing design, this was able to be done with no confusion as to which pins should be activated when.
 
-Various tests were conducted on the final product, including both physical interaction with the resultant circuits and simulation testbenches, as elaborated on in a later [Results and Discussions](#sec-results-and-discussion) section.
+Various tests were conducted on the final product, including both physical interaction with the resultant circuits and simulation testbenches, as elaborated on in a later [Results and Discussion](#sec-results-and-discussion) section.
 Note that there was an individual testbench created for each SystemVerilog module.
 
 ## Technical Documentation

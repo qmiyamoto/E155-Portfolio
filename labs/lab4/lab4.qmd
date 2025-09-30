@@ -1,3 +1,102 @@
 ---
 title: "Lab 4: Digital Audio"
 ---
+
+## Introduction {#sec-intro}
+In this lab, a speaker was made to play music by toggling a GPIO pin at user-specified frequencies with the on-board MCU.
+More specifically, various C libraries were written from scratch so as to ultimately allow for interfacing between the MCU's internal clock and timers.
+After taking in a system clock input of 80 MHz (the maximum possible PLL output frequency) and dividing it as necessary, one of the timers was used to generate square waves of variable frequencies, while another prolonged the existence of said square waves for specific periods of time.
+In other words: The first timer controlled the pitch of the song notes, while the other controlled the note durations.
+Additionally, a potentiometer was integrated into the MCU-speaker circuit to allow for user-dictated volume control.
+
+## Design and Testing Methodology
+Firstly, the PLL was configured to take in the multispeed internal (MSI) RC oscillator as an input and output an 80 MHz clock signal. 
+Then, timers TIM16 and TIM15 were set up to generate the PWM and mandate its duration, respectively.
+Finally, GPIO pin PA6 was chosen to actually output the square waves and interface with the physical world.
+(Note that some files were not originally produced and were instead taken from the [solutions branch](https://github.com/HMC-E155/tutorial-clock-configuration/tree/solution/lib) of an in-class activity.)
+
+The two songs that the MCU was programmed to play were 1) Für Elise, as given in some [Lab 4 starter code](https://github.com/HMC-E155/hmc-e155/blob/main/lab/lab04/src/lab4_starter.c), and 2) Legendary;
+the [sheet music](https://musescore.com/user/50819148/scores/20490730) for the latter was found online and was subsequently transcribed into more beginner-friendly notation by [Alan Kappler](https://www.linkedin.com/in/alan-kappler-5855aa268/).
+
+Various tests were conducted on the final product, including both physical interaction with the resultant circuit and oscilloscope traces, as elaborated on in a later [Results and Discussion](#sec-results-and-discussion) section.
+
+## Technical Documentation
+The source code for this project can be found in the associated [GitHub repository folder](https://github.com/qmiyamoto/E155-Labs/tree/main/lab4).
+
+### Schematic
+![Schematic of physical circuit](images/lab4_schematic){#fig-schematic}
+
+The [Figure 1](#fig-schematic) schematic outlines how the physical components actually connect.
+All capacitor and resistor values were taken from an example circuit provided in the [LM386 audio amplifier datasheet](https://www.ti.com/lit/ds/symlink/lm386.pdf) (specifically Figure 9-5, which depicts the LM386 with a gain of 50).
+
+### Minimum and Maximum Supported Frequencies and Durations
+Additionally, the minimum and maximum possible frequencies and durations supported with the current prescaler values — what the internal system clock is ultimately divided by for the timer's convenience — used in the code can be viewed in the following Figures [2a](#fig-min-max-frequency-calculations) and [2b](#fig-min-max-duration-calculations).
+
+::: {#fig-min-max-frequency-duration-calculations layout-ncol=2}
+![Frequencies](images/min_max_frequency_calculations.png){#fig-min-max-frequency-calculations .lightbox}
+
+![Durations](images/min_max_duration_calculations.png){#fig-min-max-duration-calculations .lightbox}
+
+Calculations for minimum and maximum values
+:::
+
+These computations were all performed with equations given in the [STM32L432KC MCU reference manual](https://hmc-e155.github.io/assets/doc/rm0394-stm32l41xxx42xxx43xxx44xxx45xxx46xxx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf).
+Most notably, the ARR value was relevant to all calculations because of the fact that it was the maximum number that any given timer could count up to before triggering an Update Interrupt Flag and exiting the C function.
+
+## Results and Discussion {#sec-results-and-discussion}
+The results of Lab 4 can be viewed in Figures [3a](#fig-fur-elise-video) and [3b](#fig-legendary-video) below:
+
+::: {#fig-demo-videos layout-ncol=2}
+
+::: {#fig-fur-elise-video}
+{{< video https://youtu.be/XlqTo8Vepm4?feature=shared >}}
+
+Für Elise
+:::
+
+::: {#fig-legendary-video}
+{{< video https://youtu.be/Q8XCqaBsbqE?feature=shared >}}
+
+Legendary
+:::
+
+Demo videos
+:::
+
+Evidently, all of the Lab 4 specs were met; all of the notes were the correct pitches and lasted for the appropriate durations.
+Although the specific potentiometer used didn't allow for the finest volume control possible, it still worked well enough that it was deemed acceptable to keep.
+
+### Oscilloscope Traces
+
+::: {#fig-first-two-note-oscilloscope-traces layout-ncol=2}
+![First note](images/first_note_trace.png){#fig-first-note-trace .lightbox}
+
+![Second note](images/second_note_trace.png){#fig-second-note-trace .lightbox}
+
+Für Elise oscilloscope traces
+:::
+
+In order to verify that the speaker was outputting the correct pitches as intended, an oscilloscope was used to determine the actual frequencies being played for the first two notes of Für Elise.
+When compared to the expected values of 659 and 623 Hz, respectively, it was suffice to say that the design did, in fact, perform rather accurately.
+
+Furthermore, to really prove that the choice of the design was, without a doubt, completely functional, the speaker was forced to play both 200 and 1000 Hz signals — the bounds of an appropriately large frequency range, according to the specs — with the corresponding oscilloscope traces pictured in Figures [5a](#fig-200-hz-trace) and [5b](#fig-1000-hz-trace) as follows:
+
+::: {#fig-min-max-note-oscilloscope-traces layout-ncol=2}
+![200 Hz](images/200_Hz_trace.png){#fig-200-hz-trace .lightbox}
+
+![1000 Hz](images/1000_Hz_trace.png){#fig-1000-hz-trace .lightbox}
+
+Oscilloscope traces for the required frequency range bounds
+:::
+
+Finally, a few mathematical computations were performed in [Figure 6](#fig-1%-pitch-accuracy-calculations) to quantify just how much percent error the actual output comprised when compared to theoretical results, and ultimately show that none of these values for the 200 to 1000 Hz frequency range were greater than one percent, as desired:
+
+![Accuracy verification calculations](images/1%25_pitch_accuracy_calculations.png){#fig-1%-pitch-accuracy-calculations}
+
+## Conclusion
+Overall, the design played both Für Elise and a composition of choice (Legendary) as required, with all notes having pitches and durations that were accurate to within one percent of the intended outcomes for the range of 200 to 1000 Hz.
+Additionally, a potentiometer was successfully incorporated into the circuit so as to allow for volume control.
+A total of approximately 15 hours was spent working on this lab.
+
+## AI Prototype
+

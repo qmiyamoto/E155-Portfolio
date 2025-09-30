@@ -34,7 +34,7 @@ If one really wanted to, they could even shorten the wait period to mitigate thi
 Another miniscule tradeoff is that there is a tiny delay in the shifting of most recent and second most recent digits (something that is not considered as "clean" as other designs), as a byproduct of assigning the second most recent digit's value before the most recent digit's one in the aforementioned FSM.
 But, again, because this does not functionally compromise the design in any way, shape, or form, a design decision was ruled in favor of keeping everything the same.
 
-Various tests were conducted on the final product, including both physical interaction with the resultant circuits and simulation testbenches, as elaborated on in a later [Results and Discussions](#sec-results-and-discussion) section.
+Various tests were conducted on the final product, including both physical interaction with the resultant circuits and simulation testbenches, as elaborated on in a later [Results and Discussion](#sec-results-and-discussion) section.
 Note that there was an individual testbench created for each SystemVerilog module.
 
 ## Technical Documentation
@@ -120,12 +120,15 @@ Submodule waveforms
 
 The submodule waveforms in Figures [7a](#fig-clock-divider-waveforms), [7b](#fig-keypad-synchronizer-waveforms), and [7c](#fig-key-to-digit-converter-waveforms) further verify that the design was working exactly as intended: the clock-divider waveforms proved that the *halved_internal_oscillator* signal took twice as long as the module's input to complete a full clock cycle,  the synchronizer waveforms showed that the *keypad_column* inputs were, in fact, being offset by two cycles before being returned as outputs, and the key-to-digit converter waveforms demonstrated that every single activated row-column pairing produced the correct hexadecimal digit.
 
-The keypad scanning and debouncing FSM waveforms can be viewed in Figures [8a](#fig-fsm-waveforms) and [8b](#fig-fsm-zoomed-in-waveforms) below.
+The keypad scanning and debouncing FSM waveforms can be viewed in Figures [8a](#fig-fsm-waveforms), [8b](#fig-fsm-zoomed-in-waveforms-2), and [8c](#fig-fsm-zoomed-in-waveforms-2) below.
+As expected, the FSM was in the correct state at any given point in time, and cycled through them appropriately in response to a variety of inputs, including a short, single key press, a prolonged key press, and key presses that occurred after an initial button was already pushed.
 
-::: {#fig-fsm-submodule-waveforms layout-ncol=2}
+::: {#fig-fsm-submodule-waveforms layout-ncol=3}
 ![Keypad scanner and debouncer module](images/keypad_scanner_and_debouncer_waveforms_2.png){#fig-fsm-waveforms .lightbox}
 
-![Zoomed-in](images/keypad_scanner_and_debouncer_waveforms_zoomed_in_2.png){#fig-fsm-zoomed-in-waveforms .lightbox}
+![Zoomed-in](images/keypad_scanner_and_debouncer_waveforms_zoomed_in_1.png){#fig-fsm-zoomed-in-waveforms-1 .lightbox}
+
+![Zoomed-in](images/keypad_scanner_and_debouncer_waveforms_zoomed_in_2.png){#fig-fsm-zoomed-in-waveforms-2 .lightbox}
 
 FSM submodule waveforms
 :::
