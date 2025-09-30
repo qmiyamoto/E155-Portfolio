@@ -69,9 +69,9 @@ Although the specific potentiometer used didn't allow for the finest volume cont
 ### Oscilloscope Traces
 
 ::: {#fig-first-two-note-oscilloscope-traces layout-ncol=2}
-![First note](images/first_note_trace.png){#fig-first-note-trace .lightbox}
+![First note](images/first_fur_elise_note_trace.png){#fig-first-note-trace .lightbox}
 
-![Second note](images/second_note_trace.png){#fig-second-note-trace .lightbox}
+![Second note](images/second_fur_elise_note_trace.png){#fig-second-note-trace .lightbox}
 
 Für Elise oscilloscope traces
 :::
@@ -89,9 +89,9 @@ Furthermore, to really prove that the choice of the design was, without a doubt,
 Oscilloscope traces for the required frequency range bounds
 :::
 
-Finally, a few mathematical computations were performed in [Figure 6](#fig-1%-pitch-accuracy-calculations) to quantify just how much percent error the actual output comprised when compared to theoretical results, and ultimately show that none of these values for the 200 to 1000 Hz frequency range were greater than one percent, as desired:
+Finally, a few mathematical computations were performed in [Figure 6](#fig-one-percent-pitch-accuracy-calculations) to quantify just how much percent error the actual output comprised when compared to theoretical results, and ultimately show that none of these values for the 200 to 1000 Hz frequency range were greater than one percent, as desired:
 
-![Accuracy verification calculations](images/1%25_pitch_accuracy_calculations.png){#fig-1%-pitch-accuracy-calculations}
+![Accuracy verification calculations](images/pitch_accuracy_calculations.png){#fig-one-percent-pitch-accuracy-calculations}
 
 ## Conclusion
 Overall, the design played both Für Elise and a composition of choice (Legendary) as required, with all notes having pitches and durations that were accurate to within one percent of the intended outcomes for the range of 200 to 1000 Hz.
@@ -99,4 +99,24 @@ Additionally, a potentiometer was successfully incorporated into the circuit so 
 A total of approximately 15 hours was spent working on this lab.
 
 ## AI Prototype
+Using ChatGPT to generate some code in response to the prompt "*What timers should I use on the STM32L432KC to generate frequencies ranging from 220Hz to 1kHz? What’s the best choice of timer if I want to easily connect it to a GPIO pin? What formulae are relevant, and what registers need to be set to configure them properly?*," the LLM produced surprisingly accurate results that can be viewed in the public [chat transcript](https://chatgpt.com/share/68dbb7c9-d1b8-800f-9635-6c54cb67fa36).
 
+Most notably, the AI was correct in its timer overview (as depicted in [Figure 7](#fig-ai-prototype-response-1)), with the recommended general purpose timers TIM15 and TIM16 being exactly what was used in the actual lab above.
+
+![Available timers](images/ai_prototype_response_1.png){#fig-ai-prototype-response-1}
+
+Furthermore, the provided formulae for both the note frequency and the duty cycle calculations were surprisingly correct.
+These are shown in [Figure 8](#fig-ai-prototype-response-2) below.
+The only things that were missing were the equations for ARR when trying to prolong the duration of a note.
+
+![Formulae](images/ai_prototype_response_2.png){#fig-ai-prototype-response-2}
+
+The LLM was also pretty accurate when it came to listing registers that needed to be configured, as seen in [Figure 9](#fig-ai-prototype-response-3).
+All of the registers it suggested were, in fact, necessary to consider; however, it *did* omit a few crucial ones.
+For instance, the Update Generation bit in the Event Generation Register was also rather important to set, as well as the SMS bits in the SMCR.
+
+![AI-recommended registers](images/ai_prototype_response_3.png){#fig-ai-prototype-response-3}
+
+All in all, the quality of the output this time was extremely good, for it did not comprise any obvious inaccuracies.
+If the LLM-user was to approach this response with the mindset that it would provide a solid starting point but not everything that needed to be considered, it could prove to be invaluable help.
+The AI was definitely able to parse the reference manual at a far greater speed than any human could; it was even better at providing guidance than Ctrl-F (which, due to the sheer size of the manual, often missed things on not-yet-loaded pages).
