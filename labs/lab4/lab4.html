@@ -40,6 +40,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-dfb324f25d9b1687192fa8be62ac8f9c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -151,8 +154,26 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#sec-intro" id="toc-sec-intro" class="nav-link active" data-scroll-target="#sec-intro">Introduction</a></li>
+  <li><a href="#design-and-testing-methodology" id="toc-design-and-testing-methodology" class="nav-link" data-scroll-target="#design-and-testing-methodology">Design and Testing Methodology</a></li>
+  <li><a href="#technical-documentation" id="toc-technical-documentation" class="nav-link" data-scroll-target="#technical-documentation">Technical Documentation</a>
+  <ul class="collapse">
+  <li><a href="#schematic" id="toc-schematic" class="nav-link" data-scroll-target="#schematic">Schematic</a></li>
+  <li><a href="#minimum-and-maximum-supported-frequencies-and-durations" id="toc-minimum-and-maximum-supported-frequencies-and-durations" class="nav-link" data-scroll-target="#minimum-and-maximum-supported-frequencies-and-durations">Minimum and Maximum Supported Frequencies and Durations</a></li>
+  </ul></li>
+  <li><a href="#sec-results-and-discussion" id="toc-sec-results-and-discussion" class="nav-link" data-scroll-target="#sec-results-and-discussion">Results and Discussion</a>
+  <ul class="collapse">
+  <li><a href="#oscilloscope-traces" id="toc-oscilloscope-traces" class="nav-link" data-scroll-target="#oscilloscope-traces">Oscilloscope Traces</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#ai-prototype" id="toc-ai-prototype" class="nav-link" data-scroll-target="#ai-prototype">AI Prototype</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -176,8 +197,200 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="sec-intro" class="level2">
+<h2 class="anchored" data-anchor-id="sec-intro">Introduction</h2>
+<p>In this lab, a speaker was made to play music by toggling a GPIO pin at user-specified frequencies with the on-board MCU. More specifically, various C libraries were written from scratch so as to ultimately allow for interfacing between the MCU’s internal clock and timers. After taking in a system clock input of 80 MHz (the maximum possible PLL output frequency) and dividing it as necessary, one of the timers was used to generate square waves of variable frequencies, while another prolonged the existence of said square waves for specific periods of time. In other words: The first timer controlled the pitch of the song notes, while the other controlled the note durations. Additionally, a potentiometer was integrated into the MCU-speaker circuit to allow for user-dictated volume control.</p>
+</section>
+<section id="design-and-testing-methodology" class="level2">
+<h2 class="anchored" data-anchor-id="design-and-testing-methodology">Design and Testing Methodology</h2>
+<p>Firstly, the PLL was configured to take in the multispeed internal (MSI) RC oscillator as an input and output an 80 MHz clock signal. Then, timers TIM16 and TIM15 were set up to generate the PWM and mandate its duration, respectively. Finally, GPIO pin PA6 was chosen to actually output the square waves and interface with the physical world. (Note that some files were not originally produced and were instead taken from the <a href="https://github.com/HMC-E155/tutorial-clock-configuration/tree/solution/lib">solutions branch</a> of an in-class activity.)</p>
+<p>The two songs that the MCU was programmed to play were 1) Für Elise, as given in some <a href="https://github.com/HMC-E155/hmc-e155/blob/main/lab/lab04/src/lab4_starter.c">Lab 4 starter code</a>, and 2) Legendary; the <a href="https://musescore.com/user/50819148/scores/20490730">sheet music</a> for the latter was found online and was subsequently transcribed into more beginner-friendly notation by <a href="https://www.linkedin.com/in/alan-kappler-5855aa268/">Alan Kappler</a>.</p>
+<p>Various tests were conducted on the final product, including both physical interaction with the resultant circuit and oscilloscope traces, as elaborated on in a later <a href="#sec-results-and-discussion">Results and Discussion</a> section.</p>
+</section>
+<section id="technical-documentation" class="level2">
+<h2 class="anchored" data-anchor-id="technical-documentation">Technical Documentation</h2>
+<p>The source code for this project can be found in the associated <a href="https://github.com/qmiyamoto/E155-Labs/tree/main/lab4">GitHub repository folder</a>.</p>
+<section id="schematic" class="level3">
+<h3 class="anchored" data-anchor-id="schematic">Schematic</h3>
+<div id="fig-schematic" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/lab4_schematic.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Schematic of physical circuit
+</figcaption>
+</figure>
+</div>
+<p>The <a href="#fig-schematic">Figure 1</a> schematic outlines how the physical components actually connect. All capacitor and resistor values were taken from an example circuit provided in the <a href="https://www.ti.com/lit/ds/symlink/lm386.pdf">LM386 audio amplifier datasheet</a> (specifically Figure 9-5, which depicts the LM386 with a gain of 50).</p>
+</section>
+<section id="minimum-and-maximum-supported-frequencies-and-durations" class="level3">
+<h3 class="anchored" data-anchor-id="minimum-and-maximum-supported-frequencies-and-durations">Minimum and Maximum Supported Frequencies and Durations</h3>
+<p>Additionally, the minimum and maximum possible frequencies and durations supported with the current prescaler values — what the internal system clock is ultimately divided by for the timer’s convenience — used in the code can be viewed in the following Figures <a href="#fig-min-max-frequency-calculations">2a</a> and <a href="#fig-min-max-duration-calculations">2b</a>.</p>
+<div id="fig-min-max-frequency-duration-calculations" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-min-max-frequency-duration-calculations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-min-max-frequency-duration-calculations" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-min-max-frequency-calculations" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-min-max-frequency-calculations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/min_max_frequency_calculations.png" class="lightbox" data-gallery="fig-min-max-frequency-duration-calculations" title="Figure&nbsp;2&nbsp;(a): Frequencies"><img src="images/min_max_frequency_calculations.png" class="img-fluid figure-img" data-ref-parent="fig-min-max-frequency-duration-calculations"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-min-max-frequency-calculations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Frequencies
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-min-max-frequency-duration-calculations" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-min-max-duration-calculations" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-min-max-duration-calculations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/min_max_duration_calculations.png" class="lightbox" data-gallery="fig-min-max-frequency-duration-calculations" title="Figure&nbsp;2&nbsp;(b): Durations"><img src="images/min_max_duration_calculations.png" class="img-fluid figure-img" data-ref-parent="fig-min-max-frequency-duration-calculations"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-min-max-duration-calculations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Durations
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-min-max-frequency-duration-calculations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Calculations for minimum and maximum values
+</figcaption>
+</figure>
+</div>
+<p>These computations were all performed with equations given in the <a href="https://hmc-e155.github.io/assets/doc/rm0394-stm32l41xxx42xxx43xxx44xxx45xxx46xxx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf">STM32L432KC MCU reference manual</a>. Most notably, the ARR value was relevant to all calculations because of the fact that it was the maximum number that any given timer could count up to before triggering an Update Interrupt Flag and exiting the C function.</p>
+</section>
+</section>
+<section id="sec-results-and-discussion" class="level2">
+<h2 class="anchored" data-anchor-id="sec-results-and-discussion">Results and Discussion</h2>
+<p>The results of Lab 4 can be viewed in Figures <a href="#fig-fur-elise-video">3a</a> and <a href="#fig-legendary-video">3b</a> below:</p>
+<div id="fig-demo-videos" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-demo-videos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-demo-videos" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-fur-elise-video" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-fur-elise-video-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/XlqTo8Vepm4?feature=shared" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-fur-elise-video-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Für Elise
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-demo-videos" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-legendary-video" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-legendary-video-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/Q8XCqaBsbqE?feature=shared" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-legendary-video-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Legendary
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-demo-videos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Demo videos
+</figcaption>
+</figure>
+</div>
+<p>Evidently, all of the Lab 4 specs were met; all of the notes were the correct pitches and lasted for the appropriate durations. Although the specific potentiometer used didn’t allow for the finest volume control possible, it still worked well enough that it was deemed acceptable to keep.</p>
+<section id="oscilloscope-traces" class="level3">
+<h3 class="anchored" data-anchor-id="oscilloscope-traces">Oscilloscope Traces</h3>
+<div id="fig-first-two-note-oscilloscope-traces" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-first-two-note-oscilloscope-traces-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-first-two-note-oscilloscope-traces" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-first-note-trace" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-first-note-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/first_note_trace.png" class="lightbox" data-gallery="fig-first-two-note-oscilloscope-traces" title="Figure&nbsp;4&nbsp;(a): First note"><img src="images/first_note_trace.png" class="img-fluid figure-img" data-ref-parent="fig-first-two-note-oscilloscope-traces"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-first-note-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) First note
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-first-two-note-oscilloscope-traces" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-second-note-trace" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-second-note-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/second_note_trace.png" class="lightbox" data-gallery="fig-first-two-note-oscilloscope-traces" title="Figure&nbsp;4&nbsp;(b): Second note"><img src="images/second_note_trace.png" class="img-fluid figure-img" data-ref-parent="fig-first-two-note-oscilloscope-traces"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-second-note-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Second note
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-first-two-note-oscilloscope-traces-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Für Elise oscilloscope traces
+</figcaption>
+</figure>
+</div>
+<p>In order to verify that the speaker was outputting the correct pitches as intended, an oscilloscope was used to determine the actual frequencies being played for the first two notes of Für Elise. When compared to the expected values of 659 and 623 Hz, respectively, it was suffice to say that the design did, in fact, perform rather accurately.</p>
+<p>Furthermore, to really prove that the choice of the design was, without a doubt, completely functional, the speaker was forced to play both 200 and 1000 Hz signals — the bounds of an appropriately large frequency range, according to the specs — with the corresponding oscilloscope traces pictured in Figures <a href="#fig-200-hz-trace">5a</a> and <a href="#fig-1000-hz-trace">5b</a> as follows:</p>
+<div id="fig-min-max-note-oscilloscope-traces" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-min-max-note-oscilloscope-traces-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-min-max-note-oscilloscope-traces" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-200-hz-trace" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-200-hz-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/200_Hz_trace.png" class="lightbox" data-gallery="fig-min-max-note-oscilloscope-traces" title="Figure&nbsp;5&nbsp;(a): 200 Hz"><img src="images/200_Hz_trace.png" class="img-fluid figure-img" data-ref-parent="fig-min-max-note-oscilloscope-traces"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-200-hz-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) 200 Hz
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-min-max-note-oscilloscope-traces" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-1000-hz-trace" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-1000-hz-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/1000_Hz_trace.png" class="lightbox" data-gallery="fig-min-max-note-oscilloscope-traces" title="Figure&nbsp;5&nbsp;(b): 1000 Hz"><img src="images/1000_Hz_trace.png" class="img-fluid figure-img" data-ref-parent="fig-min-max-note-oscilloscope-traces"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-1000-hz-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) 1000 Hz
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-min-max-note-oscilloscope-traces-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Oscilloscope traces for the required frequency range bounds
+</figcaption>
+</figure>
+</div>
+<p>Finally, a few mathematical computations were performed in <a href="#fig-1%-pitch-accuracy-calculations">Figure 6</a> to quantify just how much percent error the actual output comprised when compared to theoretical results, and ultimately show that none of these values for the 200 to 1000 Hz frequency range were greater than one percent, as desired:</p>
+<p><img src="images/1%_pitch_accuracy_calculations.png" class="img-fluid" alt="Accuracy verification calculations">{#fig-1%-pitch-accuracy-calculations}</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>Overall, the design played both Für Elise and a composition of choice (Legendary) as required, with all notes having pitches and durations that were accurate to within one percent of the intended outcomes for the range of 200 to 1000 Hz. Additionally, a potentiometer was successfully incorporated into the circuit so as to allow for volume control. A total of approximately 15 hours was spent working on this lab.</p>
+</section>
+<section id="ai-prototype" class="level2">
+<h2 class="anchored" data-anchor-id="ai-prototype">AI Prototype</h2>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -580,6 +793,38 @@ ul.task-list li input[type="checkbox"] {
   });
   </script>
 </div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
