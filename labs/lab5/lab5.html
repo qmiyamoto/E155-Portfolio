@@ -40,6 +40,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-dfb324f25d9b1687192fa8be62ac8f9c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -151,8 +154,27 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#sec-intro" id="toc-sec-intro" class="nav-link active" data-scroll-target="#sec-intro">Introduction</a></li>
+  <li><a href="#design-and-testing-methodology" id="toc-design-and-testing-methodology" class="nav-link" data-scroll-target="#design-and-testing-methodology">Design and Testing Methodology</a></li>
+  <li><a href="#technical-documentation" id="toc-technical-documentation" class="nav-link" data-scroll-target="#technical-documentation">Technical Documentation</a>
+  <ul class="collapse">
+  <li><a href="#schematic" id="toc-schematic" class="nav-link" data-scroll-target="#schematic">Schematic</a></li>
+  <li><a href="#flowchart" id="toc-flowchart" class="nav-link" data-scroll-target="#flowchart">Flowchart</a></li>
+  <li><a href="#mathematical-verification" id="toc-mathematical-verification" class="nav-link" data-scroll-target="#mathematical-verification">Mathematical Verification</a></li>
+  </ul></li>
+  <li><a href="#sec-results-and-discussion" id="toc-sec-results-and-discussion" class="nav-link" data-scroll-target="#sec-results-and-discussion">Results and Discussion</a>
+  <ul class="collapse">
+  <li><a href="#manual-polling" id="toc-manual-polling" class="nav-link" data-scroll-target="#manual-polling">Manual Polling</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#ai-prototype" id="toc-ai-prototype" class="nav-link" data-scroll-target="#ai-prototype">AI Prototype</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -176,8 +198,183 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="sec-intro" class="level2">
+<h2 class="anchored" data-anchor-id="sec-intro">Introduction</h2>
+<p>Building off what was learned in the previous <a href="../../labs/lab4/lab4.html">Lab 4</a>, three interrupts were interfaced with both the MCU’s internal system clock a timer to perform a constant polling of the pulses produced by a given motor’s quadrature encoder. This information was then converted into an angular velocity by computing a running average over the sampling period, the value of which was then subsequently printed out in the built-in Segger Debug mode terminal, along with the motor’s direction of rotation. Additionally, the written output was configured to auto-update at least every second.</p>
+</section>
+<section id="design-and-testing-methodology" class="level2">
+<h2 class="anchored" data-anchor-id="design-and-testing-methodology">Design and Testing Methodology</h2>
+<p>Firstly, the PLL was configured to take in the multispeed internal (MSI) RC oscillator as an input and output an 80 MHz clock signal. Then, pins PA9 and PA10 were set up to take the outputs of the quadrature encoder as inputs, while timer TIM16 was configured to dictate a sampling period of one second. Finally, three different interrupts were enabled, with two tied to PA9 and PA10, respectively, and the last being connected to TIM16; more specifically, the two external interrupts were coded to trigger on <em>every</em> rising and falling edge of the encoder pulses, so as to get the best resolution possible, while the timer interrupt was asserted with the raising of the Update Interrupt Flag in software, which occurred every one second. (Note that some files were not originally produced and were instead taken from the <a href="https://github.com/HMC-E155/tutorial-interrupts/tree/solution/lib">solutions branch</a> of an in-class activity.)</p>
+<p>Various tests were conducted on the final product, including both physical interaction with the resultant circuit and manual polling, as elaborated on in a later <a href="#sec-results-and-discussion">Results and Discussion</a> section.</p>
+</section>
+<section id="technical-documentation" class="level2">
+<h2 class="anchored" data-anchor-id="technical-documentation">Technical Documentation</h2>
+<p>The source code for this project can be found in the associated <a href="https://github.com/qmiyamoto/E155-Labs/tree/main/lab5">GitHub repository folder</a>.</p>
+<section id="schematic" class="level3">
+<h3 class="anchored" data-anchor-id="schematic">Schematic</h3>
+<div id="fig-schematic" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/lab5_schematic.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Schematic of physical circuit
+</figcaption>
+</figure>
+</div>
+<p>The <a href="#fig-schematic">Figure 1</a> schematic outlines how the physical components actually connect. PA9 and PA10 were chosen as inputs because they are 5V-tolerant. Note that both quadrature encoders comprise Hall Effect sensors.</p>
+</section>
+<section id="flowchart" class="level3">
+<h3 class="anchored" data-anchor-id="flowchart">Flowchart</h3>
+<div id="fig-flowchart" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flowchart-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/flowchart.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flowchart-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Flowchart
+</figcaption>
+</figure>
+</div>
+<p>Additionally, a flowchart illustrating the main steps of the program and function calls can be viewed in <a href="#fig-flowchart">Figure 2</a> above. Because the heavier, calculation-oriented work was done entirely in the three interrupt handlers, the main function does not seemingly comprise much substance.</p>
+</section>
+<section id="mathematical-verification" class="level3">
+<h3 class="anchored" data-anchor-id="mathematical-verification">Mathematical Verification</h3>
+<p>The speed measured by the MCU can also be mathematically verified to match the true motor speed and direction, as shown in <a href="#fig-mathematical-verification">Figure 3</a> below:</p>
+<div id="fig-mathematical-verification" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mathematical-verification-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/mathematical_verification.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mathematical-verification-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Motor speed calculations
+</figcaption>
+</figure>
+</div>
+<p>In short, the measured speed displayed was a running average of the total detected pulse edges over a one-second period, the counter for which was incremented by positive one if the motor was turning clockwise and negative one if it was going counterclockwise (no motor movement simply resulted in the counter maintaining its previous value). When given a voltage for which the motor’s actual speed was known, the frequency of PA10 was determined using an oscilloscope and subsequently converted into an angular velocity, so as to provide a more direct and obvious point of comparison.</p>
+</section>
+</section>
+<section id="sec-results-and-discussion" class="level2">
+<h2 class="anchored" data-anchor-id="sec-results-and-discussion">Results and Discussion</h2>
+<p>The results of Lab 5 are shown in <a href="#fig-video">Figure 4</a>, as follows:</p>
+<div id="fig-video" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-video-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/j-uTpXrQ-eI?si=gV3CI7aI_JXisZ6E" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-video-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Demo video
+</figcaption>
+</figure>
+</div>
+<p>Evidently, the design performed adequately and exactly to spec. At approximately 10 V, the measured angular velocity was around 2 rev/s, as expected. Furthermore, this velocity value demonstrably had a direct relationship with voltage (as intended), the printed direction of rotation was always accurate, and the terminal very visibly updated at a rate 1 Hz.</p>
+<section id="manual-polling" class="level3">
+<h3 class="anchored" data-anchor-id="manual-polling">Manual Polling</h3>
+<p>Figures <a href="#fig-empty-while-loop">5a</a> and <a href="#fig-manual-polling">5b</a> depict the frequencies at which the MCU is able to toggle a GPIO pin in an empty while loop and a loop that prints an incremented value, respectively.</p>
+<div id="fig-manual-polling-oscilloscope-traces" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-manual-polling-oscilloscope-traces-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-manual-polling-oscilloscope-traces" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-empty-while-loop" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-empty-while-loop-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/empty_while(1)_loop.png" class="lightbox" data-gallery="fig-manual-polling-oscilloscope-traces" title="Figure&nbsp;5&nbsp;(a): Empty while(1) loop"><img src="images/empty_while(1)_loop.png" class="img-fluid figure-img" data-ref-parent="fig-manual-polling-oscilloscope-traces"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-empty-while-loop-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Empty <em>while(1)</em> loop
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-manual-polling-oscilloscope-traces" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-manual-polling" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-manual-polling-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/manual_polling.png" class="lightbox" data-gallery="fig-manual-polling-oscilloscope-traces" title="Figure&nbsp;5&nbsp;(b): while(1) loop with printing"><img src="images/manual_polling.png" class="img-fluid figure-img" data-ref-parent="fig-manual-polling-oscilloscope-traces"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-manual-polling-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) <em>while(1)</em> loop with printing
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-manual-polling-oscilloscope-traces-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Oscilloscope traces when manual polling
+</figcaption>
+</figure>
+</div>
+<p>Meanwhile, <a href="#fig-quad-encoder-B">Figure 6</a> displays the actual pulse frequency received from quadrature encoder B by PA10 (and its attached interrupt handler) when the motor is being supplied 10.13 V; this is the signal that is actually being detected in this lab, and used for all calculations mentioned above.</p>
+<div id="fig-quad-encoder-B" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-quad-encoder-B-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/quad_encoder_B.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-quad-encoder-B-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Oscilloscope trace of pulses detected by quadrature encoder B
+</figcaption>
+</figure>
+</div>
+<p>Now, in order to compare the performance of interrupts as opposed to manual polling in this specific situation, a few calculations were made in <a href="#fig-comparison-justification">Figure 7</a> below:</p>
+<div id="fig-comparison-justification" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-comparison-justification-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/comparison_justification.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-comparison-justification-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Interrupts vs.&nbsp;manual polling performance comparison
+</figcaption>
+</figure>
+</div>
+<p>In essence, it is always better to use interrupts when it comes to high-speed sampling, though for the sake of this lab, manual polling does not actually perform all that horribly.</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>All in all, the design utilized three different interrupts to detect rising and falling edges from the two quadrature encoders’ output pulses, accurately extrapolated the motor’s angular velocity and rotational direction from that information, and printed such in the Debug terminal at a rate of at least 1 Hz. A total of approximately 15 hours was spent on this lab.</p>
+</section>
+<section id="ai-prototype" class="level2">
+<h2 class="anchored" data-anchor-id="ai-prototype">AI Prototype</h2>
+<p>Using ChatGPT to generate some code in response to the prompt “<em>Write me interrupt handlers to interface with a quadrature encoder. I’m using the STM32L432KC, what pins should I connect the encoder to in order to allow it to easily trigger the interrupts?</em>,” the LLM produced rather inaccurate results that can be viewed in the public <a href="https://chatgpt.com/share/68e6fe0e-6614-800f-bb4b-ba1599f9887d">chat transcript</a>. When trying to build its output code, the error message depicted in <a href="#fig-ai-error-message">Figure 8</a> was produced.</p>
+<div id="fig-ai-error-message" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ai-error-message-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/ai_error_message.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ai-error-message-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: Build error message for AI code
+</figcaption>
+</figure>
+</div>
+<p>The fact that the AI could not even include the correct header file was indicative of a greater issue at hand — the fact that it could write mostly accurate lines in isolation, but not stitch them together in a way that was usable. Technically, its syntax was correct, but it did not have a good enough understanding of the bigger picture to create something that was properly interfaced.</p>
+<p>However, when it came to simply offering advice and not code, the LLM performed much better. For example, in <a href="#fig-ai-pin-recommendations">Figure 9</a>, two usable, 5V-tolerant pins were, in fact, recommended.</p>
+<div id="fig-ai-pin-recommendations" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ai-pin-recommendations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/ai_pin_recommendations.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ai-pin-recommendations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: ChatGPT MCU pin recommendations
+</figcaption>
+</figure>
+</div>
+<p>Moreover, although the AI decided to solve for angular degrees instead of angular velocity, it <em>did</em> output the correct equation for doing so, as shown in <a href="#fig-ai-encoder-math">Figure 10</a>. However, once again, this line of code only existed in isolation, without any real clarity regarding where to declare it and when it use it.</p>
+<div id="fig-ai-encoder-math" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ai-encoder-math-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/ai_encoder_math.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ai-encoder-math-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10: ChatGPT angular velocity math
+</figcaption>
+</figure>
+</div>
+<p>Thus, in summary, the LLM for this week’s AI prototype produced solidly middling results. If perhaps given more instruction as to how the user wants their prompt to be answered, it would likely perform better, but in the meantime, it seems to require significant understanding of interrupts and the task at hand to comprehend what it is trying to do.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -580,6 +777,38 @@ ul.task-list li input[type="checkbox"] {
   });
   </script>
 </div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
