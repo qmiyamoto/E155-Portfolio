@@ -22,7 +22,8 @@ Wrote own C libraries from scratch to enable and interface the MCU clock and tim
 Generated square waves of specified frequencies for specified durations with the MCU timers.
 
 ## Lab 5: [Interrupts](labs/lab5/lab5.qmd)
-[Lab Overview]
+Implemented a multi-interrupt routine on the MCU to detect pulses from a given motor's quadrature encoder and convert that information into a value for angular velocity.
+Used the built-in Debug mode in Segger to display said motor velocity and direction in the terminal, with an update rate of at least 1 Hz.
 
 ## Lab 6: [The Internet of Things and Serial Peripheral Interface](labs/lab6/lab6.qmd)
 [Lab Overview]
