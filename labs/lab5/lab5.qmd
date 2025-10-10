@@ -19,7 +19,7 @@ Various tests were conducted on the final product, including both physical inter
 The source code for this project can be found in the associated [GitHub repository folder](https://github.com/qmiyamoto/E155-Labs/tree/main/lab5).
 
 ### Schematic
-![Schematic of physical circuit](images/lab5_schematic.png){#fig-schematic}
+![Schematic of physical circuit](images/lab5_schematic.png){#fig-schematic width=60%}
 
 The [Figure 1](#fig-schematic) schematic outlines how the physical components actually connect.
 PA9 and PA10 were chosen as inputs because they are 5V-tolerant.
