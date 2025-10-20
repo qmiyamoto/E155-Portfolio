@@ -40,6 +40,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-dfb324f25d9b1687192fa8be62ac8f9c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -151,8 +154,26 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#sec-intro" id="toc-sec-intro" class="nav-link active" data-scroll-target="#sec-intro">Introduction</a></li>
+  <li><a href="#design-and-testing-methodology" id="toc-design-and-testing-methodology" class="nav-link" data-scroll-target="#design-and-testing-methodology">Design and Testing Methodology</a></li>
+  <li><a href="#technical-documentation" id="toc-technical-documentation" class="nav-link" data-scroll-target="#technical-documentation">Technical Documentation</a>
+  <ul class="collapse">
+  <li><a href="#schematic" id="toc-schematic" class="nav-link" data-scroll-target="#schematic">Schematic</a></li>
+  </ul></li>
+  <li><a href="#sec-results-and-discussion" id="toc-sec-results-and-discussion" class="nav-link" data-scroll-target="#sec-results-and-discussion">Results and Discussion</a>
+  <ul class="collapse">
+  <li><a href="#e155-online-led-toggler-and-temperature-reporter-webpage" id="toc-e155-online-led-toggler-and-temperature-reporter-webpage" class="nav-link" data-scroll-target="#e155-online-led-toggler-and-temperature-reporter-webpage">E155 Online LED Toggler and Temperature Reporter Webpage</a></li>
+  <li><a href="#logic-analyzer-traces" id="toc-logic-analyzer-traces" class="nav-link" data-scroll-target="#logic-analyzer-traces">Logic Analyzer Traces</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#ai-prototype" id="toc-ai-prototype" class="nav-link" data-scroll-target="#ai-prototype">AI Prototype</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -176,8 +197,111 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="sec-intro" class="level2">
+<h2 class="anchored" data-anchor-id="sec-intro">Introduction</h2>
+<p>In this lab, the MCU was interfaced with both a DS1722 temperature sensor and an ESP8266 WiFi development board in order to display the output of the former (in Celsius) on a webpage, with the information updating every time the site was refreshed. Additionally, interaction with the page’s buttons allowed the user to manually set the sensor’s resolution to any integer value between eight and 12, as well as toggle an on-board LED and report its status accordingly. Thus, in brief, the aim of this assignment was to design and create an Internet of Things device. Furthermore, the Logic Analyzer function on one of the lab oscilloscopes was used to prove that proper SPI transactions were actually occurring.</p>
+</section>
+<section id="design-and-testing-methodology" class="level2">
+<h2 class="anchored" data-anchor-id="design-and-testing-methodology">Design and Testing Methodology</h2>
+<p>Firstly, the MCU’s SPI peripheral was configured to allow communication with the temperature sensor, with the MCU as the controller and the temperature sensor as the peripheral. Following the configuration guidelines/restrictions outlined in the sensor’s <a href="https://hmc-e155.github.io/assets/doc/ds1722.pdf">datasheet</a> baud rate of 5 MHz, clock polarity of zero (corresponding to an idle clock signal of zero, according to the MCU’s own <a href="https://hmc-e155.github.io/assets/doc/rm0394-stm32l41xxx42xxx43xxx44xxx45xxx46xxx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf">reference manual</a>), and a clock phase of one (which set the first data capture edge to the clock’s second transition). Moreover, the sensor was set to continuously poll. Pins PB0 and PB3 were used to output the chip select and clock signals, respectively, while the SDO and SDI signals were tied to PB4 and PB5.</p>
+<p>Next, the UART/USART protocol was enabled to talk to the ESP8266 unit. All of the webpage’s contents were written in HTML and sent from the MCU to the WiFi development device by tying the former’s receiver pin, PA9, to the latter’s TX and the transmitter pin PA10 to RX. Finally, PA6 was configured as the toggle-able on-board LED. (Note that some files were not originally produced and were instead taken from the <a href="https://github.com/HMC-E155/hmc-e155/tree/main/lab/lab06">starter code</a> provided by the teaching team.)</p>
+<p>Various tests were conducted on the final product, including both physical interaction with the resultant circuit and oscilloscope traces, as elaborated on in a later <a href="#sec-results-and-discussion">Results and Discussion</a> section.</p>
+</section>
+<section id="technical-documentation" class="level2">
+<h2 class="anchored" data-anchor-id="technical-documentation">Technical Documentation</h2>
+<p>The source code for this project can be found in the associated <a href="https://github.com/qmiyamoto/E155-Labs/tree/main/lab6">GitHub repository folder</a>.</p>
+<section id="schematic" class="level3">
+<h3 class="anchored" data-anchor-id="schematic">Schematic</h3>
+<div id="fig-schematic" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/lab6_schematic.png" class="img-fluid figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Schematic of physical circuit
+</figcaption>
+</figure>
+</div>
+<p>The <a href="#fig-schematic">Figure 1</a> schematic outlines how the physical components actually connect. Note that the temperature sensor’s SERMODE, which sets the serial interface mode through hardware, was hooked up to power in order to enable SPI communication (as opposed to a standard 3-wire data transfer). All SPI-related pins were chosen from GPIO Port B’s selection so that they would not interfere with the UART/USART pins tied to GPIO Port A.</p>
+</section>
+</section>
+<section id="sec-results-and-discussion" class="level2">
+<h2 class="anchored" data-anchor-id="sec-results-and-discussion">Results and Discussion</h2>
+<p>The results of Lab 6 are shown in <a href="#fig-video">Figure 2</a>, as follows:</p>
+<div id="fig-video" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-video-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/MGCARdpo0fI?si=WXRPDe4mjNxqGy0z" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-video-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Demo video
+</figcaption>
+</figure>
+</div>
+<p>As can clearly be seen in the video above, the design performs well and meets all of the required specs; in response to heat being applied to the temperature sensor via someone’s finger, the website displayed reasonable results with appropriate incrementing. However, one point of improvement would be to mitigate the need to click twice on a given resolution button in order to actually receive the desired temperature reading.</p>
+<section id="e155-online-led-toggler-and-temperature-reporter-webpage" class="level3">
+<h3 class="anchored" data-anchor-id="e155-online-led-toggler-and-temperature-reporter-webpage">E155 Online LED Toggler and Temperature Reporter Webpage</h3>
+<div id="fig-website" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-website-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/lab6_website.png" class="img-fluid figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-website-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Webpage
+</figcaption>
+</figure>
+</div>
+<p>The screenshot depicted in <a href="#fig-website">Figure 3</a> provides an example of what the actual webpage, hosted at <a href="http://192.168.4.1/">192.168.4.1</a>, would look like if the “<em>LED: Off</em>” and “<em>Resolution: 12</em>” buttons were pressed. Note that resolutions eight through twelve correspond to actual temperature resolutions of 1.0 °C, 0.5 °C, 0.25 °C, 0.125 °C, and 0.0625 °C, respectively.</p>
+</section>
+<section id="logic-analyzer-traces" class="level3">
+<h3 class="anchored" data-anchor-id="logic-analyzer-traces">Logic Analyzer Traces</h3>
+<div id="fig-logic-analyzer-traces" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-logic-analyzer-traces-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-logic-analyzer-traces" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-write-transaction-trace" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-write-transaction-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/SPI_write_transaction.png" class="lightbox" data-gallery="fig-logic-analyzer-traces" title="Figure&nbsp;4&nbsp;(a): SPI Write transaction"><img src="images/SPI_write_transaction.png" class="img-fluid figure-img" data-ref-parent="fig-logic-analyzer-traces"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-write-transaction-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) SPI Write transaction
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-logic-analyzer-traces" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-read-transaction-trace" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-read-transaction-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/SPI_read_transaction.png" class="lightbox" data-gallery="fig-logic-analyzer-traces" title="Figure&nbsp;4&nbsp;(b): SPI Read transaction"><img src="images/SPI_read_transaction.png" class="img-fluid figure-img" data-ref-parent="fig-logic-analyzer-traces"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-read-transaction-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) SPI Read transaction
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-logic-analyzer-traces-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Logic Analyzer traces on the oscilloscope
+</figcaption>
+</figure>
+</div>
+<p>In order to verify that the MCU and temperature sensor were interfacing over SPI as intended, the oscilloscope’s Logic Analyzer function was used to capture the states of the SCLK, MISO (SDO), and MOSI (SDI) signals during a single pulse of the CE signal. <a href="#fig-write-transaction-trace">Figure 4a</a> shows the MCU first forcing the sensor into Write mode with the 0x80 address before immediately telling it to set a 12-bit resolution with 0xEE, while <a href="#fig-read-transaction-trace">Figure 4b</a> depicts the sensor entering Read mode twice — with both the 0x02 and 0x01 addresses — to fetch the information stored in both the MSB and LSB. All in all, the appearance of the expected addresses being sent over SDO and SDI evidences the existence of proper SPI communication.</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>Overall, the design used both the SPI and UART/USART protocols to enable communication between the MCU, temperature sensor, and WiFi development board, and successfully displayed a live, updatable report of the temperature with user-adjustable resolution online, along with the status of an on-board LED. A total of approximately 12 hours was spent on this lab.</p>
+</section>
+<section id="ai-prototype" class="level2">
+<h2 class="anchored" data-anchor-id="ai-prototype">AI Prototype</h2>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -580,6 +704,38 @@ ul.task-list li input[type="checkbox"] {
   });
   </script>
 </div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 

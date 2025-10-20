@@ -53,7 +53,7 @@
     "href": "labs.html#lab-6-the-internet-of-things-and-serial-peripheral-interface",
     "title": "Labs",
     "section": "Lab 6: The Internet of Things and Serial Peripheral Interface",
-    "text": "Lab 6: The Internet of Things and Serial Peripheral Interface\n[Lab Overview]"
+    "text": "Lab 6: The Internet of Things and Serial Peripheral Interface\nInterfaced the MCU with both a DS1722 temperature sensor and an ESP8266 WiFi development board using the SPI and UART peripherals, respectively, in order to build a simple Internet of Things device. Programmed a simple HTML webpage to display the temperature (in Celsius) recorded by the DS1722 sensor — with this value updating every time the site is refreshed — allow a user to set its resolution by hand (to any integer value between eight and 12), toggle an on-board LED, and display the status of said LED accordingly. Used an oscilloscope’s Logic Analyzer function to capture proof of proper SPI transactions occurring."
   },
   {
     "objectID": "labs.html#lab-7-the-advanced-encryption-standard",
@@ -61,6 +61,55 @@
     "title": "Labs",
     "section": "Lab 7: The Advanced Encryption Standard",
     "text": "Lab 7: The Advanced Encryption Standard\n[Lab Overview]"
+  },
+  {
+    "objectID": "labs/lab6/lab6.html",
+    "href": "labs/lab6/lab6.html",
+    "title": "Lab 6: The Internet of Things and Serial Peripheral Interface",
+    "section": "",
+    "text": "In this lab, the MCU was interfaced with both a DS1722 temperature sensor and an ESP8266 WiFi development board in order to display the output of the former (in Celsius) on a webpage, with the information updating every time the site was refreshed. Additionally, interaction with the page’s buttons allowed the user to manually set the sensor’s resolution to any integer value between eight and 12, as well as toggle an on-board LED and report its status accordingly. Thus, in brief, the aim of this assignment was to design and create an Internet of Things device. Furthermore, the Logic Analyzer function on one of the lab oscilloscopes was used to prove that proper SPI transactions were actually occurring."
+  },
+  {
+    "objectID": "labs/lab6/lab6.html#sec-intro",
+    "href": "labs/lab6/lab6.html#sec-intro",
+    "title": "Lab 6: The Internet of Things and Serial Peripheral Interface",
+    "section": "",
+    "text": "In this lab, the MCU was interfaced with both a DS1722 temperature sensor and an ESP8266 WiFi development board in order to display the output of the former (in Celsius) on a webpage, with the information updating every time the site was refreshed. Additionally, interaction with the page’s buttons allowed the user to manually set the sensor’s resolution to any integer value between eight and 12, as well as toggle an on-board LED and report its status accordingly. Thus, in brief, the aim of this assignment was to design and create an Internet of Things device. Furthermore, the Logic Analyzer function on one of the lab oscilloscopes was used to prove that proper SPI transactions were actually occurring."
+  },
+  {
+    "objectID": "labs/lab6/lab6.html#design-and-testing-methodology",
+    "href": "labs/lab6/lab6.html#design-and-testing-methodology",
+    "title": "Lab 6: The Internet of Things and Serial Peripheral Interface",
+    "section": "Design and Testing Methodology",
+    "text": "Design and Testing Methodology\nFirstly, the MCU’s SPI peripheral was configured to allow communication with the temperature sensor, with the MCU as the controller and the temperature sensor as the peripheral. Following the configuration guidelines/restrictions outlined in the sensor’s datasheet baud rate of 5 MHz, clock polarity of zero (corresponding to an idle clock signal of zero, according to the MCU’s own reference manual), and a clock phase of one (which set the first data capture edge to the clock’s second transition). Moreover, the sensor was set to continuously poll. Pins PB0 and PB3 were used to output the chip select and clock signals, respectively, while the SDO and SDI signals were tied to PB4 and PB5.\nNext, the UART/USART protocol was enabled to talk to the ESP8266 unit. All of the webpage’s contents were written in HTML and sent from the MCU to the WiFi development device by tying the former’s receiver pin, PA9, to the latter’s TX and the transmitter pin PA10 to RX. Finally, PA6 was configured as the toggle-able on-board LED. (Note that some files were not originally produced and were instead taken from the starter code provided by the teaching team.)\nVarious tests were conducted on the final product, including both physical interaction with the resultant circuit and oscilloscope traces, as elaborated on in a later Results and Discussion section."
+  },
+  {
+    "objectID": "labs/lab6/lab6.html#technical-documentation",
+    "href": "labs/lab6/lab6.html#technical-documentation",
+    "title": "Lab 6: The Internet of Things and Serial Peripheral Interface",
+    "section": "Technical Documentation",
+    "text": "Technical Documentation\nThe source code for this project can be found in the associated GitHub repository folder.\n\nSchematic\n\n\n\n\n\n\nFigure 1: Schematic of physical circuit\n\n\n\nThe Figure 1 schematic outlines how the physical components actually connect. Note that the temperature sensor’s SERMODE, which sets the serial interface mode through hardware, was hooked up to power in order to enable SPI communication (as opposed to a standard 3-wire data transfer). All SPI-related pins were chosen from GPIO Port B’s selection so that they would not interfere with the UART/USART pins tied to GPIO Port A."
+  },
+  {
+    "objectID": "labs/lab6/lab6.html#sec-results-and-discussion",
+    "href": "labs/lab6/lab6.html#sec-results-and-discussion",
+    "title": "Lab 6: The Internet of Things and Serial Peripheral Interface",
+    "section": "Results and Discussion",
+    "text": "Results and Discussion\nThe results of Lab 6 are shown in Figure 2, as follows:\n\n\n\n\n\n\nFigure 2: Demo video\n\n\n\nAs can clearly be seen in the video above, the design performs well and meets all of the required specs; in response to heat being applied to the temperature sensor via someone’s finger, the website displayed reasonable results with appropriate incrementing. However, one point of improvement would be to mitigate the need to click twice on a given resolution button in order to actually receive the desired temperature reading.\n\nE155 Online LED Toggler and Temperature Reporter Webpage\n\n\n\n\n\n\nFigure 3: Webpage\n\n\n\nThe screenshot depicted in Figure 3 provides an example of what the actual webpage, hosted at 192.168.4.1, would look like if the “LED: Off” and “Resolution: 12” buttons were pressed. Note that resolutions eight through twelve correspond to actual temperature resolutions of 1.0 °C, 0.5 °C, 0.25 °C, 0.125 °C, and 0.0625 °C, respectively.\n\n\nLogic Analyzer Traces\n\n\n\n\n\n\n\n\n\n\n\n(a) SPI Write transaction\n\n\n\n\n\n\n\n\n\n\n\n(b) SPI Read transaction\n\n\n\n\n\n\n\nFigure 4: Logic Analyzer traces on the oscilloscope\n\n\n\nIn order to verify that the MCU and temperature sensor were interfacing over SPI as intended, the oscilloscope’s Logic Analyzer function was used to capture the states of the SCLK, MISO (SDO), and MOSI (SDI) signals during a single pulse of the CE signal. Figure 4a shows the MCU first forcing the sensor into Write mode with the 0x80 address before immediately telling it to set a 12-bit resolution with 0xEE, while Figure 4b depicts the sensor entering Read mode twice — with both the 0x02 and 0x01 addresses — to fetch the information stored in both the MSB and LSB. All in all, the appearance of the expected addresses being sent over SDO and SDI evidences the existence of proper SPI communication."
+  },
+  {
+    "objectID": "labs/lab6/lab6.html#conclusion",
+    "href": "labs/lab6/lab6.html#conclusion",
+    "title": "Lab 6: The Internet of Things and Serial Peripheral Interface",
+    "section": "Conclusion",
+    "text": "Conclusion\nOverall, the design used both the SPI and UART/USART protocols to enable communication between the MCU, temperature sensor, and WiFi development board, and successfully displayed a live, updatable report of the temperature with user-adjustable resolution online, along with the status of an on-board LED. A total of approximately 12 hours was spent on this lab."
+  },
+  {
+    "objectID": "labs/lab6/lab6.html#ai-prototype",
+    "href": "labs/lab6/lab6.html#ai-prototype",
+    "title": "Lab 6: The Internet of Things and Serial Peripheral Interface",
+    "section": "AI Prototype",
+    "text": "AI Prototype"
   },
   {
     "objectID": "labs/lab4/lab4.html",
