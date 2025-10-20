@@ -26,7 +26,9 @@ Implemented a multi-interrupt routine on the MCU to detect pulses from a given m
 Used the built-in Debug mode in Segger to display said motor velocity and direction in the terminal, with an update rate of at least 1 Hz.
 
 ## Lab 6: [The Internet of Things and Serial Peripheral Interface](labs/lab6/lab6.qmd)
-[Lab Overview]
+Interfaced the MCU with both a DS1722 temperature sensor and an ESP8266 WiFi development board using the SPI and UART peripherals, respectively, in order to build a simple Internet of Things device.
+Programmed a simple HTML webpage to display the temperature (in Celsius) recorded by the DS1722 sensor — with this value updating every time the site is refreshed — allow a user to set its resolution by hand (to any integer value between eight and 12), toggle an on-board LED, and display the status of said LED accordingly.
+Used an oscilloscope's Logic Analyzer function to capture proof of proper SPI transactions occurring.
 
 ## Lab 7: [The Advanced Encryption Standard](labs/lab7/lab7.qmd)
 [Lab Overview]
