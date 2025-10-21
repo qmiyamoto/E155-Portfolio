@@ -299,6 +299,30 @@ Figure&nbsp;4: Logic Analyzer traces on the oscilloscope
 </section>
 <section id="ai-prototype" class="level2">
 <h2 class="anchored" data-anchor-id="ai-prototype">AI Prototype</h2>
+<p>Using ChatGPT to generate some code in response to the prompt “<em>I’m making a web portal to interface with a temperature sensor. Create a HTML page that looks good and is intuitive to show the temperature, control an LED, and change the precision of the readout</em>,” the LLM produced surprisingly attractive results that can be viewed in the public <a href="https://chatgpt.com/share/68f6bc40-3bf0-800f-81f4-316f49c6d62d">chat transcript</a>, as well as in <a href="#fig-ai-generated-website">Figure 5</a> below:</p>
+<div id="fig-ai-generated-website" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ai-generated-website-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/ai_generated_website.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ai-generated-website-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: AI-generated webpage
+</figcaption>
+</figure>
+</div>
+<p>Admittedly, the aesthetics of the AI-generated website were superior to that of the website created in this project; in the simulation the LLM provided, it also appeared to be relatively functional. For future projects, it might be worth using AI to help with design choices pertaining to aesthetics.</p>
+<p>However, in response to the second prompt “<em>Write me a C function to carry out a SPI transaction to retrieve a temperature reading from a DS1722 sensor. Make use of CMSIS libraries for the STM32L432KC</em>,” ChatGPT produced the code visible in a public <a href="https://chatgpt.com/share/68f6bc93-c3b4-800f-90d8-abd72453f22c">chat transcript</a> that ultimately did not work. The resultant error message can be seen in the following <a href="#fig-error-message">Figure 6</a>:</p>
+<div id="fig-error-message" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-error-message-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/error_message.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-error-message-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Error message
+</figcaption>
+</figure>
+</div>
+<p>Even with further prompting to fix the problem, ChatGPT was not able to properly identify the issue. An attempt was made to add the newly generated functions to the header file to see if that would make a difference, but it did not. Thus, in summary, because the LLM did not provide the necessary main and header files, it was unhelpful in this sort of situation and made things less clear on the whole.</p>
 
 
 </section>
