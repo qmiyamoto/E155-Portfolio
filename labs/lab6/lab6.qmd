@@ -68,3 +68,18 @@ Overall, the design used both the SPI and UART/USART protocols to enable communi
 A total of approximately 12 hours was spent on this lab.
 
 ## AI Prototype
+Using ChatGPT to generate some code in response to the prompt "*I’m making a web portal to interface with a temperature sensor. Create a HTML page that looks good and is intuitive to show the temperature, control an LED, and change the precision of the readout*," the LLM produced surprisingly attractive results that can be viewed in the public [chat transcript](https://chatgpt.com/share/68f6bc40-3bf0-800f-81f4-316f49c6d62d), as well as in [Figure 5](#fig-ai-generated-website) below:
+
+![AI-generated webpage](images/ai_generated_website.png){#fig-ai-generated-website}
+
+Admittedly, the aesthetics of the AI-generated website were superior to that of the website created in this project; in the simulation the LLM provided, it also appeared to be relatively functional.
+For future projects, it might be worth using AI to help with design choices pertaining to aesthetics. 
+
+However, in response to the second prompt "*Write me a C function to carry out a SPI transaction to retrieve a temperature reading from a DS1722 sensor. Make use of CMSIS libraries for the STM32L432KC*," ChatGPT produced the code visible in a public [chat transcript](https://chatgpt.com/share/68f6bc93-c3b4-800f-90d8-abd72453f22c) that ultimately did not work.
+The resultant error message can be seen in the following [Figure 6](#fig-error-message):
+
+![Error message](images/error_message.png){#fig-error-message}
+
+Even with further prompting to fix the problem, ChatGPT was not able to properly identify the issue.
+An attempt was made to add the newly generated functions to the header file to see if that would make a difference, but it did not.
+Thus, in summary, because the LLM did not provide the necessary main and header files, it was unhelpful in this sort of situation and made things less clear on the whole.
