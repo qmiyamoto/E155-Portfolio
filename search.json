@@ -60,7 +60,7 @@
     "href": "labs.html#lab-7-the-advanced-encryption-standard",
     "title": "Labs",
     "section": "Lab 7: The Advanced Encryption Standard",
-    "text": "Lab 7: The Advanced Encryption Standard\n[Lab Overview]"
+    "text": "Lab 7: The Advanced Encryption Standard\nImplemented the AES algorithm on an FPGA and such that ciphertext was generated in response to key and plaintext inputs; additionally, built this nontrivial system in such a way that the architecture would actually fit on the FPGA chip. Interfaced the FPGA and MCU to communicate these encrypted messages over SPI, with the latter acting as a core and the former as an accelerator. Used an oscilloscope’s Logic Analyzer function to capture proof of proper SPI transactions occurring."
   },
   {
     "objectID": "labs/lab6/lab6.html",
@@ -369,6 +369,55 @@
     "title": "Lab 5: Interrupts",
     "section": "AI Prototype",
     "text": "AI Prototype\nUsing ChatGPT to generate some code in response to the prompt “Write me interrupt handlers to interface with a quadrature encoder. I’m using the STM32L432KC, what pins should I connect the encoder to in order to allow it to easily trigger the interrupts?,” the LLM produced rather inaccurate results that can be viewed in the public chat transcript. When trying to build its output code, the error message depicted in Figure 8 was produced.\n\n\n\n\n\n\nFigure 8: Build error message for AI code\n\n\n\nThe fact that the AI could not even include the correct header file was indicative of a greater issue at hand — the fact that it could write mostly accurate lines in isolation, but not stitch them together in a way that was usable. Technically, its syntax was correct, but it did not have a good enough understanding of the bigger picture to create something that was properly interfaced.\nHowever, when it came to simply offering advice and not code, the LLM performed much better. For example, in Figure 9, two usable, 5V-tolerant pins were, in fact, recommended.\n\n\n\n\n\n\nFigure 9: ChatGPT MCU pin recommendations\n\n\n\nMoreover, although the AI decided to solve for angular degrees instead of angular velocity, it did output the correct equation for doing so, as shown in Figure 10. However, once again, this line of code only existed in isolation, without any real clarity regarding where to declare it and when it use it.\n\n\n\n\n\n\nFigure 10: ChatGPT angular velocity math\n\n\n\nThus, in summary, the LLM for this week’s AI prototype produced solidly middling results. If perhaps given more instruction as to how the user wants their prompt to be answered, it would likely perform better, but in the meantime, it seems to require significant understanding of interrupts and the task at hand to comprehend what it is trying to do."
+  },
+  {
+    "objectID": "labs/lab7/lab7.html",
+    "href": "labs/lab7/lab7.html",
+    "title": "Lab 7: The Advanced Encryption Standard",
+    "section": "",
+    "text": "This lab built upon the work done with the SPI peripheral in the previous Lab 6, this time applying it such a way that communication was able to occur between the FPGA and MCU (with the former acting as an accelerator and the latter acting as a core). This was ultimately done with the aim of enabling encrypted messaging, a notably nontrivial system. To be more specific, the MCU would send the FPGA both a key and plaintext, and receive ciphertext in turn; if the message returned was, in fact correct, then it would flash an LED to indicate success. Note that careful thought was put into implementing the AES algorithm on the FPGA, such that the implied architecture would actually fit on the chip. Furthermore, the Logic Analyzer function on one of the lab oscilloscopes was used to prove that proper SPI transactions were actually occurring."
+  },
+  {
+    "objectID": "labs/lab7/lab7.html#sec-intro",
+    "href": "labs/lab7/lab7.html#sec-intro",
+    "title": "Lab 7: The Advanced Encryption Standard",
+    "section": "",
+    "text": "This lab built upon the work done with the SPI peripheral in the previous Lab 6, this time applying it such a way that communication was able to occur between the FPGA and MCU (with the former acting as an accelerator and the latter acting as a core). This was ultimately done with the aim of enabling encrypted messaging, a notably nontrivial system. To be more specific, the MCU would send the FPGA both a key and plaintext, and receive ciphertext in turn; if the message returned was, in fact correct, then it would flash an LED to indicate success. Note that careful thought was put into implementing the AES algorithm on the FPGA, such that the implied architecture would actually fit on the chip. Furthermore, the Logic Analyzer function on one of the lab oscilloscopes was used to prove that proper SPI transactions were actually occurring."
+  },
+  {
+    "objectID": "labs/lab7/lab7.html#design-and-testing-methodology",
+    "href": "labs/lab7/lab7.html#design-and-testing-methodology",
+    "title": "Lab 7: The Advanced Encryption Standard",
+    "section": "Design and Testing Methodology",
+    "text": "Design and Testing Methodology\nFirstly, there were three inputs — including a new-plaintext-message flag (load) and the SPI protocol signals, sck and sdi — and two outputs — an encryption-completed flag (done) and the SPI-related sdo — to the FPGA design.\nUsing the default 48 MHz clock produced by the internal oscillator, this new signal was fed into an FSM, as depicted in the Finite State Machine Design section below. This FSM was used alongside a flip-flop to increment counters and, more broadly, cycle through the various stages of the AES encryption process, which can be viewed in its entirety in both the official NIST documentation and a derivative interactive animation. The only unique addition to the design was a Wait state, as using synchronous RAM blocks for the byte-substitution step came with a one-cycle latency that needed to be accounted for.\nRegarding the MCU design, the entirety of it was actually given with the lab’s starter code, so no unique modifications needed to be made. However, note that pins PB3, PB4, and PB5 were used for the SPI sck, sdo, and sdi signals, respectively, as this course’s custom PCB comprises a switch that ties these specific pins to ones on the FPGA (with those being P21, P12, and P19, respectively). Furthermore, the MCU was configured such that both of the PCB’s PA9 and PA6 LEDs would light up if the expected ciphertext was received in response to the plaintext it sent over; if that was not the case, the PA10 LED was to turn on instead.\nVarious tests were conducted on the final product, including both physical interaction with the resultant circuits and simulation testbenches, as elaborated on in a later Results and Discussion section. Note that there was an individual testbench created for each SystemVerilog module."
+  },
+  {
+    "objectID": "labs/lab7/lab7.html#technical-documentation",
+    "href": "labs/lab7/lab7.html#technical-documentation",
+    "title": "Lab 7: The Advanced Encryption Standard",
+    "section": "Technical Documentation",
+    "text": "Technical Documentation\nThe source code for this project can be found in the associated GitHub repository folder.\n\nBlock Diagram\n\n\n\n\n\n\nFigure 1: Block diagram\n\n\n\nThe block diagram in Figure 1 depicts the general architecture implied by the SystemVerilog code. The top-level module, titled “lab7_qm,” comprises a high-speed oscillator module that generates a 48 MHz signal, which is immediately fed to the rest of the time-dependent components that make up “aes_core.” One such component is the “aes_key_expansion” module, which makes use of “sbox_sync” to generate the round keys for each round of the encryption process; note that outside of this, “sbox_sync” is more generally used to repeatedly replace bytes in the text being encrypted in the interest of increased security. Meanwhile, the “aes_add_round_key” block takes the current round key and applies it to the text, while “aes_row_shift” shifts the bytes in each row according to the prescribed algorithm. Then, the message goes through “mixcolumns,” which actually comprises multiple copies of the “mixcolumn” and “galoismult” modules. Together, they apply Galois field theory to perform further, more complicated encryption (at the moment, this goes beyond the scope of this project, however). Finally, there is the “aes_spi” block, which allows the FPGA to receive the key and plaintext from the MCU, and send back the ciphertext accordingly.\n\n\nFinite State Machine Design\n\n\n\n\n\n\nFigure 2: State transition diagram\n\n\n\nThe Figure 2 FSM illustrates (and is labeled based on) the main stages of the AES algorithm — byte substitution, row shifting, column mixing, and key addition."
+  },
+  {
+    "objectID": "labs/lab7/lab7.html#sec-results-and-discussion",
+    "href": "labs/lab7/lab7.html#sec-results-and-discussion",
+    "title": "Lab 7: The Advanced Encryption Standard",
+    "section": "Results and Discussion",
+    "text": "Results and Discussion\nThe results of Lab 6 are shown in Figure 3, as follows:\n\n\n\n\n\n\nFigure 3: Demo video\n\n\n\nEvidently, all of the project’s specs have been met. The LEDs indicating accuracy turned on like they were supposed to for both test cases given in the starter code.\n\nTestbench Simulation\n\n\n\n\n\n\n\n\n\n\n\n(a) Key expander\n\n\n\n\n\n\n\n\n\n\n\n(b) Round key adder\n\n\n\n\n\n\n\n\n\n\n\n(c) Row shifter\n\n\n\n\n\n\n\nFigure 4: Original submodule traces\n\n\n\nThe submodule waveforms in Figures 4a, 4b, and 4c further verify that the design was working exactly as intended: The first two round keys matched the first two round keys from the Appendix B example in the NIST documentation perfectly (excluding the starting key, which did not need to pass through the “aes_key_expansion” module to begin with), the results of the round key addition also concurred with that found in the interactive website’s example (found at the start of Round 2, specifically), and the row shift outputs were accurate to the results garnered when going through the AES algorithm by hand.\n\n\n\n\n\n\n\n\n\n\n\n(a) Galois multiplier\n\n\n\n\n\n\n\n\n\n\n\n(b) Single column mixer\n\n\n\n\n\n\n\n\n\n\n\n(c) Multiple columns mixer\n\n\n\n\n\n\n\nFigure 5: Given submodule traces\n\n\n\nMoreover, although already knowing that the given starter modules worked, testbenches were written for all of them, as well. The corresponding waveforms for these can be viewed in Figures 5a, 5b, and 5c above.\n\n\n\n\n\n\nFigure 6: AES core trace\n\n\n\nAdditionally, the AES core trace shown in Figure 6 provides ample evidence of how the final cyphertext output, as depicted in the second-to-last row, eventually matches the expected one outlined on the very bottom.\n\n\n\n\n\n\n\n\n\n\n\n(a) Top module\n\n\n\n\n\n\n\n\n\n\n\n(b) Zoomed-in\n\n\n\n\n\n\n\nFigure 7: Top module traces\n\n\n\nFinally, Figures 7a and 7b depict the success of the design when tested as a whole. As expected, the ninth and tenth signals are exactly the same at the very end of the testing process.\n\n\nLogic Analyzer Traces\nDue to the excessive lengths of the keys/messages being sent over SPI, the Logic Analyzer traces that verify the accuracy and success of the transactions can be viewed in the Figure 8a and 8b videos below. Note that there are also PDF versions of these traces available for both the Write and Read stages of the protocol.\n\n\n\n\n\n\n\n\n\n\n\n(a) SPI Write transaction\n\n\n\n\n\n\n\n\n\n\n\n(b) SPI Read transaction\n\n\n\n\n\n\n\nFigure 8: Logic Analyzer traces on the oscilloscope\n\n\n\nBecause the states of the SCLK, MISO (SDO/CIPO), and MOSI (SDI/COPI) signals matched what was expected from the messages pre-programmed into the aforementioned starter code, it is safe to conclude that proper SPI communication has occurred. (Note that due to the oscilloscope’s poor resolution, some of the information during the Read process could not be properly detected and explicitly displayed; however, reasonable extrapolation allows us to make this assertion.)"
+  },
+  {
+    "objectID": "labs/lab7/lab7.html#conclusion",
+    "href": "labs/lab7/lab7.html#conclusion",
+    "title": "Lab 7: The Advanced Encryption Standard",
+    "section": "Conclusion",
+    "text": "Conclusion\nOverall, the design properly interfaced the FPGA and MCU in such a way that a key and plaintext were successfully sent from the latter to the former, and subsequently generated an accurate ciphertext result using the AES algorithm in response. A total of approximately 16 hours was spent on this lab."
+  },
+  {
+    "objectID": "labs/lab7/lab7.html#ai-prototype",
+    "href": "labs/lab7/lab7.html#ai-prototype",
+    "title": "Lab 7: The Advanced Encryption Standard",
+    "section": "AI Prototype",
+    "text": "AI Prototype"
   },
   {
     "objectID": "posts/first-post.html",

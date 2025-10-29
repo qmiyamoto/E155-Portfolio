@@ -40,6 +40,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-dfb324f25d9b1687192fa8be62ac8f9c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -151,8 +154,27 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#sec-intro" id="toc-sec-intro" class="nav-link active" data-scroll-target="#sec-intro">Introduction</a></li>
+  <li><a href="#design-and-testing-methodology" id="toc-design-and-testing-methodology" class="nav-link" data-scroll-target="#design-and-testing-methodology">Design and Testing Methodology</a></li>
+  <li><a href="#technical-documentation" id="toc-technical-documentation" class="nav-link" data-scroll-target="#technical-documentation">Technical Documentation</a>
+  <ul class="collapse">
+  <li><a href="#block-diagram" id="toc-block-diagram" class="nav-link" data-scroll-target="#block-diagram">Block Diagram</a></li>
+  <li><a href="#sec-fsm-design" id="toc-sec-fsm-design" class="nav-link" data-scroll-target="#sec-fsm-design">Finite State Machine Design</a></li>
+  </ul></li>
+  <li><a href="#sec-results-and-discussion" id="toc-sec-results-and-discussion" class="nav-link" data-scroll-target="#sec-results-and-discussion">Results and Discussion</a>
+  <ul class="collapse">
+  <li><a href="#testbench-simulation" id="toc-testbench-simulation" class="nav-link" data-scroll-target="#testbench-simulation">Testbench Simulation</a></li>
+  <li><a href="#logic-analyzer-traces" id="toc-logic-analyzer-traces" class="nav-link" data-scroll-target="#logic-analyzer-traces">Logic Analyzer Traces</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#ai-prototype" id="toc-ai-prototype" class="nav-link" data-scroll-target="#ai-prototype">AI Prototype</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -176,8 +198,259 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="sec-intro" class="level2">
+<h2 class="anchored" data-anchor-id="sec-intro">Introduction</h2>
+<p>This lab built upon the work done with the SPI peripheral in the previous <a href="../../labs/lab6/lab6.html">Lab 6</a>, this time applying it such a way that communication was able to occur between the FPGA and MCU (with the former acting as an accelerator and the latter acting as a core). This was ultimately done with the aim of enabling encrypted messaging, a notably nontrivial system. To be more specific, the MCU would send the FPGA both a key and plaintext, and receive ciphertext in turn; if the message returned was, in fact correct, then it would flash an LED to indicate success. Note that careful thought was put into implementing the AES algorithm on the FPGA, such that the implied architecture would actually fit on the chip. Furthermore, the Logic Analyzer function on one of the lab oscilloscopes was used to prove that proper SPI transactions were actually occurring.</p>
+</section>
+<section id="design-and-testing-methodology" class="level2">
+<h2 class="anchored" data-anchor-id="design-and-testing-methodology">Design and Testing Methodology</h2>
+<p>Firstly, there were three inputs — including a new-plaintext-message flag (<em>load</em>) and the SPI protocol signals, <em>sck</em> and <em>sdi</em> — and two outputs — an encryption-completed flag (<em>done</em>) and the SPI-related <em>sdo</em> — to the FPGA design.</p>
+<p>Using the default 48 MHz clock produced by the internal oscillator, this new signal was fed into an FSM, as depicted in the <a href="#sec-fsm-design">Finite State Machine Design</a> section below. This FSM was used alongside a flip-flop to increment counters and, more broadly, cycle through the various stages of the AES encryption process, which can be viewed in its entirety in both the <a href="https://hmc-e155.github.io/assets/doc/NIST.FIPS.197-upd1.pdf">official NIST documentation</a> and a derivative <a href="https://legacy.cryptool.org/en/cto/aes-animation">interactive animation</a>. The only unique addition to the design was a Wait state, as using synchronous RAM blocks for the byte-substitution step came with a one-cycle latency that needed to be accounted for.</p>
+<p>Regarding the MCU design, the entirety of it was actually given with the lab’s <a href="https://github.com/HMC-E155/hmc-e155/tree/main/lab/lab07">starter code</a>, so no unique modifications needed to be made. However, note that pins PB3, PB4, and PB5 were used for the SPI <em>sck</em>, <em>sdo</em>, and <em>sdi</em> signals, respectively, as this course’s custom PCB comprises a switch that ties these specific pins to ones on the FPGA (with those being P21, P12, and P19, respectively). Furthermore, the MCU was configured such that both of the PCB’s PA9 and PA6 LEDs would light up if the expected ciphertext was received in response to the plaintext it sent over; if that was not the case, the PA10 LED was to turn on instead.</p>
+<p>Various tests were conducted on the final product, including both physical interaction with the resultant circuits and simulation testbenches, as elaborated on in a later <a href="#sec-results-and-discussion">Results and Discussion</a> section. Note that there was an individual testbench created for each SystemVerilog module.</p>
+</section>
+<section id="technical-documentation" class="level2">
+<h2 class="anchored" data-anchor-id="technical-documentation">Technical Documentation</h2>
+<p>The source code for this project can be found in the associated <a href="https://github.com/qmiyamoto/E155-Labs/tree/main/lab7">GitHub repository folder</a>.</p>
+<section id="block-diagram" class="level3">
+<h3 class="anchored" data-anchor-id="block-diagram">Block Diagram</h3>
+<div id="fig-block-diagram" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-block-diagram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/lab7_block_diagram.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-block-diagram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Block diagram
+</figcaption>
+</figure>
+</div>
+<p>The block diagram in <a href="#fig-block-diagram">Figure 1</a> depicts the general architecture implied by the SystemVerilog code. The top-level module, titled “<em>lab7_qm</em>,” comprises a high-speed oscillator module that generates a 48 MHz signal, which is immediately fed to the rest of the time-dependent components that make up “<em>aes_core</em>.” One such component is the “<em>aes_key_expansion</em>” module, which makes use of “<em>sbox_sync</em>” to generate the round keys for each round of the encryption process; note that outside of this, “<em>sbox_sync</em>” is more generally used to repeatedly replace bytes in the text being encrypted in the interest of increased security. Meanwhile, the “<em>aes_add_round_key</em>” block takes the current round key and applies it to the text, while “<em>aes_row_shift</em>” shifts the bytes in each row according to the prescribed algorithm. Then, the message goes through “<em>mixcolumns</em>,” which actually comprises multiple copies of the “<em>mixcolumn</em>” and “<em>galoismult</em>” modules. Together, they apply Galois field theory to perform further, more complicated encryption (at the moment, this goes beyond the scope of this project, however). Finally, there is the “<em>aes_spi</em>” block, which allows the FPGA to receive the key and plaintext from the MCU, and send back the ciphertext accordingly.</p>
+</section>
+<section id="sec-fsm-design" class="level3">
+<h3 class="anchored" data-anchor-id="sec-fsm-design">Finite State Machine Design</h3>
+<div id="fig-fsm-diagram" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fsm-diagram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/fsm_diagram.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fsm-diagram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: State transition diagram
+</figcaption>
+</figure>
+</div>
+<p>The <a href="#fig-fsm-diagram">Figure 2</a> FSM illustrates (and is labeled based on) the main stages of the AES algorithm — byte substitution, row shifting, column mixing, and key addition.</p>
+</section>
+</section>
+<section id="sec-results-and-discussion" class="level2">
+<h2 class="anchored" data-anchor-id="sec-results-and-discussion">Results and Discussion</h2>
+<p>The results of Lab 6 are shown in <a href="#fig-video">Figure 3</a>, as follows:</p>
+<div id="fig-video" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-video-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/pQUN_QcMn8M?si=ykLhJowihZbJ8kzk" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-video-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Demo video
+</figcaption>
+</figure>
+</div>
+<p>Evidently, all of the project’s specs have been met. The LEDs indicating accuracy turned on like they were supposed to for both test cases given in the starter code.</p>
+<section id="testbench-simulation" class="level3">
+<h3 class="anchored" data-anchor-id="testbench-simulation">Testbench Simulation</h3>
+<div id="fig-waveforms-1" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-waveforms-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-waveforms-1" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-key-expansion-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-key-expansion-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/key_expansion_waveforms.png" class="lightbox" data-gallery="fig-waveforms-1" title="Figure&nbsp;4&nbsp;(a): Key expander"><img src="images/key_expansion_waveforms.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms-1"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-key-expansion-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Key expander
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-waveforms-1" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-add-round-key-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-add-round-key-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/add_round_key_waveforms.png" class="lightbox" data-gallery="fig-waveforms-1" title="Figure&nbsp;4&nbsp;(b): Round key adder"><img src="images/add_round_key_waveforms.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms-1"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-add-round-key-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Round key adder
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-waveforms-1" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-row-shift-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-row-shift-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/row_shift_waveforms.png" class="lightbox" data-gallery="fig-waveforms-1" title="Figure&nbsp;4&nbsp;(c): Row shifter"><img src="images/row_shift_waveforms.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms-1"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-row-shift-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Row shifter
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-waveforms-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Original submodule traces
+</figcaption>
+</figure>
+</div>
+<p>The submodule waveforms in Figures <a href="#fig-key-expansion-waveforms">4a</a>, <a href="#fig-add-round-key-waveforms">4b</a>, and <a href="#fig-row-shift-waveforms">4c</a> further verify that the design was working exactly as intended: The first two round keys matched the first two round keys from the Appendix B example in the <a href="https://hmc-e155.github.io/assets/doc/NIST.FIPS.197-upd1.pdf">NIST documentation</a> perfectly (excluding the starting key, which did not need to pass through the “<em>aes_key_expansion</em>” module to begin with), the results of the round key addition also concurred with that found in the <a href="https://legacy.cryptool.org/en/cto/aes-animation">interactive website’s</a> example (found at the start of Round 2, specifically), and the row shift outputs were accurate to the results garnered when going through the AES algorithm by hand.</p>
+<div id="fig-waveforms-2" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-waveforms-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-waveforms-2" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-galoismult-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-galoismult-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/galoismult_waveforms.png" class="lightbox" data-gallery="fig-waveforms-2" title="Figure&nbsp;5&nbsp;(a): Galois multiplier"><img src="images/galoismult_waveforms.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms-2"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-galoismult-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Galois multiplier
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-waveforms-2" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-mixcolumn-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-mixcolumn-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/mixcolumn_waveforms.png" class="lightbox" data-gallery="fig-waveforms-2" title="Figure&nbsp;5&nbsp;(b): Single column mixer"><img src="images/mixcolumn_waveforms.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms-2"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-mixcolumn-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Single column mixer
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-waveforms-2" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div id="fig-mixcolumns-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-mixcolumns-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/mixcolumns_waveforms.png" class="lightbox" data-gallery="fig-waveforms-2" title="Figure&nbsp;5&nbsp;(c): Multiple columns mixer"><img src="images/mixcolumns_waveforms.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms-2"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-mixcolumns-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) Multiple columns mixer
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-waveforms-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Given submodule traces
+</figcaption>
+</figure>
+</div>
+<p>Moreover, although already knowing that the given starter modules worked, testbenches were written for all of them, as well. The corresponding waveforms for these can be viewed in Figures <a href="#fig-galoismult-waveforms">5a</a>, <a href="#fig-mixcolumn-waveforms">5b</a>, and <a href="#fig-mixcolumns-waveforms">5c</a> above.</p>
+<div id="fig-aes-core-waveforms" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-aes-core-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/aes_core_waveforms.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-aes-core-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: AES core trace
+</figcaption>
+</figure>
+</div>
+<p>Additionally, the AES core trace shown in <a href="#fig-aes-core-waveforms">Figure 6</a> provides ample evidence of how the final <em>cyphertext</em> output, as depicted in the second-to-last row, eventually matches the expected one outlined on the very bottom.</p>
+<div id="fig-waveforms-3" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-waveforms-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-waveforms-3" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-spi-1-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-spi-1-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/spi_waveforms_1.png" class="lightbox" data-gallery="fig-waveforms-3" title="Figure&nbsp;7&nbsp;(a): Top module"><img src="images/spi_waveforms_1.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms-3"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-spi-1-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Top module
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-waveforms-3" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-spi-2-waveforms" class="lightbox quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-spi-2-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/spi_waveforms_2.png" class="lightbox" data-gallery="fig-waveforms-3" title="Figure&nbsp;7&nbsp;(b): Zoomed-in"><img src="images/spi_waveforms_2.png" class="img-fluid figure-img" data-ref-parent="fig-waveforms-3"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-spi-2-waveforms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Zoomed-in
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-waveforms-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Top module traces
+</figcaption>
+</figure>
+</div>
+<p>Finally, Figures <a href="#fig-spi-1-waveforms">7a</a> and <a href="#fig-spi-2-waveforms">7b</a> depict the success of the design when tested as a whole. As expected, the ninth and tenth signals are exactly the same at the very end of the testing process.</p>
+</section>
+<section id="logic-analyzer-traces" class="level3">
+<h3 class="anchored" data-anchor-id="logic-analyzer-traces">Logic Analyzer Traces</h3>
+<p>Due to the excessive lengths of the keys/messages being sent over SPI, the Logic Analyzer traces that verify the accuracy and success of the transactions can be viewed in the Figure <a href="#fig-spi-write-trace">8a</a> and <a href="#fig-spi-read-trace">8b</a> videos below. Note that there are also PDF versions of these traces available for both the <a href="images/spi_write.pdf">Write</a> and <a href="images/spi_read.pdf">Read</a> stages of the protocol.</p>
+<div id="fig-logic-analyzer-trace-videos" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-logic-analyzer-trace-videos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-logic-analyzer-trace-videos" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-spi-write-trace" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-spi-write-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/C_Q3ft92ts0?si=i6p3DSPEWqJhvL06" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-spi-write-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) SPI Write transaction
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-logic-analyzer-trace-videos" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-spi-read-trace" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-spi-read-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/lH7KdERC2K8?si=wEm0dgB9ZKBEIwAh" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-spi-read-trace-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) SPI Read transaction
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-logic-analyzer-trace-videos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: Logic Analyzer traces on the oscilloscope
+</figcaption>
+</figure>
+</div>
+<p>Because the states of the SCLK, MISO (SDO/CIPO), and MOSI (SDI/COPI) signals matched what was expected from the messages pre-programmed into the aforementioned <a href="https://github.com/HMC-E155/hmc-e155/tree/main/lab/lab07">starter code</a>, it is safe to conclude that proper SPI communication has occurred. (Note that due to the oscilloscope’s poor resolution, some of the information during the Read process could not be properly detected and explicitly displayed; however, reasonable extrapolation allows us to make this assertion.)</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>Overall, the design properly interfaced the FPGA and MCU in such a way that a key and plaintext were successfully sent from the latter to the former, and subsequently generated an accurate ciphertext result using the AES algorithm in response. A total of approximately 16 hours was spent on this lab.</p>
+</section>
+<section id="ai-prototype" class="level2">
+<h2 class="anchored" data-anchor-id="ai-prototype">AI Prototype</h2>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -580,6 +853,38 @@ ul.task-list li input[type="checkbox"] {
   });
   </script>
 </div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
