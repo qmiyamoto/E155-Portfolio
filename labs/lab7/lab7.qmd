@@ -17,7 +17,7 @@ This FSM was used alongside a flip-flop to increment counters and, more broadly,
 The only unique addition to the design was a Wait state, as using synchronous RAM blocks for the byte-substitution step came with a one-cycle latency that needed to be accounted for.
 
 Regarding the MCU design, the entirety of it was actually given with the lab's [starter code](https://github.com/HMC-E155/hmc-e155/tree/main/lab/lab07), so no unique modifications needed to be made.
-However, note that pins PB3, PB4, and PB5 were used for the SPI *sck*, *sdo*, and *sdi* signals, respectively, as this course's custom PCB comprises a switch that ties these specific pins to ones on the FPGA (with those being P21, P12, and P19, respectively).
+However, note that pins PB3, PB4, and PB5 were used for the SPI *sck*, *sdo*, and *sdi* signals, respectively, as this course's custom PCB comprises a switch that ties these specific pins to ones on the FPGA (with those being P21, P12, and P10, respectively).
 Furthermore, the MCU was configured such that both of the PCB's PA9 and PA6 LEDs would light up if the expected ciphertext was received in response to the plaintext it sent over; if that was not the case, the PA10 LED was to turn on instead.
 
 Various tests were conducted on the final product, including both physical interaction with the resultant circuits and simulation testbenches, as elaborated on in a later [Results and Discussion](#sec-results-and-discussion) section.
