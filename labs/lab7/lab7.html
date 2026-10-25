@@ -2,17 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.10.19">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>Lab 7: The Advanced Encryption Standard – E155 Portfolio</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -36,10 +42,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-dfb324f25d9b1687192fa8be62ac8f9c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-172ba59bd5e0b52282274ba0c0cc16fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -206,7 +212,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="design-and-testing-methodology">Design and Testing Methodology</h2>
 <p>Firstly, there were three inputs — including a new-plaintext-message flag (<em>load</em>) and the SPI protocol signals, <em>sck</em> and <em>sdi</em> — and two outputs — an encryption-completed flag (<em>done</em>) and the SPI-related <em>sdo</em> — to the FPGA design.</p>
 <p>Using the default 48 MHz clock produced by the internal oscillator, this new signal was fed into an FSM, as depicted in the <a href="#sec-fsm-design">Finite State Machine Design</a> section below. This FSM was used alongside a flip-flop to increment counters and, more broadly, cycle through the various stages of the AES encryption process, which can be viewed in its entirety in both the <a href="https://hmc-e155.github.io/assets/doc/NIST.FIPS.197-upd1.pdf">official NIST documentation</a> and a derivative <a href="https://legacy.cryptool.org/en/cto/aes-animation">interactive animation</a>. The only unique addition to the design was a Wait state, as using synchronous RAM blocks for the byte-substitution step came with a one-cycle latency that needed to be accounted for.</p>
-<p>Regarding the MCU design, the entirety of it was actually given with the lab’s <a href="https://github.com/HMC-E155/hmc-e155/tree/main/lab/lab07">starter code</a>, so no unique modifications needed to be made. However, note that pins PB3, PB4, and PB5 were used for the SPI <em>sck</em>, <em>sdo</em>, and <em>sdi</em> signals, respectively, as this course’s custom PCB comprises a switch that ties these specific pins to ones on the FPGA (with those being P21, P12, and P19, respectively). Furthermore, the MCU was configured such that both of the PCB’s PA9 and PA6 LEDs would light up if the expected ciphertext was received in response to the plaintext it sent over; if that was not the case, the PA10 LED was to turn on instead.</p>
+<p>Regarding the MCU design, the entirety of it was actually given with the lab’s <a href="https://github.com/HMC-E155/hmc-e155/tree/main/lab/lab07">starter code</a>, so no unique modifications needed to be made. However, note that pins PB3, PB4, and PB5 were used for the SPI <em>sck</em>, <em>sdo</em>, and <em>sdi</em> signals, respectively, as this course’s custom PCB comprises a switch that ties these specific pins to ones on the FPGA (with those being P21, P12, and P10, respectively). Furthermore, the MCU was configured such that both of the PCB’s PA9 and PA6 LEDs would light up if the expected ciphertext was received in response to the plaintext it sent over; if that was not the case, the PA10 LED was to turn on instead.</p>
 <p>Various tests were conducted on the final product, including both physical interaction with the resultant circuits and simulation testbenches, as elaborated on in a later <a href="#sec-results-and-discussion">Results and Discussion</a> section. Note that there was an individual testbench created for each SystemVerilog module.</p>
 </section>
 <section id="technical-documentation" class="level2">
@@ -551,13 +557,14 @@ Figure&nbsp;12: Note for Prompt 2
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
